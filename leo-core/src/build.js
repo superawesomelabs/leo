@@ -4,38 +4,20 @@ import config from './webpack.config';
 import path from 'path';
 import webpackRequire from './webpack-require';
 import findLeorcPath from './find-leorc-path';
-
-const postPlugin = (config) => {
-  config.loader('posts', {
-    test: /\.post$/,
-    exclude: /node_modules/,
-    loaders: ['leo-markdown', 'frontmatter']
-  });
-  config.merge((current) => {
-    current.resolve.extensions.push('.post');
-    return current;
-  })
-  return config;
-}
-
-const enablePlugins = (config) => {
-  const newconfig = postPlugin(config);
-  return newconfig;
-}
+import enablePlugins from './enable-plugins';
 
 export default (program) => {
   return () => {
-    const urls = ['/']; // TODO: should be some sort of "getRoutes()"
-
-    const configWithUrls = config(urls);
-    /**
-     * Enable third party plugins.
-     * This is where we hook in to allow things like `npm i leo-blogpost`
-     */
-    const configWithUrlsAndPlugins = enablePlugins(configWithUrls);
     webpackRequire(findLeorcPath(), (err, factory, stats, fs) => {
+
       debug('webpackRequire Error', err)
-      debug('factory', factory())
+      const conf = factory();
+      const configWithUrls = config(conf.urls);
+      /**
+       * Enable third party plugins.
+       * This is where we hook in to allow things like `npm i leo-blogpost`
+       */
+      const configWithUrlsAndPlugins = enablePlugins(conf.plugins, configWithUrls);
       webpack(configWithUrlsAndPlugins.resolve()).run((err, stats) => {
         debug('ran')
         if (err) {

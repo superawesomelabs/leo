@@ -18,12 +18,10 @@ var nodeModules = fs.readdirSync('node_modules')
  * ack -o '\!\*\*\*\ \./~\/[a-zA-Z0-9]*'  node_modules/.bin/leo | uniq
  */
 nodeModules.push('graphql/type',
-'graphql/utilities',
-'graphql/jsutils',
-'graphql/language',
-'graphql/error')
-
-console.log('modules that will be runtime require dependencies: ', nodeModules);
+  'graphql/utilities',
+  'graphql/jsutils',
+  'graphql/language',
+  'graphql/error')
 
 module.exports = {
   entry: './index.js',
@@ -49,7 +47,9 @@ module.exports = {
   module: {
     noParse: [
       /find-leorc-path/,
-      /find-leoroutes-path/
+      /find-leoroutes-path/,
+      /enable-plugins/,
+      /get-plugin-schemas/
     ],
     loaders: [{
       test: /\.jsx?$/,
