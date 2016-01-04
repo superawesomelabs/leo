@@ -15,7 +15,7 @@ export function genDatabase(callback) {
     const conf = factory();
 
     debug('files', conf.files);
-    const compiler = webpack(config(conf.files).resolve())
+    const compiler = webpack(config(conf.files, conf.plugins).resolve());
     var fs = new MemoryFS();
     fs.mkdirpSync("/dist");
     compiler.outputFileSystem = fs;

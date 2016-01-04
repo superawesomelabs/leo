@@ -1,4 +1,5 @@
 import Config from 'webpack-configurator';
+import enablePlugins from '../enable-plugins';
 import {
   resolve
 }
@@ -15,26 +16,8 @@ function mkRequireArray(paths) {
   }).join(',') + ']';
 }
 
-export default (filepaths) => {
-  console.log('mkrequireArray', mkRequireArray(filepaths))
-  // /**
-  //  * Create a babel plugin which will replace `__DATA_FILES__` with require
-  //  * statements; This allows webpack to execute the require statements so
-  //  * loaders process them.
-  //  */
-  // function replace__DATA_FILES__({ types: t }) {
-  //   return {
-  //     visitor: {
-  //       ReferencedIdentifier(path) {
-  //         console.log('babel path', path)
-  //         if (path.node.name === "__DATA_FILES__") {
-  //           path.replaceWith(t.valueToNode(mkRequireArray(filepaths)));
-  //         }
-  //       }
-  //     }
-  //   };
-  // }
-console.log('__dirname', __dirname)
+export default (filepaths, plugins) => {
+
   // create a new webpack-configurator instance
   const config = new Config();
 
@@ -60,11 +43,6 @@ console.log('__dirname', __dirname)
         resolve(__dirname, 'loaders')
       ]
     },
-    // plugins: [
-    //   new webpack.DefinePlugin({
-    //     __DATA_FILES__: mkRequireArray(filepaths)
-    //   })
-    // ],
     module: {
       loaders: [{
         test: /\.jsx?$/,
@@ -73,11 +51,7 @@ console.log('__dirname', __dirname)
         query: {
           presets: ['react', 'es2015', 'stage-0']
         }
-      }, {
-        test: /\.post$/,
-        exclude: /node_modules/,
-        loaders: ['leo-markdown', 'frontmatter-loader']
-      }, {
+      },{
         test: /\.md$/,
         exclude: /node_modules/,
         loaders: ['leo-markdown']
@@ -92,19 +66,6 @@ console.log('__dirname', __dirname)
   });
 
   /**
-   * load javascript and jsx files with babel.
-   * Can be configured with a .babelrc
-   */
-  // config.loader('js', {
-  //   test: /\.jsx?$/,
-  //   exclude: /node_modules/,
-  //   loader: 'babel',
-  //   query: {
-  //     presets: ['react', 'es2015', 'stage-0']
-  //   }
-  // });
-
-  /**
    * default to handling image requests and optimizing images since these can
    * be some of the heavier assets on a site. In the future, we should implement
    * a gradual loading mechanism that loads a low-res image, then the high-res.
@@ -114,5 +75,8 @@ console.log('__dirname', __dirname)
     loader: 'url?limit=10000!img-loader?progressive=true'
   });
 
-  return config;
+  /**
+   * Allow plugins to add loaders to the database
+   */
+  return enablePlugins(plugins, config);
 };

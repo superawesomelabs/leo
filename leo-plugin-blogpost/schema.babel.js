@@ -5,6 +5,11 @@ import graphql, {
   GraphQLString
 } from 'graphql/type';
 
+import { slugify } from 'lodash-addons';
+import find from 'lodash/collection/find';
+import oDebug from 'debug';
+const debug = oDebug('leo:plugin-blogpost:schema');
+
 const BlogPostAttributesType = new GraphQLObjectType({
   name: 'BlogPostAttributes',
   fields: {
@@ -37,7 +42,7 @@ const BlogPostType = new GraphQLObjectType({
         title: 'A Test Post',
         path: '/a-test-post'
       },
-      body: 'test post'
+      body: 'test resolve post'
     }
   }
 })
@@ -45,13 +50,15 @@ const BlogPostType = new GraphQLObjectType({
 module.exports = function(data) {
 
   const getPost = (slug) => {
-    return {
-      attributes: {
-        title: 'A Test Post',
-        path: '/a-test-post/'
-      },
-      body: 'test post'
-    }
+    debug('data.length', data.length);
+    return find(data, ({ attributes: a }) => {
+      debug('attributes', a)
+      if(a) {
+        return a.contentType === 'leo-blogpost' && a.slug === slug;
+      } else {
+        return false;
+      }
+    })
   }
 
   return {

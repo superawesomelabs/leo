@@ -3,7 +3,7 @@ module.exports = function configure(config) {
   config.loader('posts', {
     test: /\.post$/,
     exclude: /node_modules/,
-    loaders: ['leo-markdown', 'frontmatter']
+    loaders: ['leo-plugin-blogpost/loader', 'leo-markdown', 'frontmatter']
   });
 
   config.merge((current) => {

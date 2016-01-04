@@ -26,6 +26,7 @@ module.exports = function(content) {
   // Signal to webpack this is cacheable
   this.cacheable();
   if (isString(content)) {
+    console.log('isstring')
     /**
      * If the loader is used as the fist loader in a list, the content it
      * receives will be the raw content, which is string.
@@ -34,11 +35,12 @@ module.exports = function(content) {
       body: md.render(content)
     });
   } else if (isObject(content)) {
+    console.log('isobject')
     // The loader is operating on JSON; Likely a secondary loader.
-    return 'module.exports =' + JSON.stringify(merge({},
+    return merge({},
       content, {
         body: md.render(content.body)
-      }));
+      });
   } else {
     throw new Error('content supplied to leo-markdown-loader must be a string or object')
   }
