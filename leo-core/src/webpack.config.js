@@ -2,14 +2,13 @@ import StaticSiteGeneratorPlugin from './plugins/static-site-plugin';
 import Config from 'webpack-configurator';
 import path from 'path';
 import EnsureLeorcPlugin from './plugins/ensure-leorc-plugin';
-// import EnsureLeoRoutesPlugin from './plugins/ensure-leoroutes-plugin';
 import webpack from 'webpack';
 import findLeoRoutesPath from './find-leoroutes-path';
 import findLeorcPath from './find-leorc-path';
 
 export default (urls) => {
 
-  console.log('babel plugin path', path.relative(process.cwd(), path.resolve(__dirname, "babelRelayPlugin.js")))
+  // create a new webpack-configurator instance
   const config = new Config();
 
   config.merge({
@@ -30,7 +29,10 @@ export default (urls) => {
     resolveLoader: {
       modulesDirectories: [
         'node_modules',
-        // leo's custom loaders
+        /**
+         * Allow leo's custom loaders to be accessed without specifying the full
+         * path. ie: leo-markdown-loader vs './node_modules/leo-plugin-blog/...'
+         */
         path.resolve(__dirname, 'loaders')
       ]
     },
@@ -68,7 +70,7 @@ export default (urls) => {
         query: {
           presets: ['react', 'es2015', 'stage-0'],
           plugins: [
-            "leo/build/babelRelayPlugin.js"
+            "leo-core/build/babelRelayPlugin.js"
           ]
         }
       }]

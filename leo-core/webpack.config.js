@@ -49,7 +49,8 @@ module.exports = {
       /find-leorc-path/,
       /find-leoroutes-path/,
       /enable-plugins/,
-      /get-plugin-schemas/
+      /get-plugin-schemas/,
+      /load-file/
     ],
     loaders: [{
       test: /\.jsx?$/,

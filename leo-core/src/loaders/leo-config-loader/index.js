@@ -2,6 +2,7 @@
 var loadConfig = require('rc');
 var glob = require('glob');
 var path = require('path');
+var debug = require('debug')('leo:config-loader');
 
 module.exports = function leoConfigLoader(content, map) {
   // Signal to webpack this is cacheable
@@ -15,9 +16,9 @@ module.exports = function leoConfigLoader(content, map) {
   });
 
   const exts = conf.extensions.join('|');
-  glob(`${conf.dataPath}/**/*?(${exts})`, null, (err, files) => {
-    conf.files = files;
-    console.log(files);
+  glob(`${conf.dataPath}/**/*`, null, (err, files) => {
+    conf.files = files || [];
+    debug(`globbed ${files.length || 0} files`);
     return callback(null, 'module.exports = ' + JSON.stringify(conf));
   })
 }

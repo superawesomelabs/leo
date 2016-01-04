@@ -22,7 +22,6 @@ from 'graphql/type/schema';
 
 export default function() {
   genSchema((err, schema) => {
-    debug('Schema is', schema);
     debug('is instanceof GraphQLSchema:', schema instanceof GraphQLSchema)
 
     debug('ensuring api folder exists');

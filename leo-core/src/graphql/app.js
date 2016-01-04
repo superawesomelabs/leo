@@ -17,7 +17,6 @@ var debug = require('debug')('leo:graphql:api');
 
 export default function(callback) {
   genSchema((err, schema) => {
-    debug('Schema is', schema);
 
     const apiFolder = './dist/api';
     const app = express();
@@ -54,7 +53,7 @@ export default function(callback) {
     }
 
     app.use('/graphql', (req, res, next) => {
-        debug('headers', req.headers)
+        debug('Content-Type Header:', req.headers['content-type'])
         debug('body', req.body);
         // store the GraphQL query as a string
         const graphQLQueryHash = md5(req.body.query);
