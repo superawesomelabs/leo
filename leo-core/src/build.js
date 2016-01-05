@@ -5,6 +5,12 @@ import path from 'path';
 import webpackRequire from './webpack-require';
 import findLeorcPath from './find-leorc-path';
 import enablePlugins from './enable-plugins';
+import pluck from 'lodash/collection/pluck';
+import uniq from 'lodash/array/uniq';
+import {
+  genDatabase
+}
+from './graphql/gen-database';
 
 export default (program) => {
   return () => {
@@ -12,31 +18,54 @@ export default (program) => {
 
       debug('webpackRequire Error', err)
       const conf = factory();
-      const configWithUrls = config(conf.urls);
-      /**
-       * Enable third party plugins.
-       * This is where we hook in to allow things like `npm i leo-blogpost`
-       */
-      const configWithUrlsAndPlugins = enablePlugins(conf.plugins, configWithUrls);
-      webpack(configWithUrlsAndPlugins.resolve()).run((err, stats) => {
-        debug('ran')
+      genDatabase((err, {
+        data
+      }) => {
+
         if (err) {
-          // hard failure
-          debug('webpack failed', err);
-          return console.error(err);
+          throw new Error('failed to generate database', err);
+        };
+        console.log('data urls', pluck(data, 'attributes.url'));
+        /**
+         * The following length comparison if intended to determine if we have
+         * duplicate urls. That would mean we have two files trying to render
+         * tehmselves at the same location.
+         */
+        const totalURLs = conf.urls.concat(pluck(data, 'attributes.url'));
+        const uniquedURLs = uniq(totalURLs);
+        if(totalURLs.length !== uniquedURLs.length) {
+          /**
+           * In the future, figure out which url it is to give better error
+           * message
+           */
+          throw new Error('Two documents have the same URL. You should try to fix this')
         }
-        const jsonStats = stats.toJson();
-        if (jsonStats.errors.length > 0) {
-          //soft failure
-          debug('webpack stats errors', jsonStats.errors[0])
-          return console.warn(jsonStats.errors);
-        }
-        if (jsonStats.warnings.length > 0) {
-          debug('webpack stats warnings', jsonStats.warnings)
-          return console.warn(jsonStats.warnings);
-        }
-        debug('built');
-      });
+        const configWithUrls = config(uniquedURLs);
+        /**
+         * Enable third party plugins.
+         * This is where we hook in to allow things like `npm i leo-blogpost`
+         */
+        const configWithUrlsAndPlugins = enablePlugins(conf.plugins, configWithUrls);
+        webpack(configWithUrlsAndPlugins.resolve()).run((err, stats) => {
+          debug('ran')
+          if (err) {
+            // hard failure
+            debug('webpack failed', err);
+            return console.error(err);
+          }
+          const jsonStats = stats.toJson();
+          if (jsonStats.errors.length > 0) {
+            //soft failure
+            debug('webpack stats errors', jsonStats.errors[0])
+            return console.warn(jsonStats.errors);
+          }
+          if (jsonStats.warnings.length > 0) {
+            debug('webpack stats warnings', jsonStats.warnings)
+            return console.warn(jsonStats.warnings);
+          }
+          debug('built');
+        });
+      })
     });
   }
 }

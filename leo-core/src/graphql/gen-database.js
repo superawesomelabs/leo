@@ -50,7 +50,7 @@ export function genDatabase(callback) {
         null,
         /* includeGlobals */
         true)
-      // debug('data', data)
+      debug('data', data)
       callback(null, {
         data,
         plugins: conf.plugins
