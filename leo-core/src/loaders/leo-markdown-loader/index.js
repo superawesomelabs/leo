@@ -58,7 +58,6 @@ function mkSlugAndURL(obj) {
   }
 }
 
-console.log('markdown loader');
 module.exports = function(content) {
   // Signal to webpack this is cacheable
   this.cacheable();
@@ -67,20 +66,22 @@ module.exports = function(content) {
    * renderer that stores the relative src of images and requires them so that
    * they are processed by loaders (img-loader, etc)
    */
-  var defaultImageRender = md.renderer.rules.image;
+  var images = [];
+  var defaultImageRenderer = md.renderer.rules.image;
+  debug(defaultImageRenderer)
   md.renderer.rules.image = function(tokens, idx, options, env, renderer) {
 
     var token = tokens[idx];
-    debug('token', tokens[idx]);
-    // "alt" attr MUST be set, even if empty. Because it's mandatory and
-    // should be placed on proper position for tests.
-    //
-    // Replace content with actual value
-    token.attrs[token.attrIndex('alt')][1] =
-      renderer.renderInlineAsText(token.children, options, env);
-
+    // get the index for the `src` attribute
+    var srcIdx = tokens[idx].attrIndex('src');
+    // get the value for the attribute `['src', './what.png']`
+    var src = tokens[idx].attrs[srcIdx][1];
+    // push the src into images for later
+    images.push(src);
+    debug('token', src);
     return defaultImageRenderer(tokens, idx, options, env, renderer);
   };
+
   /**
    * Get the filename for the currently loading content
    * given `/whatever/post-a.post`, will return `post-a`

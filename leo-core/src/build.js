@@ -25,7 +25,7 @@ export default (program) => {
         if (err) {
           throw new Error('failed to generate database', err);
         };
-        console.log('data urls', pluck(data, 'attributes.url'));
+        debug('data urls', pluck(data, 'attributes.url'));
         /**
          * The following length comparison if intended to determine if we have
          * duplicate urls. That would mean we have two files trying to render

@@ -16,7 +16,16 @@ module.exports = function leoConfigLoader(content, map) {
   });
 
   const exts = conf.extensions.join('|');
-  glob(`${conf.dataPath}/**/*`, null, (err, files) => {
+  glob(`${conf.dataPath}/**/*`, {
+    nodir: true,
+    ignore: [
+      `${conf.dataPath}/**/*.jpeg`,
+      `${conf.dataPath}/**/*.jpg`,
+      `${conf.dataPath}/**/*.svg`,
+      `${conf.dataPath}/**/*.gif`,
+      `${conf.dataPath}/**/*.png`
+    ]
+  }, (err, files) => {
     conf.files = files || [];
     debug(`globbed ${files.length || 0} files`);
     return callback(null, 'module.exports = ' + JSON.stringify(conf));
