@@ -54,7 +54,7 @@ export default (filepaths, plugins) => {
       },{
         test: /\.md$/,
         exclude: /node_modules/,
-        loaders: ['leo-markdown']
+        loaders: [/* 'leo-markdown-metadata', */'leo-markdown']
       },{
         test: /load-database-files.js$/,
         loaders: ['leo-database-loader', 'babel']

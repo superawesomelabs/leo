@@ -4,6 +4,7 @@ var isString = require('lodash/lang/isString');
 var isObject = require('lodash/lang/isObject');
 var _ = require('lodash-addons');
 var loaderUtils = require('loader-utils');
+var debug = require('debug')('leo:markdown-loader');
 
 var md = require('markdown-it')({
   html: true,
@@ -57,9 +58,29 @@ function mkSlugAndURL(obj) {
   }
 }
 
+console.log('markdown loader');
 module.exports = function(content) {
   // Signal to webpack this is cacheable
   this.cacheable();
+
+  /**
+   * renderer that stores the relative src of images and requires them so that
+   * they are processed by loaders (img-loader, etc)
+   */
+  var defaultImageRender = md.renderer.rules.image;
+  md.renderer.rules.image = function(tokens, idx, options, env, renderer) {
+
+    var token = tokens[idx];
+    debug('token', tokens[idx]);
+    // "alt" attr MUST be set, even if empty. Because it's mandatory and
+    // should be placed on proper position for tests.
+    //
+    // Replace content with actual value
+    token.attrs[token.attrIndex('alt')][1] =
+      renderer.renderInlineAsText(token.children, options, env);
+
+    return defaultImageRenderer(tokens, idx, options, env, renderer);
+  };
   /**
    * Get the filename for the currently loading content
    * given `/whatever/post-a.post`, will return `post-a`
@@ -73,7 +94,10 @@ module.exports = function(content) {
    * receives will be the raw content, which is string.
    */
   if (isString(content)) {
-    var obj = mkSlugAndURL({ filename: filename });
+    debug('content isString');
+    var obj = mkSlugAndURL({
+      filename: filename
+    });
     return 'module.exports =' + JSON.stringify({
       attributes: {
         slug: obj.slug,
@@ -82,6 +106,7 @@ module.exports = function(content) {
       body: md.render(content)
     });
   } else if (isObject(content)) {
+    debug('content isObject');
     // The loader is operating on JSON; Likely a secondary loader.
     var newObj = mkSlugAndURL(merge({}, content.attributes, {
       filename: filename
