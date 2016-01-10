@@ -5,6 +5,8 @@ import EnsureLeorcPlugin from './plugins/ensure-leorc-plugin';
 import webpack from 'webpack';
 import findLeoRoutesPath from './find-leoroutes-path';
 import findLeorcPath from './find-leorc-path';
+import AssetsPlugin from 'assets-webpack-plugin';
+
 
 export default (urls) => {
 
@@ -18,7 +20,8 @@ export default (urls) => {
     },
 
     output: {
-      filename: 'js/[name].js',
+      // chunkhash can't be used in hmr
+      filename: 'js/[name]-[chunkhash].js',
       path: 'dist',
       libraryTarget: 'umd'
     },
@@ -37,6 +40,10 @@ export default (urls) => {
       ]
     },
     plugins: [
+      // new AssetsPlugin({
+      //   path: path.resolve(process.cwd(), 'dist/js'),
+      //   prettyPrint: true
+      // }),
       new StaticSiteGeneratorPlugin('static', urls),
       /**
        * replaces require('.leorc') in application js files with the
@@ -63,7 +70,7 @@ export default (urls) => {
       loaders: [{
         test: /.leorc/,
         loader: 'leo-config-loader'
-      },{
+      }, {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel',

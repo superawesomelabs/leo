@@ -52,10 +52,6 @@ export default (filepaths, plugins) => {
           presets: ['react', 'es2015', 'stage-0']
         }
       },{
-        test: /\.md$/,
-        exclude: /node_modules/,
-        loaders: [/* 'leo-markdown-metadata', */'leo-markdown']
-      },{
         test: /load-database-files.js$/,
         loaders: ['leo-database-loader', 'babel']
       }]

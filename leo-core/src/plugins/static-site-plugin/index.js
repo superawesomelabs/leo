@@ -11,19 +11,65 @@ function StaticSiteGeneratorWebpackPlugin(renderSrc, outputPaths, locals) {
 
 StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
   var self = this;
+  var options = compiler.options;
+
 
   compiler.plugin('emit', function(compiler, done) {
     var renderPromises;
 
     var webpackStats = compiler.getStats();
     var webpackStatsJson = webpackStats.toJson();
+    /**
+     * This section is from assets-webpack-plugin
+     * -- https://github.com/sporto/assets-webpack-plugin/blob/5dce5cdd532ea606bf6ed1e9aa285d4912e7bd49/index.js
+     * There is another comment below indicating the end of this section
+     */
 
+    var getAssetKind = require('assets-webpack-plugin/lib/getAssetKind');
+    var isHMRUpdate = require('assets-webpack-plugin/lib/isHMRUpdate');
+    var isSourceMap = require('assets-webpack-plugin/lib/isSourceMap');
+
+    var assetPath = (webpackStatsJson.publicPath && self.options.fullPath) ? webpackStatsJson.publicPath : '';
+    // assetsByChunkName contains a hash with the bundle names and the produced files
+    // e.g. { one: 'one-bundle.js', two: 'two-bundle.js' }
+    // in some cases (when using a plugin or source maps) it might contain an array of produced files
+    // e.g. {
+    // main:
+    //   [ 'index-bundle-42b6e1ec4fa8c5f0303e.js',
+    //     'index-bundle-42b6e1ec4fa8c5f0303e.js.map' ]
+    // }
+    var assetsByChunkName = webpackStatsJson.assetsByChunkName;
+
+    var assetsPluginHash = Object.keys(assetsByChunkName).reduce(function(chunkMap, chunkName) {
+      var assets = assetsByChunkName[chunkName];
+      if (!Array.isArray(assets)) {
+        assets = [assets];
+      }
+      chunkMap[chunkName] = assets.reduce(function(typeMap, asset) {
+        if (isHMRUpdate(options, asset) || isSourceMap(options, asset)) {
+          return typeMap;
+        }
+
+        var typeName = getAssetKind(options, asset);
+        typeMap[typeName] = assetPath + asset;
+
+        return typeMap;
+      }, {});
+
+      return chunkMap;
+    }, {});
+    /**
+     * End assets-webpack-plugin section
+     */
+     console.log(assetsPluginHash)
     try {
       var asset = findAsset(self.renderSrc, compiler, webpackStatsJson);
 
       if (asset == null) {
         throw new Error('Source file not found: "' + self.renderSrc + '"');
       }
+      var webpackAssetsJSON = findAsset('webpack-assets.json', compiler, webpackStatsJson);
+      console.log(webpackAssetsJSON)
 
       var assets = getAssetsFromCompiler(compiler, webpackStatsJson);
 
@@ -32,10 +78,12 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
        * We need this `self` variable to exists for the fetch polyfill since
        * the fetch polyfill assumes `self` exists by accessing `self.fetch`
        */
-       const scopeGlobals = {
-         self: { XMLHttpRequest:XMLHttpRequest },
-         XMLHttpRequest: XMLHttpRequest
-       }
+      const scopeGlobals = {
+        self: {
+          XMLHttpRequest: XMLHttpRequest
+        },
+        XMLHttpRequest: XMLHttpRequest
+      }
       var render = evaluate(source, /* filename: */ self.renderSrc, /* scope: */ scopeGlobals, /* includeGlobals: */ true);
 
       if (render.hasOwnProperty('__esModule')) {
@@ -50,13 +98,14 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
         var outputFileName = outputPath.replace(/^(\/|\\)/, ''); // Remove leading slashes for webpack-dev-server
 
         if (!/\.(html?)$/i.test(outputFileName)) {
-            outputFileName = path.join(outputFileName, 'index.html');
+          outputFileName = path.join(outputFileName, 'index.html');
         }
 
         var locals = {
           path: outputPath,
           assets: assets,
-          webpackStats: webpackStats
+          webpackStats: webpackStats,
+          assetsPluginHash: assetsPluginHash.bundle
         };
 
         for (var prop in self.locals) {

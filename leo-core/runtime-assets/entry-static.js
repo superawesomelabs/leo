@@ -45,7 +45,8 @@ export default (locals, callback) => {
             const body = renderToString(<RoutingContext {...renderProps} />);
             const htmlAsString = renderToStaticMarkup(
               <HTML body={body}
-                    assets={locals.assets} />
+                    assets={locals.assets}
+                    bundleAssets={locals.assetsPluginHash} />
             )
             callback(null, htmlAsString);
           } catch (e) {
