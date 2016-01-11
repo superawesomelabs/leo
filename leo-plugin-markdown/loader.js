@@ -68,7 +68,6 @@ module.exports = function(content) {
    */
   var images = [];
   var defaultImageRenderer = md.renderer.rules.image;
-  debug(defaultImageRenderer)
   md.renderer.rules.image = function(tokens, idx, options, env, renderer) {
 
     var token = tokens[idx];
@@ -78,7 +77,10 @@ module.exports = function(content) {
     var src = tokens[idx].attrs[srcIdx][1];
     // push the src into images for later
     images.push(src);
-    debug('token', src);
+    if (src && !src.match(/^http/)) {
+      // we really only care if it's local for now
+      debug('image url', src);
+    }
     return defaultImageRenderer(tokens, idx, options, env, renderer);
   };
 
