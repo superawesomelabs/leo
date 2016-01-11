@@ -1,4 +1,5 @@
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var path = require('path');
 
 module.exports = function configure(config) {
 
@@ -8,7 +9,7 @@ module.exports = function configure(config) {
   });
 
   config.plugin('extract-css',
-    ExtractTextPlugin, ["styles.css", {
+    ExtractTextPlugin, ["styles.[contenthash].css", {
       allChunks: true
     }]);
 
@@ -20,6 +21,12 @@ module.exports = function configure(config) {
       }),
       require('lost')({
         flexbox: 'flex'
+      }),
+      require('postcss-font-magician')({
+        hosted: path.resolve(process.cwd(), './fonts')
+      }),
+      require('list-selectors').plugin(function(selectorList) {
+        console.log(selectorList)
       })
     ]
   });
