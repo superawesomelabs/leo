@@ -4,7 +4,7 @@ import config from './webpack.config';
 import path from 'path';
 import webpackRequire from './webpack-require';
 import findLeorcPath from './find-leorc-path';
-import enablePlugins from './enable-plugins';
+import enablePlugins from './utils/enable-plugins';
 import pluck from 'lodash/collection/pluck';
 import uniq from 'lodash/array/uniq';
 import {

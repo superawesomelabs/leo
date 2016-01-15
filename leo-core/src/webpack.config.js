@@ -104,7 +104,7 @@ export default (urls) => {
    */
   config.loader('images', {
     test: /\.(jpe?g|png|gif|svg)$/i,
-    loader: 'url?limit=10000!img-loader?progressive=true'
+    loader: 'url?limit=10000!img-loader?minimize&progressive=true'
   });
 
   return config;

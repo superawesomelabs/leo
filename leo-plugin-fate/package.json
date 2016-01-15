@@ -1,6 +1,6 @@
 {
-  "name": "leo-plugin-postcss",
-  "version": "1.0.0",
+  "name": "@sa-labs/leo-plugin-fate",
+  "version": "0.0.1",
   "description": "PostCSS processing for Leo; Includes CSSModules",
   "main": "index.js",
   "scripts": {
@@ -18,6 +18,7 @@
     "babel-preset-react": "^6.3.13"
   },
   "dependencies": {
+    "@sa-labs/fate-core": "0.0.4",
     "colorguard": "^1.0.1",
     "css-loader": "^0.23.0",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -25,6 +26,7 @@
     "list-selectors": "^2.0.0",
     "postcss-brand-colors": "^0.3.0",
     "postcss-browser-reporter": "^0.4.0",
+    "postcss-constants": "^0.1.3",
     "postcss-cssnext": "^2.4.0",
     "postcss-cssstats": "^1.0.0",
     "postcss-font-magician": "^1.4.0",

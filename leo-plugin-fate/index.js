@@ -1,6 +1,8 @@
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path = require('path');
+var constants = require('@sa-labs/fate-core/manual')();
 
+console.log('constants', constants)
 module.exports = function configure(config) {
 
   config.loader('css', {
@@ -16,12 +18,17 @@ module.exports = function configure(config) {
   config.merge({
     postcss: [
       require('postcss-brand-colors'),
-      require('postcss-modular-scale'),
+      require('postcss-constants')({
+        defaults: constants
+      }),
+      require('postcss-modular-scale')({
+        bases: 1,
+        ratios: 1.5
+      }),
       require('postcss-responsive-type'),
       require('postcss-cssnext')({
         browsers: 'last 2 versions'
       }),
-      require('colorguard'),
       require('lost')({
         flexbox: 'flex'
       }),
