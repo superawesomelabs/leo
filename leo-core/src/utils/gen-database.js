@@ -1,7 +1,7 @@
 import path from 'path';
-import webpackRequire from '../webpack-require';
-import findLeorcPath from '../find-leorc-path';
-import config from './webpack.config.graphql';
+import webpackRequire from 'utils/webpack-require';
+import findLeorcPath from 'utils/find-leorc-path';
+import config from 'leo-graphql/webpack.config.graphql';
 import evaluate from 'eval';
 
 import MemoryFS from 'memory-fs';

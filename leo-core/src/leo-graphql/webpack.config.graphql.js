@@ -1,5 +1,5 @@
 import Config from 'webpack-configurator';
-import enablePlugins from '../utils/enable-plugins';
+import enablePlugins from 'utils/enable-plugins';
 import {
   resolve
 }

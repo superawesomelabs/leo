@@ -1,7 +1,7 @@
 var program = require('commander');
 var build = require('./src/build').default;
 var graphql = require('./src/graphql').default;
-var updateSchema = require('./src/graphql/updateSchema').default;
+var updateSchema = require('./src/updateSchema').default;
 
 program
   .version('0.0.1');

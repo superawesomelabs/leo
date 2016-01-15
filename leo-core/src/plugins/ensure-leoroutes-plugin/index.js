@@ -1,5 +1,5 @@
 var webpack = require('webpack');
-import findLeoRoutesPath from '../../find-leoroutes-path';
+import findLeoRoutesPath from 'utils/find-leoroutes-path';
 
 /**
  * replaces require('.leo-routes') in application js files with the

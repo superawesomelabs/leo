@@ -3,8 +3,8 @@ import Config from 'webpack-configurator';
 import path from 'path';
 import EnsureLeorcPlugin from './plugins/ensure-leorc-plugin';
 import webpack from 'webpack';
-import findLeoRoutesPath from './find-leoroutes-path';
-import findLeorcPath from './find-leorc-path';
+import findLeoRoutesPath from 'utils/find-leoroutes-path';
+import findLeorcPath from 'utils/find-leorc-path';
 import AssetsPlugin from 'assets-webpack-plugin';
 
 

@@ -1,5 +1,5 @@
 var webpack = require('webpack');
-import findLeorcPath from '../../find-leorc-path';
+import findLeorcPath from 'utils/find-leorc-path';
 
 /**
  * replaces require('.leorc') in application js files with the

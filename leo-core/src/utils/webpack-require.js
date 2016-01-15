@@ -1,6 +1,6 @@
 import webpackRequire from 'webpack-require';
 import path from 'path';
-import EnsureLeorcPlugin from './plugins/ensure-leorc-plugin';
+import EnsureLeorcPlugin from 'plugins/ensure-leorc-plugin';
 import oDebug from 'debug';
 const debug = oDebug('leo:webpack-require');
 

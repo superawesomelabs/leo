@@ -1,16 +1,16 @@
 const debug = require('debug')('leo:build');
 import webpack from 'webpack';
-import config from './webpack.config';
 import path from 'path';
-import webpackRequire from './webpack-require';
-import findLeorcPath from './find-leorc-path';
-import enablePlugins from './utils/enable-plugins';
 import pluck from 'lodash/collection/pluck';
 import uniq from 'lodash/array/uniq';
+
+import config from './webpack.config';
 import {
   genDatabase
-}
-from './graphql/gen-database';
+} from 'utils/gen-database';
+import webpackRequire from 'utils/webpack-require';
+import findLeorcPath from 'utils/find-leorc-path';
+import enablePlugins from 'utils/enable-plugins';
 
 export default (program) => {
   return () => {

@@ -7,7 +7,7 @@ import getPluginSchemas from './get-plugin-schemas';
 import {
   genDatabase
 }
-from './gen-database';
+from 'utils/gen-database';
 
 /**
  * Merge all plugin schemas into a single Query object

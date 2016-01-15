@@ -1,8 +1,6 @@
-//#!/usr/bin/env babel-node --optional es7.asyncFunctions
-
 import fs from 'fs';
 import path from 'path';
-import genSchema from './gen-schema';
+import genSchema from 'leo-graphql/gen-schema';
 import {
   graphql
 }

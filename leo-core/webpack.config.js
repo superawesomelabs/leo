@@ -41,9 +41,11 @@ module.exports = {
     libraryTarget: 'commonjs2'
   },
   externals: nodeModules,
-  plugins: [
-    // new webpack.IgnorePlugin(/find-leorc-path$/)
-  ],
+  resolve: {
+    root: [
+      path.resolve('./src')
+    ]
+  },
   module: {
     noParse: [
       /find-leorc-path/,

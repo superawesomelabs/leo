@@ -1,5 +1,5 @@
 var debug = require('debug')('leo:graphql:server');
-import bootstrapApp from './graphql/app';
+import bootstrapApp from 'leo-graphql/app';
 
 export default () => {
   /**
