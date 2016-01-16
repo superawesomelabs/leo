@@ -1,5 +1,5 @@
 {
-  "name": "leo-plugin-cssstats",
+  "name": "@sa-labs/leo-plugin-cssstats",
   "version": "1.0.0",
   "description": "Analyze stylesheets automatically with every build",
   "main": "index.js",

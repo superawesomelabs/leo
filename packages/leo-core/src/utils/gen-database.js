@@ -17,7 +17,7 @@ export function genDatabase(callback) {
     debug('files', conf.files);
     const compiler = webpack(config(conf.files, conf.plugins).resolve());
     var fs = new MemoryFS();
-    fs.mkdirpSync("/dist");
+    fs.mkdirpSync('/dist');
     compiler.outputFileSystem = fs;
     compiler.run((err, stats) => {
       /**
@@ -42,7 +42,7 @@ export function genDatabase(callback) {
        * End Error Checking
        */
       debug('dist output', fs.readdirSync('/dist'));
-      const str = fs.readFileSync("/dist/bundle.js").toString('utf-8');
+      const str = fs.readFileSync('/dist/bundle.js').toString('utf-8');
       const data = evaluate(str,
         /*, filename */
         'api-database.json',

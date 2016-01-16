@@ -77,7 +77,7 @@ export default (urls) => {
         query: {
           presets: ['react', 'es2015', 'stage-0'],
           plugins: [
-            "leo-core/build/babelRelayPlugin.js"
+            'leo-core/build/babelRelayPlugin.js'
           ]
         }
       }]

@@ -1,4 +1,4 @@
-var CSSStatsPlugin = require("./plugin");
+var CSSStatsPlugin = require('./plugin');
 
 module.exports = function configure(config) {
 

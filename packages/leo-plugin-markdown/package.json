@@ -1,5 +1,5 @@
 {
-  "name": "leo-plugin-markdown",
+  "name": "@sa-labs/leo-plugin-markdown",
   "version": "1.0.0",
   "description": "Markdown Content Type for Leo",
   "main": "index.js",

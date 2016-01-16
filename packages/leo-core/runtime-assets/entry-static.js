@@ -19,7 +19,7 @@ const debug = require('debug')('leo:entry-static');
 
 import HTML from './html';
 
-const GRAPHQL_URL = `http://localhost:3000/graphql`;
+const GRAPHQL_URL = 'http://localhost:3000/graphql';
 
 Relay.injectNetworkLayer(new Relay.DefaultNetworkLayer(GRAPHQL_URL));
 

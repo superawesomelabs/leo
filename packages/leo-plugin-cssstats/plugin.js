@@ -5,7 +5,7 @@ function MyPlugin(options) {}
 
 MyPlugin.prototype.apply = function(compiler) {
 
-  compiler.plugin("emit", function(compilation, callback) {
+  compiler.plugin('emit', function(compilation, callback) {
     var webpackStatsJson = compilation.getStats().toJson();
     console.log('of keys', Object.keys(compilation.assets));
     var cssFilename = find(Object.keys(compilation.assets), function(str) {

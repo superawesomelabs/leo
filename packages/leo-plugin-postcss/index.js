@@ -1,15 +1,15 @@
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require('path');
 
 module.exports = function configure(config) {
 
   config.loader('css', {
     test: /\.css$/,
-    loader: ExtractTextPlugin.extract('style', `css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader`)
+    loader: ExtractTextPlugin.extract('style', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
   });
 
   config.plugin('extract-css',
-    ExtractTextPlugin, ["styles.[contenthash].css", {
+    ExtractTextPlugin, ['styles.[contenthash].css', {
       allChunks: true
     }]);
 

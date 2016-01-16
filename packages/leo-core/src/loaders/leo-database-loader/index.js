@@ -1,4 +1,4 @@
-var loaderUtils = require("loader-utils");
+var loaderUtils = require('loader-utils');
 var debug = require('debug')('leo:database-loader');
 
 /**

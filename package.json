@@ -1,0 +1,30 @@
+{
+  "name": "leo",
+  "version": "1.0.0",
+  "description": "Tooling for building leo",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/superawesomelabs/leo.git"
+  },
+  "keywords": [
+    "leo"
+  ],
+  "author": "Christopher Biscardi <chris@christopherbiscardi.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/superawesomelabs/leo/issues"
+  },
+  "homepage": "https://github.com/superawesomelabs/leo#readme",
+  "devDependencies": {
+    "babel-eslint": "^4.1.6",
+    "eslint": "^2.0.0-alpha-2",
+    "eslint-config-superawesome": "^1.0.0"
+  }
+}
