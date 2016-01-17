@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-plugin-cssstats",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Analyze stylesheets automatically with every build",
   "main": "index.js",
   "scripts": {
