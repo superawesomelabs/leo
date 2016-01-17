@@ -16,18 +16,15 @@ var _debug2 = _interopRequireDefault(_debug);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var debug = (0, _debug2.default)('leo:plugin-blogpost:schema');
+var debug = (0, _debug2.default)('leo:plugin-markdown:schema');
 
-var BlogPostAttributesType = new _type.GraphQLObjectType({
-  name: 'BlogPostAttributes',
+var MarkdownAttributesType = new _type.GraphQLObjectType({
+  name: 'MarkdownAttributes',
   fields: {
     title: {
       type: _type.GraphQLString
     },
     date: {
-      type: _type.GraphQLString
-    },
-    featuredImage: {
       type: _type.GraphQLString
     },
     path: {
@@ -36,35 +33,29 @@ var BlogPostAttributesType = new _type.GraphQLObjectType({
   }
 });
 
-var BlogPostType = new _type.GraphQLObjectType({
-  name: 'BlogPost',
+var MarkdownType = new _type.GraphQLObjectType({
+  name: 'Markdown',
   fields: {
-    attributes: { type: BlogPostAttributesType },
+    attributes: { type: MarkdownAttributesType },
+    rawBody: {
+      type: _type.GraphQLString
+    },
     body: {
       type: _type.GraphQLString
     }
-  },
-  resolve: function resolve() {
-    return {
-      attributes: {
-        title: 'A Test Post',
-        path: '/a-test-post'
-      },
-      body: 'test resolve post'
-    };
   }
 });
 
 module.exports = function (data) {
 
-  var getPost = function getPost(slug) {
+  var getContent = function getContent(slug) {
     debug('data.length', data.length);
     return (0, _find2.default)(data, function (_ref) {
       var a = _ref.attributes;
 
       debug('attributes', a);
       if (a) {
-        return a.contentType === 'leo-blogpost' && a.slug === slug;
+        return a.contentType === 'leo-markdown' && a.slug === slug;
       } else {
         return false;
       }
@@ -72,8 +63,8 @@ module.exports = function (data) {
   };
 
   return {
-    post: {
-      type: BlogPostType,
+    md: {
+      type: MarkdownType,
       args: {
         slug: {
           type: _type.GraphQLString,
@@ -82,7 +73,7 @@ module.exports = function (data) {
       },
       resolve: function resolve(root, _ref2) {
         var slug = _ref2.slug;
-        return getPost(slug);
+        return getContent(slug);
       }
     }
   };

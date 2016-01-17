@@ -106,6 +106,7 @@ module.exports = function(content) {
         slug: obj.slug,
         url: obj.url
       },
+      rawBody: content,
       body: md.render(content)
     });
   } else if (isObject(content)) {
@@ -122,6 +123,7 @@ module.exports = function(content) {
     return merge({},
       content, {
         attributes: obj,
+        rawBody: content.body,
         body: md.render(content.body)
       });
   } else {

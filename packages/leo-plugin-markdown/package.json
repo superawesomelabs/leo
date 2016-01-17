@@ -4,7 +4,8 @@
   "description": "Markdown Content Type for Leo",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel --presets react,es2015 schema.babel.js -o schema.js"
   },
   "keywords": [
     "leo"

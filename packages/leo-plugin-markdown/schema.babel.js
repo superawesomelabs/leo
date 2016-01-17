@@ -10,8 +10,8 @@ import find from 'lodash/collection/find';
 import oDebug from 'debug';
 const debug = oDebug('leo:plugin-markdown:schema');
 
-const BlogPostAttributesType = new GraphQLObjectType({
-  name: 'BlogPostAttributes',
+const MarkdownAttributesType = new GraphQLObjectType({
+  name: 'MarkdownAttributes',
   fields: {
     title: {
       type: GraphQLString
@@ -25,21 +25,15 @@ const BlogPostAttributesType = new GraphQLObjectType({
   }
 })
 
-const BlogPostType = new GraphQLObjectType({
-  name: 'BlogPost',
+const MarkdownType = new GraphQLObjectType({
+  name: 'Markdown',
   fields: {
-    attributes: { type: BlogPostAttributesType },
+    attributes: { type: MarkdownAttributesType },
+    rawBody: {
+      type: GraphQLString
+    },
     body: {
       type: GraphQLString
-    }
-  },
-  resolve: () => {
-    return {
-      attributes: {
-        title: 'A Test Post',
-        path: '/a-test-post'
-      },
-      body: 'test resolve post'
     }
   }
 })
@@ -59,8 +53,8 @@ module.exports = function(data) {
   }
 
   return {
-    post: {
-      type: BlogPostType,
+    md: {
+      type: MarkdownType,
       args: {
         slug: {
           type: GraphQLString,
@@ -69,7 +63,7 @@ module.exports = function(data) {
       },
       resolve: (root, {
         slug
-      }) => getPost(slug)
+      }) => getContent(slug)
     }
   }
 }
