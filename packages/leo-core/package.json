@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "update-schema": "babel-node ./bin/graphql/updateSchema.js",
     "build-runtime-assets": "babel --presets react,es2015 runtime-assets --out-dir build/"
   },
   "repository": {
