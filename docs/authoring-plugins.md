@@ -172,3 +172,7 @@ module.exports = function(data) {
 ### Post Processing the JSON Database
 
 Example: indexing content for search plugins, etc
+
+Since `schema.js` exports a function whose first argument is the full set of
+data, we can post-process the data and provide a Schema for the post-processed
+data.
