@@ -3,7 +3,7 @@ module.exports = function configure(config) {
   config.loader('markdown', {
     test: /\.md$/,
     exclude: /node_modules/,
-    loaders: ['leo-plugin-markdown/loader']
+    loaders: ['@sa-labs/leo-plugin-markdown/loader']
   });
 
   config.merge((current) => {
