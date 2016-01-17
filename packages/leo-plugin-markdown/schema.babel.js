@@ -6,7 +6,7 @@ import graphql, {
 } from 'graphql/type';
 
 import { slugify } from 'lodash-addons';
-import find from 'lodash/collection/find';
+import find from 'lodash/find';
 import oDebug from 'debug';
 const debug = oDebug('leo:plugin-markdown:schema');
 

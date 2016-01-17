@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "graphql": "^0.4.14",
-    "highlight.js": "^9.1.0",
     "loader-utils": "^0.2.12",
     "lodash": "^4.0.0",
     "lodash-addons": "^0.2.1"

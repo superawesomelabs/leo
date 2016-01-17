@@ -1,5 +1,4 @@
-var hljs = require('highlight.js')
-var merge = require('lodash/object/merge');
+var merge = require('lodash/merge');
 var _ = require('lodash-addons');
 var loaderUtils = require('loader-utils');
 
