@@ -4,11 +4,10 @@ TODO: Make docs site a Leo site (duh).
 
 [Docs](#TODO) | []
 
-Leo is a bleeding edge static site generator built on React-Router and Relay,
-enjoying the benefits of both. It takes a directory of files and turns them into
-JSON via webpack loaders. The JSON is then processed and served by a GraphQL
-API. This approach enables a high level of [extensibility](#extensibility) and
-customization.
+Leo is a bleeding edge static site generator built on React, React-Router and
+Relay. It takes a directory of files and turns them into JSON via webpack
+loaders. The JSON is then processed and served by a GraphQL API. This approach
+enables a high level of [extensibility](#extensibility) and customization.
 
 Leo eschews template languages in favor of React Components with
 [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html), which yields a
