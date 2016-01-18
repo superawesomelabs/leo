@@ -1,10 +1,10 @@
 {
   "name": "@sa-labs/leo-plugin-markdown",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Markdown Content Type for Leo",
   "main": "index.js",
   "scripts": {
-    "build": "babel --presets react,es2015 schema.babel.js -o schema.js"
+    "build": "NODE_ENV=production ../../node_modules/.bin/babel --presets react,es2015 schema.babel.js -o schema.js"
   },
   "keywords": [
     "leo"
@@ -17,7 +17,7 @@
     "highlight.js": "^9.1.0",
     "loader-utils": "^0.2.12",
     "lodash": "^4.0.0",
-    "lodash-addons": "^0.2.1",
-    "markdown-it": "^5.1.0"
+    "markdown-it": "^5.1.0",
+    "slug": "^0.9.1"
   }
 }

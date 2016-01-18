@@ -1,10 +1,10 @@
 {
   "name": "@sa-labs/leo-plugin-blogpost",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Blog Post Content Type for Leo",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "NODE_ENV=production ../../node_modules/.bin/babel --presets react,es2015 schema.babel.js -o schema.js"
   },
   "keywords": [
     "leo"
@@ -19,12 +19,12 @@
   },
   "peerDependencies": {
     "frontmatter-loader": "^0.0.1",
-    "@sa-labs/leo-plugin-markdown": "^0.0.2"
+    "@sa-labs/leo-plugin-markdown": "^0.0.3"
   },
   "dependencies": {
     "graphql": "^0.4.14",
     "loader-utils": "^0.2.12",
     "lodash": "^4.0.0",
-    "lodash-addons": "^0.2.1"
+    "slug": "^0.9.1"
   }
 }

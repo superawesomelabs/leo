@@ -5,7 +5,6 @@ import graphql, {
   GraphQLString
 } from 'graphql/type';
 
-import { slugify } from 'lodash-addons';
 import find from 'lodash/find';
 import oDebug from 'debug';
 const debug = oDebug('leo:plugin-markdown:schema');
@@ -41,9 +40,9 @@ const MarkdownType = new GraphQLObjectType({
 module.exports = function(data) {
 
   const getContent = (slug) => {
-    debug('data.length', data.length);
+
     return find(data, ({ attributes: a }) => {
-      debug('attributes', a)
+
       if(a) {
         return a.contentType === 'leo-markdown' && a.slug === slug;
       } else {

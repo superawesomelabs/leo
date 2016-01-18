@@ -1,5 +1,5 @@
 var merge = require('lodash/merge');
-var _ = require('lodash-addons');
+var slugify = require('slug');
 var loaderUtils = require('loader-utils');
 
 module.exports = function(json) {
@@ -20,7 +20,7 @@ module.exports = function(json) {
   var category = json.attributes.category;
   if (category) {
     // slugify the category here?
-    category = _.slugify(category)
+    category = slugify(category)
   }
 
   /**
@@ -32,9 +32,9 @@ module.exports = function(json) {
   if (!slug) {
     // use the title to generate one
     if (title) {
-      slug = _.slugify(title);
+      slug = slugify(title);
     } else {
-      slug = _.slugify(filename);
+      slug = slugify(filename);
     }
   }
 

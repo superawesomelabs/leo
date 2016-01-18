@@ -62,16 +62,6 @@ export default (filepaths, plugins) => {
   });
 
   /**
-   * default to handling image requests and optimizing images since these can
-   * be some of the heavier assets on a site. In the future, we should implement
-   * a gradual loading mechanism that loads a low-res image, then the high-res.
-   */
-  config.loader('images', {
-    test: /\.(jpe?g|png|gif|svg)$/i,
-    loader: 'url?limit=10000!img-loader?progressive=true'
-  });
-
-  /**
    * Allow plugins to add loaders to the database
    */
   return enablePlugins(plugins, config);

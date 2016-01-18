@@ -1,8 +1,8 @@
 const debug = require('debug')('leo:build');
 import webpack from 'webpack';
 import path from 'path';
-import pluck from 'lodash/collection/pluck';
-import uniq from 'lodash/array/uniq';
+import map from 'lodash/map';
+import uniq from 'lodash/uniq';
 
 import config from './webpack.config';
 import {
@@ -25,13 +25,13 @@ export default (program) => {
         if (err) {
           throw new Error('failed to generate database', err);
         };
-        debug('data urls', pluck(data, 'attributes.url'));
+        debug('data urls', map(data, 'attributes.url'));
         /**
          * The following length comparison if intended to determine if we have
          * duplicate urls. That would mean we have two files trying to render
          * tehmselves at the same location.
          */
-        const totalURLs = conf.urls.concat(pluck(data, 'attributes.url'));
+        const totalURLs = conf.urls.concat(map(data, 'attributes.url'));
         const uniquedURLs = uniq(totalURLs);
         if(totalURLs.length !== uniquedURLs.length) {
           /**

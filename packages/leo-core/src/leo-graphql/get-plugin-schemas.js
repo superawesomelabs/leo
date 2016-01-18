@@ -1,5 +1,5 @@
-import isFunction from 'lodash/lang/isFunction';
-import cloneDeep from 'lodash/lang/cloneDeep';
+import isFunction from 'lodash/isFunction';
+import cloneDeep from 'lodash/cloneDeep';
 import fs from 'fs';
 import oDebug from 'debug';
 const debug = oDebug('leo:graphql:get-plugin-schemas');

@@ -1,0 +1,17 @@
+{
+  "name": "@sa-labs/leo-plugin-images",
+  "version": "0.0.2",
+  "description": "Image processing for Leo",
+  "main": "index.js",
+  "keywords": [
+    "leo"
+  ],
+  "author": "Chris Biscardi <chris@christopherbiscardi.com>",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "file-loader": "^0.8.5",
+    "img-loader": "^1.2.2",
+    "url-loader": "^0.5.7"
+  }
+}

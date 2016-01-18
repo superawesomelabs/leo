@@ -2,7 +2,7 @@ var hljs = require('highlight.js')
 var merge = require('lodash/merge');
 var isString = require('lodash/isString');
 var isObject = require('lodash/isObject');
-var _ = require('lodash-addons');
+var slugify = require('slug');
 var loaderUtils = require('loader-utils');
 var debug = require('debug')('leo:markdown-loader');
 
@@ -40,9 +40,9 @@ function mkSlugAndURL(obj) {
   if (!slug) {
     // use the title to generate one
     if (title) {
-      slug = _.slugify(title);
+      slug = slugify(title);
     } else {
-      slug = _.slugify(filename);
+      slug = slugify(filename);
     }
   }
 

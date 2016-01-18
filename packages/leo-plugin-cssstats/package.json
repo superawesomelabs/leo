@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-plugin-cssstats",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Analyze stylesheets automatically with every build",
   "main": "index.js",
   "scripts": {
@@ -18,6 +18,7 @@
     "babel-preset-react": "^6.3.13"
   },
   "dependencies": {
-    "cssstats": "^2.1.2"
+    "cssstats": "^2.1.2",
+    "lodash": "^4.0.0"
   }
 }

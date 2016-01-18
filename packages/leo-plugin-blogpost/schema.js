@@ -4,9 +4,7 @@ var _type = require('graphql/type');
 
 var _type2 = _interopRequireDefault(_type);
 
-var _lodashAddons = require('lodash-addons');
-
-var _find = require('lodash/collection/find');
+var _find = require('lodash/find');
 
 var _find2 = _interopRequireDefault(_find);
 

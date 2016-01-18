@@ -4,9 +4,7 @@ var _type = require('graphql/type');
 
 var _type2 = _interopRequireDefault(_type);
 
-var _lodashAddons = require('lodash-addons');
-
-var _find = require('lodash/collection/find');
+var _find = require('lodash/find');
 
 var _find2 = _interopRequireDefault(_find);
 
@@ -49,11 +47,10 @@ var MarkdownType = new _type.GraphQLObjectType({
 module.exports = function (data) {
 
   var getContent = function getContent(slug) {
-    debug('data.length', data.length);
+
     return (0, _find2.default)(data, function (_ref) {
       var a = _ref.attributes;
 
-      debug('attributes', a);
       if (a) {
         return a.contentType === 'leo-markdown' && a.slug === slug;
       } else {

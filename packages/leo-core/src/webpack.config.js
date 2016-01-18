@@ -84,28 +84,5 @@ export default (urls) => {
     }
   });
 
-  /**
-   * load javascript and jsx files with babel.
-   * Can be configured with a .babelrc
-   */
-  // config.loader('js', {
-  //   test: /\.jsx?$/,
-  //   exclude: /node_modules/,
-  //   loader: 'babel',
-  //   query: {
-  //     presets: ['react', 'es2015', 'stage-0']
-  //   }
-  // });
-
-  /**
-   * default to handling image requests and optimizing images since these can
-   * be some of the heavier assets on a site. In the future, we should implement
-   * a gradual loading mechanism that loads a low-res image, then the high-res.
-   */
-  config.loader('images', {
-    test: /\.(jpe?g|png|gif|svg)$/i,
-    loader: 'url?limit=10000!img-loader?minimize&progressive=true'
-  });
-
   return config;
 };
