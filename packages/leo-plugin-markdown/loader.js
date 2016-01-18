@@ -40,9 +40,9 @@ function mkSlugAndURL(obj) {
   if (!slug) {
     // use the title to generate one
     if (title) {
-      slug = slugify(title);
+      slug = slugify(title, { mode: 'rfc3986' });
     } else {
-      slug = slugify(filename);
+      slug = slugify(filename, { mode: 'rfc3986' });
     }
   }
 

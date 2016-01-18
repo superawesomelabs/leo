@@ -20,7 +20,7 @@ module.exports = function(json) {
   var category = json.attributes.category;
   if (category) {
     // slugify the category here?
-    category = slugify(category)
+    category = slugify(category, { mode: 'rfc3986' })
   }
 
   /**
@@ -32,9 +32,9 @@ module.exports = function(json) {
   if (!slug) {
     // use the title to generate one
     if (title) {
-      slug = slugify(title);
+      slug = slugify(title, { mode: 'rfc3986' });
     } else {
-      slug = slugify(filename);
+      slug = slugify(filename, { mode: 'rfc3986' });
     }
   }
 
