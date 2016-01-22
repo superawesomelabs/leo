@@ -33,12 +33,15 @@ export default function(callback) {
      * come as text
      */
     app.use(bodyParser.json({
-      type: 'text/*'
+      type: 'text/plain'
+    }));
+    app.use(bodyParser.json({
+      type: 'json'
     }));
 
-    app.use(bodyParser.urlencoded({
-      extended: false
-    }));
+    // app.use(bodyParser.urlencoded({
+    //   extended: false
+    // }));
 
     // ensure the directory to place api .json files into exists
     debug('ensuring api folder exists');
@@ -54,7 +57,7 @@ export default function(callback) {
 
     app.use('/graphql', (req, res, next) => {
         debug('Content-Type Header:', req.headers['content-type'])
-        debug('body', req.body);
+        // debug('body', req.body);
         // store the GraphQL query as a string
         const graphQLQueryHash = md5(req.body.query);
         // keep the actual send around for later
@@ -65,8 +68,10 @@ export default function(callback) {
           if (json.errors) {
             throw new Error(json.errors);
           } else {
-            debug('json', json)
-            writeGraphQLJSONResponseToFile(graphQLQueryHash, json);
+            if (req.headers['content-type']) {
+              debug('json', json)
+              writeGraphQLJSONResponseToFile(graphQLQueryHash, json);
+            }
             send.call(this, json);
           }
         }
