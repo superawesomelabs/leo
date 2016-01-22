@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-core",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A Static Site generator based on data",
   "main": "index.js",
   "scripts": {
