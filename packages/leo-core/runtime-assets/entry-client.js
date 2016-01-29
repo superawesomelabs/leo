@@ -14,6 +14,8 @@ import conf from './load-leorc';
 
 const debug = require('debug')('leo:entry-client');
 
+console.log('routes', routes);
+
 var myNetworkLayer = {
   sendMutation(mutationRequest) {
     // ...

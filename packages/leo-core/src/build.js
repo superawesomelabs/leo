@@ -29,7 +29,7 @@ export default (program) => {
         /**
          * The following length comparison if intended to determine if we have
          * duplicate urls. That would mean we have two files trying to render
-         * tehmselves at the same location.
+         * themselves at the same location.
          */
         const totalURLs = conf.urls.concat(map(data, 'attributes.url'));
         const uniquedURLs = uniq(totalURLs);

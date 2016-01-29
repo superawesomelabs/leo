@@ -1,6 +1,7 @@
 import graphql, {
   GraphQLSchema,
-  GraphQLObjectType
+  GraphQLObjectType,
+  GraphQLNonNull
 }
 from 'graphql/type';
 import getPluginSchemas from './get-plugin-schemas';
@@ -18,15 +19,26 @@ export default function genSchema(callback) {
     if (err) {
       throw new Error('failed to generate database', err);
     }
-    const schema = new GraphQLSchema({
-      query: new GraphQLObjectType({
-        name: 'Query',
-        fields: () => {
-          return getPluginSchemas(plugins, data)
-        }
+
+    /**
+     * This is the root query type. We use a self-reference trick to
+     * enable List responses, solving issue 112 temporarily.
+     * https://github.com/facebook/relay/issues/112
+     */
+    const Root = new GraphQLObjectType({
+      name: 'Query',
+      fields: () => ({
+        root: {
+          type: new GraphQLNonNull(Root),
+          resolve: () => ({})
+        },
+        ...getPluginSchemas(plugins, data)
       })
     });
 
-    callback(null, schema);
+    // Final Schema
+    callback(null, new GraphQLSchema({
+      query: Root
+    }));
   })
 }

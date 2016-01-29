@@ -69,7 +69,7 @@ export default function(callback) {
             throw new Error(json.errors);
           } else {
             if (req.headers['content-type']) {
-              debug('json', json)
+//              debug('json', json)
               writeGraphQLJSONResponseToFile(graphQLQueryHash, json);
             }
             send.call(this, json);

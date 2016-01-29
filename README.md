@@ -1,8 +1,10 @@
 # Leo
 
-TODO: Make docs site a Leo site (duh).
+Leo is alpha quality software. Expect bugs. Contributions welcome.
 
-[Docs](#TODO) | []
+A list of `TODO`s can be found in [TODO.md][TODO.md]
+
+----
 
 Leo is a bleeding edge static site generator built on React, React-Router and
 Relay. It takes a directory of files and turns them into JSON via webpack
