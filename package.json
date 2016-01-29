@@ -21,6 +21,10 @@
   },
   "homepage": "https://github.com/superawesomelabs/leo#readme",
   "devDependencies": {
+    "@sa-labs/leo-core": "./packages/leo-core",
+    "@sa-labs/leo-plugin-blogpost": "./packages/leo-plugin-blogpost",
+    "@sa-labs/leo-plugin-images": "./packages/leo-plugin-images",
+    "@sa-labs/leo-plugin-markdown": "./packages/leo-plugin-markdown",
     "ava": "^0.10.0",
     "babel-cli": "^6.4.0",
     "babel-core": "^6.3.15",
