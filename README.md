@@ -3,7 +3,7 @@
 Leo is alpha quality software. Expect bugs. Documentation needs
 work. Contributions welcome.
 
-A list of `TODO`s can be found in [TODO.md][./TODO.md]
+A list of `TODO`s can be found in [TODO.md](./TODO.md)
 
 # Get Started
 
