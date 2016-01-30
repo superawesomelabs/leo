@@ -22,3 +22,10 @@ That's it. You can now use the `BlogPost` plugin to author blogposts!
 
 Find out more about the `BlogPost` plugin in the respective
 [README](/packages/leo-plugin-blogpost)
+
+## New Content Types
+
+By default, Leo ships without any content types. Content Types must be enabled
+by plugins. The default starter includes a markdown content type which can be
+used for arbitrary pages and a blog post type which includes automatic excerpt
+generation and featured images.
