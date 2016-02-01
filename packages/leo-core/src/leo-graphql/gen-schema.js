@@ -25,14 +25,18 @@ export default function genSchema(callback) {
      * enable List responses, solving issue 112 temporarily.
      * https://github.com/facebook/relay/issues/112
      */
-    const Root = new GraphQLObjectType({
+
+    const Query = new GraphQLObjectType({
       name: 'Query',
+      fields: () => getPluginSchemas(plugins, data)
+    });
+    const Root = new GraphQLObjectType({
+      name: 'Root',
       fields: () => ({
         root: {
-          type: new GraphQLNonNull(Root),
+          type: new GraphQLNonNull(Query),
           resolve: () => ({})
-        },
-        ...getPluginSchemas(plugins, data)
+        }
       })
     });
 

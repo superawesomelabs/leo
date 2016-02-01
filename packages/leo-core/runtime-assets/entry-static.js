@@ -41,7 +41,12 @@ export default (locals, callback) => {
     } else {
 
       prepareData(renderProps).then((data) => {
-            try {
+        try {
+          if(!renderProps.routes[1].path || renderProps.routes[1].path === '/posts') {
+            //log data for root
+            console.log(data[0].result)
+          }
+
             const body = renderToString(<RoutingContext {...renderProps} />);
             const htmlAsString = renderToStaticMarkup(
               <HTML body={body}

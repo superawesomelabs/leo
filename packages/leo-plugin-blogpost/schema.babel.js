@@ -6,8 +6,13 @@ import graphql, {
   GraphQLList
 } from 'graphql/type';
 
+import {
+  connectionDefinitions,
+  connectionFromArray,
+  connectionArgs
+} from 'graphql-relay';
+
 import find from 'lodash/find';
-import take from 'lodash/take';
 import filter from 'lodash/filter';
 import oDebug from 'debug';
 import moment from 'moment';
@@ -77,21 +82,20 @@ module.exports = function(data) {
       }
     });
     if(!post) {
-      console.log('leo-plugin-blogpost could not find', slug);
+      console.log('leo-plugin-blogpost could not find', slug, 'It may be useful to define `slug` in the frontmatter for this post');
     }
     return post
   }
 
-  const getAllPosts = ({ limit=5 }) => {
-    // return up to `limit` blogposts
-    return take(filter(data, ({ attributes: a }) => {
-      return a.contentType === 'leo-blogpost';
-    }).sort((postA, postB) => {
-      // sort newest first
-      return !moment.utc(postA.date).isAfter(postB.date)
-    }), limit);
-  }
-  
+  const allPosts = filter(data, ({ attributes: a }) => a.contentType === 'leo-blogpost')
+                     .sort((postA, postB) => !moment.utc(postA.date).isAfter(postB.date));
+
+  const {
+    connectionType: BlogPostConnection
+  } = connectionDefinitions({
+    nodeType: BlogPostType
+  });
+
   return {
     post: {
       type: BlogPostType,
@@ -105,15 +109,15 @@ module.exports = function(data) {
         slug
       }) => getPost(slug)
     },
-    allPosts: {
-      type: new GraphQLList(BlogPostType),
-      args: {
-        limit: {
-          type: GraphQLInt,
-          description: 'Restrict the number of results'
-        }
-      },
-      resolve: (_, args) => getAllPosts(args)
+    posts: {
+      type: BlogPostConnection,
+      args: connectionArgs,
+      resolve: (_, args) => connectionFromArray(
+        allPosts.map(post => {
+          return find(allPosts, ({ slug }) => slug === post.slug)
+        }),
+        args
+      )
     }
   }
 }

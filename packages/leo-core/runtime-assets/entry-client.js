@@ -12,8 +12,6 @@ import request from 'superagent';
 import routes from './load-routes';
 import conf from './load-leorc';
 
-const debug = require('debug')('leo:entry-client');
-
 console.log('routes', routes);
 
 var myNetworkLayer = {
@@ -21,10 +19,11 @@ var myNetworkLayer = {
     // ...
   },
   sendQueries(queryRequests) {
-    console.log(queryRequests);
+    console.log('queryRequests', queryRequests);
     return Promise.all(queryRequests.map(
       queryRequest => {
         const query = queryRequest.getQueryString();
+        console.log('query', query);
         const graphQLQueryHash = md5(query)
         request(`/api/${graphQLQueryHash}.json`)
         .end((err, res) => {
@@ -33,8 +32,7 @@ var myNetworkLayer = {
           } else if (res.body && res.body.errors) {
             queryRequest.reject(new Error(res.body.errors));
           } else {
-            console.log(res.body);
-            console.log(res.body.data);
+            console.log('res.body', res.body);
             queryRequest.resolve({ response: res.body.data });
           }
         })
@@ -50,7 +48,7 @@ Relay.injectNetworkLayer(myNetworkLayer);
 
 // Client render (optional):
 if (typeof document !== 'undefined') {
-  debug('using client render');
+  console.log('using client render');
   const outlet = document.getElementById('react-mount');
 
   render(<Router history={createBrowserHistory()} routes={routes} />, outlet);

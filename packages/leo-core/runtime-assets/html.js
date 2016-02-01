@@ -16,7 +16,9 @@ export default class HTML extends Component {
       </head>
       <body className="landing-page">
         <div id="react-mount" dangerouslySetInnerHTML={{__html: this.props.body}} />
+      {/* Temporarily remove the client JS
         <script src={`/${bundleAssets.js}`} />
+       */}
       </body>
       </html>
     )

@@ -21,7 +21,7 @@ export default function(callback) {
     const apiFolder = './dist/api';
     const app = express();
 
-    app.use(logger('dev'));
+//    app.use(logger('dev'));
 
     // parse POST body as text
     app.use(bodyParser.text({
@@ -56,9 +56,8 @@ export default function(callback) {
     }
 
     app.use('/graphql', (req, res, next) => {
-        debug('Content-Type Header:', req.headers['content-type'])
-        // debug('body', req.body);
         // store the GraphQL query as a string
+      debug('/graphql query:', req.body.query);
         const graphQLQueryHash = md5(req.body.query);
         // keep the actual send around for later
         const send = res.send;
@@ -69,8 +68,9 @@ export default function(callback) {
             throw new Error(json.errors);
           } else {
             if (req.headers['content-type']) {
-//              debug('json', json)
               writeGraphQLJSONResponseToFile(graphQLQueryHash, json);
+            } else {
+              debug('no content-type header');
             }
             send.call(this, json);
           }

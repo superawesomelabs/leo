@@ -4,13 +4,11 @@ var _type = require('graphql/type');
 
 var _type2 = _interopRequireDefault(_type);
 
+var _graphqlRelay = require('graphql-relay');
+
 var _find = require('lodash/find');
 
 var _find2 = _interopRequireDefault(_find);
-
-var _take = require('lodash/take');
-
-var _take2 = _interopRequireDefault(_take);
 
 var _filter = require('lodash/filter');
 
@@ -94,25 +92,23 @@ module.exports = function (data) {
       }
     });
     if (!post) {
-      console.log('leo-plugin-blogpost could not find', slug);
+      console.log('leo-plugin-blogpost could not find', slug, 'It may be useful to define `slug` in the frontmatter for this post');
     }
     return post;
   };
 
-  var getAllPosts = function getAllPosts(_ref2) {
-    var _ref2$limit = _ref2.limit;
-    var limit = _ref2$limit === undefined ? 5 : _ref2$limit;
+  var allPosts = (0, _filter2.default)(data, function (_ref2) {
+    var a = _ref2.attributes;
+    return a.contentType === 'leo-blogpost';
+  }).sort(function (postA, postB) {
+    return !_moment2.default.utc(postA.date).isAfter(postB.date);
+  });
 
-    // return up to `limit` blogposts
-    return (0, _take2.default)((0, _filter2.default)(data, function (_ref3) {
-      var a = _ref3.attributes;
+  var _connectionDefinition = (0, _graphqlRelay.connectionDefinitions)({
+    nodeType: BlogPostType
+  });
 
-      return a.contentType === 'leo-blogpost';
-    }).sort(function (postA, postB) {
-      // sort newest first
-      return !_moment2.default.utc(postA.date).isAfter(postB.date);
-    }), limit);
-  };
+  var BlogPostConnection = _connectionDefinition.connectionType;
 
   return {
     post: {
@@ -123,21 +119,21 @@ module.exports = function (data) {
           description: 'The slugified version of a post title'
         }
       },
-      resolve: function resolve(root, _ref4) {
-        var slug = _ref4.slug;
+      resolve: function resolve(root, _ref3) {
+        var slug = _ref3.slug;
         return getPost(slug);
       }
     },
-    allPosts: {
-      type: new _type.GraphQLList(BlogPostType),
-      args: {
-        limit: {
-          type: _type.GraphQLInt,
-          description: 'Restrict the number of results'
-        }
-      },
+    posts: {
+      type: BlogPostConnection,
+      args: _graphqlRelay.connectionArgs,
       resolve: function resolve(_, args) {
-        return getAllPosts(args);
+        return (0, _graphqlRelay.connectionFromArray)(allPosts.map(function (post) {
+          return (0, _find2.default)(allPosts, function (_ref4) {
+            var slug = _ref4.slug;
+            return slug === post.slug;
+          });
+        }), args);
       }
     }
   };
