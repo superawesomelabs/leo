@@ -128,12 +128,7 @@ module.exports = function (data) {
       type: BlogPostConnection,
       args: _graphqlRelay.connectionArgs,
       resolve: function resolve(_, args) {
-        return (0, _graphqlRelay.connectionFromArray)(allPosts.map(function (post) {
-          return (0, _find2.default)(allPosts, function (_ref4) {
-            var slug = _ref4.slug;
-            return slug === post.slug;
-          });
-        }), args);
+        return (0, _graphqlRelay.connectionFromArray)(allPosts, args);
       }
     }
   };

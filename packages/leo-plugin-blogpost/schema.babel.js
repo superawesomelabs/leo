@@ -113,9 +113,7 @@ module.exports = function(data) {
       type: BlogPostConnection,
       args: connectionArgs,
       resolve: (_, args) => connectionFromArray(
-        allPosts.map(post => {
-          return find(allPosts, ({ slug }) => slug === post.slug)
-        }),
+        allPosts,
         args
       )
     }
