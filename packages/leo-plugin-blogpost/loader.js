@@ -59,10 +59,8 @@ module.exports = function(json) {
   var date;
   if(json.attributes.date) {
     // Should be ISO format
-    console.log('a date');
     date = new Date(json.attributes.date);
   } else {
-    console.log('no date')
 //    date = new Date();
   }
 
