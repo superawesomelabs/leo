@@ -38,7 +38,7 @@ module.exports = function configure(config) {
       // require('list-selectors').plugin(function(selectorList) {
       //   console.log(selectorList)
       // }),
-      require('immutable-css'),
+//      require('immutable-css'),
       require('postcss-browser-reporter')
     ]
   });
