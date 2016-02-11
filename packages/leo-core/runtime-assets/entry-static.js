@@ -1,6 +1,4 @@
-import IsomorphicRouter, {
-  prepareData, RoutingContext
-} from 'isomorphic-relay-router';
+import IsomorphicRouter from 'isomorphic-relay-router';
 import path from 'path';
 import React from 'react';
 import ReactDOMServer, {
@@ -40,14 +38,14 @@ export default (locals, callback) => {
       callback(error);
     } else {
 
-      prepareData(renderProps).then((data) => {
+      IsomorphicRouter.prepareData(renderProps).then((data) => {
         try {
           if(!renderProps.routes[1].path || renderProps.routes[1].path === '/posts') {
             //log data for root
             console.log(data[0].result)
           }
 
-            const body = renderToString(<RoutingContext {...renderProps} />);
+            const body = renderToString(<IsomorphicRouter.RouterContext {...renderProps} />);
             const htmlAsString = renderToStaticMarkup(
               <HTML body={body}
                     assets={locals.assets}

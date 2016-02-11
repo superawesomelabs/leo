@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Static Site generator based on data",
   "main": "index.js",
   "scripts": {
@@ -42,8 +42,8 @@
     "express-graphql": "^0.4.5",
     "graphql": "^0.4.13",
     "history": "^1.15.0",
-    "isomorphic-relay": "^0.4.0",
-    "isomorphic-relay-router": "^0.4.0",
+    "isomorphic-relay": "^0.4.1",
+    "isomorphic-relay-router": "^0.5.0",
     "json-loader": "^0.5.4",
     "lodash": "^4.0.0",
     "md5": "^2.0.0",
@@ -57,8 +57,7 @@
     "react-dom": "^0.14.3",
     "react-helmet": "^2.2.0",
     "react-relay": "^0.6.0",
-    "react-router": "^1.0.1",
-    "react-router-relay": "^0.8.0",
+    "react-router": "^2.0.0",
     "superagent": "^1.6.1",
     "webpack": "^1.12.9",
     "webpack-configurator": "^0.3.1",
