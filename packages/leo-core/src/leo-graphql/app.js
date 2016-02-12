@@ -39,10 +39,6 @@ export default function(callback) {
       type: 'json'
     }));
 
-    // app.use(bodyParser.urlencoded({
-    //   extended: false
-    // }));
-
     // ensure the directory to place api .json files into exists
     debug('ensuring api folder exists');
     mkdirp.sync('./dist/api/');
