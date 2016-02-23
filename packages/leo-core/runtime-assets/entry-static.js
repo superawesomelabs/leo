@@ -11,8 +11,6 @@ import RelayStoreData from 'react-relay/lib/RelayStoreData';
 import conf from './load-leorc';
 import routes from './load-routes';
 
-// import renderOnServer from './render-on-server';
-
 const debug = require('debug')('leo:entry-static');
 
 import HTML from './html';
@@ -40,10 +38,6 @@ export default (locals, callback) => {
 
       IsomorphicRouter.prepareData(renderProps).then((data) => {
         try {
-          if(!renderProps.routes[1].path || renderProps.routes[1].path === '/posts') {
-            //log data for root
-            console.log(data[0].result)
-          }
 
             const body = renderToString(<IsomorphicRouter.RouterContext {...renderProps} />);
             const htmlAsString = renderToStaticMarkup(

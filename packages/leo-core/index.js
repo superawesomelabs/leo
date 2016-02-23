@@ -17,7 +17,7 @@ program
   .command('build')
   .alias('b')
   .description('build static site for deployment')
-  .action(build(program));
+  .action(build);
 
 program
   .command('graphql')

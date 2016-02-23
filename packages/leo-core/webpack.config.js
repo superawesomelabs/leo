@@ -15,7 +15,7 @@ var nodeModules = fs.readdirSync('node_modules')
  *
  * Expect babel and core to be module names in the following command,
  * but not much else
- * ack -o '\!\*\*\*\ \./~\/[a-zA-Z0-9]*'  node_modules/.bin/leo | uniq
+ * ack -o '\!\*\*\*\ \./~\/[a-zA-Z0-9\-]*'  node_modules/.bin/leo | sort | uniq
  */
 nodeModules.push('graphql/type',
   'graphql/utilities',
