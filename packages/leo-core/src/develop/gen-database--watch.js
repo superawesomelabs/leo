@@ -9,10 +9,7 @@ import webpack from 'webpack';
 import oDebug from 'debug';
 const debug = oDebug('leo:graphql:database')
 
-export function genDatabase(callback) {
-  webpackRequire(findLeorcPath(), (err, factory, stats, fs) => {
-    // leorc conf object
-    const conf = factory();
+  export function genDatabase(conf, callback) {
 
     debug('files', conf.files);
     const compiler = webpack(config(conf.files, conf.plugins).resolve());
@@ -32,11 +29,11 @@ export function genDatabase(callback) {
       if (jsonStats.errors.length > 0) {
         //soft failure
         debug('webpack stats errors', jsonStats.errors[0])
-        return console.warn(jsonStats.errors);
+          return console.warn(jsonStats.errors);
       }
       if (jsonStats.warnings.length > 0) {
         debug('webpack stats warnings', jsonStats.warnings)
-        return console.warn(jsonStats.warnings);
+          return console.warn(jsonStats.warnings);
       }
       /**
        * End Error Checking
@@ -48,5 +45,4 @@ export function genDatabase(callback) {
         plugins: conf.plugins
       });
     })
-  })
-}
+  }

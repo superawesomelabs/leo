@@ -5,26 +5,18 @@ import webpack from 'webpack';
 import findLeorcPath from 'utils/find-leorc-path';
 import findLeoRoutesPath from 'utils/find-leoroutes-path';
 import AssetsPlugin from 'assets-webpack-plugin';
+import serialize from 'serialize-javascript';
 
-/**
- * construct a string which will be interpreted literally as source code in the
- * entry file
- */
-function mkRequireArray(paths) {
-  return '[' + paths.map((str) => {
-    console.log('mkRequireArray', str);
-    return `require('${resolve(str)}')`
-  }).join(',') + ']';
-}
+export default ({ conf, data, schema, urls }) => {
 
-export default (filepaths, urls) => {
-
+  console.log(schema);
   // create a new webpack-configurator instance
   const config = new Config();
 
   config.merge({
     entry: {
-      'static': path.resolve(__dirname, 'entry-static-watch.js')
+      'static': path.resolve(__dirname, 'entry-static-watch.js'),
+//      'client': path.resolve(__dirname, 'entry-client.js')
     },
 
     target: 'node',
@@ -44,6 +36,7 @@ export default (filepaths, urls) => {
       libraryTarget: 'commonjs2'
     },
 
+    externals: [/^graphql/],
     resolve: {
       extensions: ['', '.js', '.json', '.leorc']
     },
@@ -58,10 +51,10 @@ export default (filepaths, urls) => {
       ]
     },
     plugins: [
-      // new AssetsPlugin({
-      //   path: path.resolve(process.cwd(), 'dist/js'),
-      //   prettyPrint: true
-      // }),
+       new AssetsPlugin({
+         path: path.resolve(process.cwd(), 'dist/js'),
+         prettyPrint: true
+       }),
       new StaticSiteGeneratorPlugin('static', urls),
       /**
        * replaces require('.leorc') in application js files with the
@@ -78,7 +71,13 @@ export default (filepaths, urls) => {
       new webpack.NormalModuleReplacementPlugin(
         /leoroutes/,
         findLeoRoutesPath()
-      )
+      ),
+      // definePlugin takes raw strings and inserts them, so you can put strings of JS if you want.
+      new webpack.DefinePlugin({
+        __LEORC__: JSON.stringify(conf),
+        __DATA__: JSON.stringify(data)
+      })
+      
     ],
     module: {
       noParse: [
@@ -87,14 +86,8 @@ export default (filepaths, urls) => {
         /copyof-get-plugin-schemas/,
       ],
       loaders: [{
-        test: /.leorc/,
-        loader: 'leo-config-loader'
-      }, {
-        test: /load-database-files.js$/,
-        loaders: ['leo-database-loader', 'babel']
-      }, {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        exclude: /(graphql|node_modules)/,
         loader: 'babel',
         query: {
           presets: ['react', 'es2015', 'stage-0'],
@@ -106,9 +99,6 @@ export default (filepaths, urls) => {
         test: /\.json/,
         loader: 'json'
       }]
-    },
-    leoDatabase: {
-      val: mkRequireArray(filepaths)
     }
   });
 

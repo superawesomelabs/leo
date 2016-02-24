@@ -61,7 +61,7 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
     /**
      * End assets-webpack-plugin section
      */
-     console.log(assetsPluginHash)
+    console.log('assetsPluginHash', assetsPluginHash)
     try {
       var asset = findAsset(self.renderSrc, compiler, webpackStatsJson);
 
@@ -105,7 +105,7 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
           path: outputPath,
           assets: assets,
           webpackStats: webpackStats,
-          assetsPluginHash: assetsPluginHash.bundle
+          assetsPluginHash: assetsPluginHash.bundle || assetsPluginHash.static
         };
 
         for (var prop in self.locals) {

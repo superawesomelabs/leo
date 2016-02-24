@@ -7,55 +7,16 @@ import ReactDOMServer, {
 import { createMemoryHistory } from 'history';
 import { match } from 'react-router';
 import Relay from 'react-relay';
-import RelayStoreData from 'react-relay/lib/RelayStoreData';
 import RelayLocalSchema from 'relay-local-schema';
-import graphql, {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLNonNull,
-  GraphQLString
-} from 'graphql/type';
 const debug = require('debug')('leo:entry-static-watch');
 
-import conf from '.leorc';
+import { conf, schema } from './inserted-files';
 import routes from './load-routes';
 import HTML from './html';
-import getPluginSchemas from './copyof-get-plugin-schemas';
-import data from './load-database-files';
-
-console.log('entry-static-watch');
-
-/** gen-schema */
-const Query = new GraphQLObjectType({
-  name: 'Query',
-  fields: getPluginSchemas(conf.plugins, data)
-});
-
-console.log('getPluginSchemas result', getPluginSchemas(conf.plugins, data));
-
-console.log('creating Root with Query', Query);
-const Root = new GraphQLObjectType({
-  name: 'Root',
-  fields: {
-    root: {
-      type: new GraphQLNonNull(Query),
-      resolve: () => ({})
-    }
-  }
-});
-
-console.log('creating schema with Root', Root);
-const schema = new GraphQLSchema({
-  query: Root
-});
 
 console.log('schema', schema);
-  console.log('injecting local network layer');
-  Relay.injectNetworkLayer(new RelayLocalSchema.NetworkLayer({ schema }));
-
-  RelayStoreData.getDefaultInstance()
-                .getChangeEmitter()
-                .injectBatchingStrategy(() => {});
+console.log('injecting local network layer');
+Relay.injectNetworkLayer(new RelayLocalSchema.NetworkLayer({ schema }));
 
 // Exported static site renderer:
 export default (locals, callback) => {

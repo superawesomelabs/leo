@@ -7,20 +7,48 @@ import uniq from 'lodash/uniq';
 import config from './webpack.config.develop';
 import {
   genDatabase
-} from 'utils/gen-database';
+} from 'develop/gen-database--watch';
 import enablePlugins from 'utils/enable-plugins';
-import loadLeorc from './develop/load-leorc';
+import loadLeorc from 'develop/load-leorc';
+import graphql, {
+  GraphQLSchema,
+  GraphQLObjectType,
+  GraphQLNonNull
+} from 'graphql/type';
+import getPluginSchemas from 'leo-graphql/get-plugin-schemas';
 
 export default () => {
   loadLeorc((err, conf) => {
     if(err) {
       throw new Error('error loading .leorc', err);
     }
-    genDatabase((err, { data }) => {
+    genDatabase(conf, (err, { data }) => {
       if (err) {
         throw new Error('failed to generate database', err);
       };
-      // debug('data urls', map(data, 'attributes.url'));
+      // start gen-schema
+      const Query = new GraphQLObjectType({
+        name: 'Query',
+        fields: getPluginSchemas(conf.plugins, data)
+      });
+      console.log('api query is', Query);
+      const Root = new GraphQLObjectType({
+        name: 'Root',
+        fields: {
+          root: {
+            type: new GraphQLNonNull(Query),
+            resolve: () => ({})
+          }
+        }
+      });
+
+      console.log('api root is', Root);
+      // Final Schema
+      const schema = new GraphQLSchema({
+         query: Root
+      });
+      //end gen-schema
+
       /**
        * The following length comparison if intended to determine if we have
        * duplicate urls. That would mean we have two files trying to render
@@ -35,7 +63,7 @@ export default () => {
          */
         throw new Error('Two documents have the same URL. You should try to fix this')
       }
-      const configWithUrls = config(conf.files, uniquedURLs);
+      const configWithUrls = config({ conf, data, schema, urls: uniquedURLs });
       /**
        * Enable third party plugins.
        * This is where we hook in to allow things like `npm i leo-blogpost`
@@ -52,6 +80,7 @@ export default () => {
         if (jsonStats.errors.length > 0) {
           //soft failure
           debug('webpack stats errors', jsonStats.errors[0])
+            console.warn(jsonStats.warnings);
             return console.warn(jsonStats.errors);
         }
         if (jsonStats.warnings.length > 0) {

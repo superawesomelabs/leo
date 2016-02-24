@@ -17,11 +17,14 @@ var nodeModules = fs.readdirSync('node_modules')
  * but not much else
  * ack -o '\!\*\*\*\ \./~\/[a-zA-Z0-9\-]*'  node_modules/.bin/leo | sort | uniq
  */
-nodeModules.push('graphql/type',
-  'graphql/utilities',
-  'graphql/jsutils',
-  'graphql/language',
-  'graphql/error')
+console.log(nodeModules);
+nodeModules.push([
+  /^graphql/,
+  /^lodash/,
+  /^core-js/,
+  /^babel-runtime/,
+  /^assets-webpack-plugin/
+])
 
 module.exports = {
   entry: './index.js',
