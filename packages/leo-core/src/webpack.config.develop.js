@@ -7,9 +7,8 @@ import findLeoRoutesPath from 'utils/find-leoroutes-path';
 import AssetsPlugin from 'assets-webpack-plugin';
 import serialize from 'serialize-javascript';
 
-export default ({ conf, data, schema, urls }) => {
+export default ({ conf, data, urls }) => {
 
-  console.log(schema);
   // create a new webpack-configurator instance
   const config = new Config();
 

@@ -26,28 +26,6 @@ export default () => {
       if (err) {
         throw new Error('failed to generate database', err);
       };
-      // start gen-schema
-      const Query = new GraphQLObjectType({
-        name: 'Query',
-        fields: getPluginSchemas(conf.plugins, data)
-      });
-      console.log('api query is', Query);
-      const Root = new GraphQLObjectType({
-        name: 'Root',
-        fields: {
-          root: {
-            type: new GraphQLNonNull(Query),
-            resolve: () => ({})
-          }
-        }
-      });
-
-      console.log('api root is', Root);
-      // Final Schema
-      const schema = new GraphQLSchema({
-         query: Root
-      });
-      //end gen-schema
 
       /**
        * The following length comparison if intended to determine if we have
@@ -63,7 +41,7 @@ export default () => {
          */
         throw new Error('Two documents have the same URL. You should try to fix this')
       }
-      const configWithUrls = config({ conf, data, schema, urls: uniquedURLs });
+      const configWithUrls = config({ conf, data, urls: uniquedURLs });
       /**
        * Enable third party plugins.
        * This is where we hook in to allow things like `npm i leo-blogpost`

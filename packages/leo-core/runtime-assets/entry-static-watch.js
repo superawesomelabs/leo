@@ -14,13 +14,14 @@ import { conf, schema } from './inserted-files';
 import routes from './load-routes';
 import HTML from './html';
 
-console.log('schema', schema);
 console.log('injecting local network layer');
-Relay.injectNetworkLayer(new RelayLocalSchema.NetworkLayer({ schema }));
+Relay.injectNetworkLayer(new RelayLocalSchema.NetworkLayer({
+  schema,
+  onError: (errors, request) => console.error(errors, request)
+}));
 
 // Exported static site renderer:
 export default (locals, callback) => {
-  //  loadLeorc((err, conf) => {
   console.log(`rendering html for ${locals.path}`)
 
     const history = createMemoryHistory();
@@ -32,14 +33,13 @@ export default (locals, callback) => {
         callback(error);
     } else {
 
-      IsomorphicRouter.prepareData(renderProps).then((data) => {
+      IsomorphicRouter.prepareData(renderProps).then(({ data, props }) => {
         try {
-
-          const body = renderToString(<IsomorphicRouter.RouterContext {...renderProps} />);
+          const body = renderToString(<IsomorphicRouter.RouterContext {...props} />);
           const htmlAsString = renderToStaticMarkup(
             <HTML body={body}
-            assets={locals.assets}
-            bundleAssets={locals.assetsPluginHash} />
+                  assets={locals.assets}
+                  bundleAssets={locals.assetsPluginHash} />
           )
             callback(null, htmlAsString);
         } catch (e) {
