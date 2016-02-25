@@ -48,7 +48,6 @@ export default () => {
        */
       const configWithUrlsAndPlugins = enablePlugins(conf.plugins, configWithUrls);
       webpack(configWithUrlsAndPlugins.resolve()).run((err, stats) => {
-        debug('ran');
         if (err) {
           // hard failure
           debug('webpack failed', err);

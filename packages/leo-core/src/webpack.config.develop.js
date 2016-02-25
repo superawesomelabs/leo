@@ -92,7 +92,8 @@ export default ({ conf, data, urls }) => {
           presets: ['react', 'es2015', 'stage-0'],
           plugins: [
             '@sa-labs/leo-core/build/babelRelayPlugin.js'
-          ]
+          ],
+          cacheDirectory: path.resolve(process.cwd(), '.babelcache')
         }
       }, {
         test: /\.json/,
