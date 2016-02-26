@@ -20,6 +20,9 @@
     "url": "https://github.com/superawesomelabs/leo/issues"
   },
   "homepage": "https://github.com/superawesomelabs/leo#readme",
+  "dependencies": {
+    "webpack": "^1.12.11"
+  },
   "devDependencies": {
     "@sa-labs/leo-core": "./packages/leo-core",
     "@sa-labs/leo-plugin-blogpost": "./packages/leo-plugin-blogpost",
@@ -39,7 +42,6 @@
     "frontmatter-loader": "0.0.1",
     "json-loader": "^0.5.4",
     "memory-fs": "^0.3.0",
-    "nyc": "^5.3.0",
-    "webpack": "^1.12.11"
+    "nyc": "^5.3.0"
   }
 }

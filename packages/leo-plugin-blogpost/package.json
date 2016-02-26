@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-plugin-blogpost",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Blog Post Content Type for Leo",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,7 @@
     "loader-utils": "^0.2.12",
     "lodash": "^4.0.0",
     "moment": "^2.11.1",
+    "sanitize-html": "^1.11.3",
     "slug": "^0.9.1"
   }
 }
