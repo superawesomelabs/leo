@@ -2,6 +2,7 @@ var evaluate = require('eval');
 var path = require('path');
 var Promise = require('bluebird');
 var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+var debug = require('debug')('static-site-plugin');
 
 function StaticSiteGeneratorWebpackPlugin(renderSrc, outputPaths, locals) {
   this.renderSrc = renderSrc;
@@ -61,7 +62,7 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
     /**
      * End assets-webpack-plugin section
      */
-    console.log('assetsPluginHash', assetsPluginHash)
+    debug('assetsPluginHash', assetsPluginHash)
     try {
       var asset = findAsset(self.renderSrc, compiler, webpackStatsJson);
 

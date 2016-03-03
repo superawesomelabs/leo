@@ -3,6 +3,7 @@ import webpack from 'webpack';
 import path from 'path';
 import map from 'lodash/map';
 import uniq from 'lodash/uniq';
+import chalk from 'chalk';
 
 import config from './webpack.config.develop';
 import {
@@ -50,19 +51,15 @@ export default () => {
       webpack(configWithUrlsAndPlugins.resolve()).run((err, stats) => {
         if (err) {
           // hard failure
-          debug('webpack failed', err);
-          return console.error(err);
+          return console.error(chalk.red(err));
         }
         const jsonStats = stats.toJson();
         if (jsonStats.errors.length > 0) {
           //soft failure
-          debug('webpack stats errors', jsonStats.errors[0])
-            console.warn(jsonStats.warnings);
-            return console.warn(jsonStats.errors);
+          jsonStats.errors.forEach(e => console.error(chalk.red(e)))
         }
         if (jsonStats.warnings.length > 0) {
-          debug('webpack stats warnings', jsonStats.warnings)
-            return console.warn(jsonStats.warnings);
+          jsonStats.warnings.forEach(warning => console.warn(chalk.yellow(warning)))
         }
         debug('built');
       });

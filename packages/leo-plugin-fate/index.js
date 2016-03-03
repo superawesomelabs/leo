@@ -2,7 +2,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require('path');
 var constants = require('@sa-labs/fate-core/manual')();
 
-console.log('constants', constants)
+//debug(constants)
 module.exports = function configure(config) {
 
   config.loader('css', {

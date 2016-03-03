@@ -1,7 +1,7 @@
 var loadConfig = require('rc-loader');
 var glob = require('glob');
 var path = require('path');
-var debug = require('debug')('leo:config-loader');
+var debug = require('debug')('leo:load-leorc-from-develop');
 
 export default function loadConfig(callback) {
   var conf = loadConfig('leo', {

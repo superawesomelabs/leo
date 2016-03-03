@@ -4,9 +4,6 @@ import EnsureLeorcPlugin from 'plugins/ensure-leorc-plugin';
 import oDebug from 'debug';
 const debug = oDebug('leo:webpack-require');
 
-debug('__dirname', __dirname);
-debug(path.resolve(__dirname, 'loaders'))
-
 /**
  * A special require module made for sucking up files that may not exist in the
  * consumer's project, such as .leorc
