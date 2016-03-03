@@ -1,0 +1,23 @@
+{
+  "name": "@sa-labs/leo-plugin-rae",
+  "version": "0.0.1",
+  "description": "Analyze stylesheets automatically with every build",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "leo",
+    "plugin",
+    "rae",
+    "cssstats",
+    "css",
+    "analysis"
+  ],
+  "author": "Chris Biscardi <chris@christopherbiscardi.com>",
+  "license": "ISC",
+  "dependencies": {
+    "rae-core": "^0.0.1",
+    "lodash": "^4.0.0"
+  }
+}
