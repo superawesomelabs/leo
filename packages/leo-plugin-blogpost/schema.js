@@ -81,15 +81,17 @@ var BlogPostType = new _type.GraphQLObjectType({
 
 module.exports = function (data) {
 
-  var getPost = function getPost(slug) {
-    var post = (0, _find2.default)(data, function (_ref) {
-      var a = _ref.attributes;
+  var allPosts = (0, _filter2.default)(data, function (_ref) {
+    var a = _ref.attributes;
+    return a.contentType === 'leo-blogpost';
+  }).sort(function (postA, postB) {
+    return !_moment2.default.utc(postA.date).isAfter(postB.date);
+  });
 
-      if (a) {
-        return a.contentType === 'leo-blogpost' && a.slug === slug;
-      } else {
-        return false;
-      }
+  var getPost = function getPost(slug) {
+    var post = (0, _find2.default)(allPosts, function (_ref2) {
+      var a = _ref2.attributes;
+      return a ? a.slug === slug : false;
     });
     if (!post) {
       console.log('leo-plugin-blogpost could not find', slug, 'It may be useful to define `slug` in the frontmatter for this post');
@@ -97,18 +99,12 @@ module.exports = function (data) {
     return post;
   };
 
-  var allPosts = (0, _filter2.default)(data, function (_ref2) {
-    var a = _ref2.attributes;
-    return a.contentType === 'leo-blogpost';
-  }).sort(function (postA, postB) {
-    return !_moment2.default.utc(postA.date).isAfter(postB.date);
-  });
-
   var _connectionDefinition = (0, _graphqlRelay.connectionDefinitions)({
     nodeType: BlogPostType
   });
 
   var BlogPostConnection = _connectionDefinition.connectionType;
+
 
   return {
     post: {

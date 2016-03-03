@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-plugin-postcss",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "PostCSS processing for Leo; Includes CSSModules",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,6 @@
     "babel-preset-react": "^6.3.13"
   },
   "dependencies": {
-    "colorguard": "^1.0.1",
     "css-loader": "^0.23.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "immutable-css": "^1.0.1",

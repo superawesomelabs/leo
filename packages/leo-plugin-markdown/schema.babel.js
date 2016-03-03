@@ -18,8 +18,9 @@ const MarkdownAttributesType = new GraphQLObjectType({
     date: {
       type: GraphQLString
     },
-    path: {
-      type: GraphQLString
+    url: {
+      type: GraphQLString,
+      description: 'The absolute pathname of the content, ex. `/post`'
     }
   }
 })
@@ -29,26 +30,29 @@ const MarkdownType = new GraphQLObjectType({
   fields: {
     attributes: { type: MarkdownAttributesType },
     rawBody: {
-      type: GraphQLString
+      type: GraphQLString,
+      description: 'Content as raw Markdown. For use with a client-side markdown renderer'
     },
     body: {
-      type: GraphQLString
+      type: GraphQLString,
+      description: 'Content as HTML. Can be directly inserted without client-side renderer'
     }
   }
 })
 
 module.exports = function(data) {
 
+  /**
+   * All of the parsed markdown files. Signified by `contentType`
+   * being `leo-markdown`.
+   */
+  const allMarkdown = filter(data, ({ attributes: a }) => a.contentType === 'leo-markdown');
+
+  /**
+   * Get a single markdown document by slug
+   */
   const getContent = (slug) => {
-
-    return find(data, ({ attributes: a }) => {
-
-      if(a) {
-        return a.contentType === 'leo-markdown' && a.slug === slug;
-      } else {
-        return false;
-      }
-    })
+    return find(allMarkdown, ({ attributes: a }) => a ? a.slug === slug : false)
   }
 
   return {
@@ -60,9 +64,7 @@ module.exports = function(data) {
           description: 'The slugified version of a post title'
         }
       },
-      resolve: (root, {
-        slug
-      }) => getContent(slug)
+      resolve: (root, { slug }) => getContent(slug)
     }
   }
 }
