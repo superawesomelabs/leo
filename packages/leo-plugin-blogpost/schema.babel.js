@@ -73,22 +73,16 @@ const BlogPostType = new GraphQLObjectType({
 
 module.exports = function(data) {
 
+  const allPosts = filter(data, ({ attributes: a }) => a.contentType === 'leo-blogpost')
+                     .sort((postA, postB) => !moment.utc(postA.date).isAfter(postB.date));
+
   const getPost = (slug) => {
-    const post = find(data, ({ attributes: a }) => {
-      if(a) {
-        return a.contentType === 'leo-blogpost' && a.slug === slug;
-      } else {
-        return false;
-      }
-    });
+    const post = find(allPosts, ({ attributes: a }) => a ? a.slug === slug : false);
     if(!post) {
       console.log('leo-plugin-blogpost could not find', slug, 'It may be useful to define `slug` in the frontmatter for this post');
     }
     return post
   }
-
-  const allPosts = filter(data, ({ attributes: a }) => a.contentType === 'leo-blogpost')
-                     .sort((postA, postB) => !moment.utc(postA.date).isAfter(postB.date));
 
   const {
     connectionType: BlogPostConnection
@@ -105,17 +99,12 @@ module.exports = function(data) {
           description: 'The slugified version of a post title'
         }
       },
-      resolve: (root, {
-        slug
-      }) => getPost(slug)
+      resolve: (root, { slug }) => getPost(slug)
     },
     posts: {
       type: BlogPostConnection,
       args: connectionArgs,
-      resolve: (_, args) => connectionFromArray(
-        allPosts,
-        args
-      )
+      resolve: (_, args) => connectionFromArray(allPosts, args)
     }
   }
 }

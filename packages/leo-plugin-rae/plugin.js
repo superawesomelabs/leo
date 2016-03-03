@@ -1,4 +1,4 @@
-var cssstats = require('cssstats')
+var rae = require('rae-core')
 var find = require('lodash/find');
 
 function MyPlugin(options) {}
@@ -19,7 +19,7 @@ MyPlugin.prototype.apply = function(compiler) {
        * to get the actual, final stylesheet.
        */
       var asset = compilation.assets[cssFilename].source();
-      var cssFileStats = JSON.stringify(cssstats(asset));
+      var cssFileStats = JSON.stringify(rae(asset));
       // Add stats file to output
       compilation.assets[cssFilename + '-stats.json'] = {
         source: function() {

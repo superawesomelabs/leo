@@ -1,14 +1,9 @@
-'use strict';
 var loadConfig = require('rc-loader');
 var glob = require('glob');
 var path = require('path');
-var debug = require('debug')('leo:config-loader');
+var debug = require('debug')('leo:load-leorc-from-develop');
 
-module.exports = function leoConfigLoader(content, map) {
-  // Signal to webpack this is cacheable
-  this.cacheable && this.cacheable();
-  var callback = this.async();
-
+export default function loadConfig(callback) {
   var conf = loadConfig('leo', {
     rootPath: '/',
     dataPath: './data',
@@ -28,6 +23,6 @@ module.exports = function leoConfigLoader(content, map) {
   }, (err, files) => {
     conf.files = files || [];
     debug(`globbed ${files.length || 0} files`);
-    return callback(null, 'module.exports = ' + JSON.stringify(conf));
+    return callback(null, conf);
   })
 }

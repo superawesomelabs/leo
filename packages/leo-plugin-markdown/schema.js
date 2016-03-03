@@ -25,8 +25,9 @@ var MarkdownAttributesType = new _type.GraphQLObjectType({
     date: {
       type: _type.GraphQLString
     },
-    path: {
-      type: _type.GraphQLString
+    url: {
+      type: _type.GraphQLString,
+      description: 'The absolute pathname of the content, ex. `/post`'
     }
   }
 });
@@ -36,26 +37,34 @@ var MarkdownType = new _type.GraphQLObjectType({
   fields: {
     attributes: { type: MarkdownAttributesType },
     rawBody: {
-      type: _type.GraphQLString
+      type: _type.GraphQLString,
+      description: 'Content as raw Markdown. For use with a client-side markdown renderer'
     },
     body: {
-      type: _type.GraphQLString
+      type: _type.GraphQLString,
+      description: 'Content as HTML. Can be directly inserted without client-side renderer'
     }
   }
 });
 
 module.exports = function (data) {
 
+  /**
+   * All of the parsed markdown files. Signified by `contentType`
+   * being `leo-markdown`.
+   */
+  var allMarkdown = filter(data, function (_ref) {
+    var a = _ref.attributes;
+    return a.contentType === 'leo-markdown';
+  });
+
+  /**
+   * Get a single markdown document by slug
+   */
   var getContent = function getContent(slug) {
-
-    return (0, _find2.default)(data, function (_ref) {
-      var a = _ref.attributes;
-
-      if (a) {
-        return a.contentType === 'leo-markdown' && a.slug === slug;
-      } else {
-        return false;
-      }
+    return (0, _find2.default)(allMarkdown, function (_ref2) {
+      var a = _ref2.attributes;
+      return a ? a.slug === slug : false;
     });
   };
 
@@ -68,8 +77,8 @@ module.exports = function (data) {
           description: 'The slugified version of a post title'
         }
       },
-      resolve: function resolve(root, _ref2) {
-        var slug = _ref2.slug;
+      resolve: function resolve(root, _ref3) {
+        var slug = _ref3.slug;
         return getContent(slug);
       }
     }

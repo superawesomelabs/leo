@@ -1,11 +1,11 @@
-# Leo Plugin BlogPost
+# Leo Plugin Fate
 
-Provides the BlogPost content type for the Leo static site generator.
+Provides the Fate Component System for the Leo static site generator.
 
 ## Installation
 
 ```
-npm i --save leo-plugin-blogpost
+npm i --save leo-plugin-fate
 ```
 
 then add it to the plugins list in your `.leorc`.
@@ -13,7 +13,7 @@ then add it to the plugins list in your `.leorc`.
 ```
 {
   "plugins": [
-    "leo-plugin-blogpost"
+    "leo-plugin-fate"
   ],
   ...
 }
@@ -21,22 +21,30 @@ then add it to the plugins list in your `.leorc`.
 
 ## Usage
 
-Write a file in your `data/` directory with an extension of `.post`. For
-example, consider the following `hello-world.post`.
+Fate uses PostCSS. Write a CSS file alongside your components.
 
 ```
----
-title: 'Hello world'
-publish: draft
----
+/* Whatever.css */
+:root {
+  --something: #fff;
+}
 
-# Hi world
+body {
+  background: var(--something);
+}
 
-talk about something here
-
-* 1
-* secondary
-* thirdly
+.myClass {
+  border: 1px solid black;
+}
 ```
 
-## Querying
+Then require the CSS file in your templates.
+
+```
+// Routes.js
+import styles from './Whatever.css';
+
+...
+
+<div className={styles.myClass}>...</div>
+```

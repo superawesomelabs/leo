@@ -1,3 +1,4 @@
+
 import graphql, {
   GraphQLSchema,
   GraphQLObjectType,
@@ -30,6 +31,7 @@ export default function genSchema(callback) {
       name: 'Query',
       fields: () => getPluginSchemas(plugins, data)
     });
+    console.log('api query is', Query);
     const Root = new GraphQLObjectType({
       name: 'Root',
       fields: () => ({
@@ -40,6 +42,7 @@ export default function genSchema(callback) {
       })
     });
 
+    console.log('api root is', Root);
     // Final Schema
     callback(null, new GraphQLSchema({
       query: Root

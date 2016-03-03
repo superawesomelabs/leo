@@ -21,7 +21,6 @@ module.exports = function configure(config) {
       require('postcss-cssnext')({
         browsers: 'last 2 versions'
       }),
-      require('colorguard'),
       require('lost')({
         flexbox: 'flex'
       }),

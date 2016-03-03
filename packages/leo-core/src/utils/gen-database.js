@@ -43,15 +43,8 @@ export function genDatabase(callback) {
        */
       debug('dist output', fs.readdirSync('/dist'));
       const str = fs.readFileSync('/dist/bundle.js').toString('utf-8');
-      const data = evaluate(str,
-        /*, filename */
-        'api-database.json',
-        /* scope*/
-        null,
-        /* includeGlobals */
-        true)
       callback(null, {
-        data,
+        data: evaluate(str, 'api-database.json', null, true),
         plugins: conf.plugins
       });
     })

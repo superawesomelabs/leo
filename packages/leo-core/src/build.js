@@ -12,8 +12,7 @@ import webpackRequire from 'utils/webpack-require';
 import findLeorcPath from 'utils/find-leorc-path';
 import enablePlugins from 'utils/enable-plugins';
 
-export default (program) => {
-  return () => {
+export default () => {
     webpackRequire(findLeorcPath(), (err, factory, stats, fs) => {
 
       debug('webpackRequire Error', err)
@@ -67,5 +66,4 @@ export default (program) => {
         });
       })
     });
-  }
 }

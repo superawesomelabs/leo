@@ -6,6 +6,7 @@ export default class HTML extends Component {
     const {
       bundleAssets
     } = this.props;
+
     return (
       <html lang="en">
       <head>
