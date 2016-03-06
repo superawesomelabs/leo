@@ -1,3 +1,5 @@
+![header](./assets/header.png)
+
 # Leo
 
 Leo is alpha quality software. Expect bugs. Documentation needs
