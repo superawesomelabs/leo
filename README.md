@@ -2,8 +2,76 @@
 
 # Leo
 
-Leo is alpha quality software. Expect bugs. Documentation needs
-work. Contributions welcome.
+Leo is a declarative static site generator.
+
+<h4 align="center">Data</h4>
+
+Declare the data you need to render a set of pages, such as blog
+posts.
+
+```javascript
+post(slug: $slug) {
+  attributes { title, date, timeToRead }
+  body
+}
+```
+
+<h4 align="center">Templates</h4>
+
+Use React to build up a declarative, reusable library of components
+that make up your site. The following example shows a component used
+to render blog posts when showing a list view.
+
+```javascript
+class Post extends Component {
+  static propTypes = {
+    title: string,
+    date: string,
+    exerpt: string,
+    timetoRead: number,
+    url: string
+  };
+
+  render() {
+    const {
+      title, date, excerpt, timeToRead, url
+    } = this.props.post.attributes;
+    return (
+      <div className={styles.post}>
+        <div className={styles.image}></div>
+        <Link to={url}><h4 className={styles.heading}>{title}</h4></Link>
+        <span className={styles.meta}>{date} &bull; {timeToRead} min read</span>
+        <p className={styles.excerpt}>{excerpt}</p>
+        <Link to={url} className={styles.readMore}>Read more...</Link>
+      </div>
+    )
+  }
+}
+```
+
+<h4 align="center">Routing</h4>
+
+Declarative routing with react-router. Make the URL your first
+thought, not an after-thought.
+
+```javascript
+export default (
+  <Route path='/' component={App}>
+    <Route path='/posts/'
+           queries={RootQuery}
+           component={Posts} />
+    <Route path=':slug'
+           component={Post}
+           queries={RootQuery} />
+    <Route path='/:year/:month/:day/:slug/'
+           component={Post}
+           queries={RootQuery} />
+    <IndexRoute component={Home} 
+           queries={RootQuery}/>
+    <Route path='*' component={NoMatch} />
+  </Route>
+)
+```
 
 # Get Started
 
