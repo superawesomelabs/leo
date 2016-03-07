@@ -18,9 +18,9 @@ post(slug: $slug) {
 
 <h4 align="center">Templates</h4>
 
-Use React to build up a declarative, reusable library of components
-that make up your site. The following example shows a component used
-to render blog posts when showing a list view.
+Use [React][react] to build up a declarative, reusable library of
+components that make up your site. The following example shows a
+component used to render blog posts when showing a list view.
 
 ```javascript
 class Post extends Component {
@@ -37,12 +37,12 @@ class Post extends Component {
       title, date, excerpt, timeToRead, url
     } = this.props.post.attributes;
     return (
-      <div className={styles.post}>
-        <div className={styles.image}></div>
-        <Link to={url}><h4 className={styles.heading}>{title}</h4></Link>
-        <span className={styles.meta}>{date} &bull; {timeToRead} min read</span>
-        <p className={styles.excerpt}>{excerpt}</p>
-        <Link to={url} className={styles.readMore}>Read more...</Link>
+      <div className="post">
+        <div className="image"></div>
+        <Link to={url}><h4 className="heading">{title}</h4></Link>
+        <span className="meta">{date} &bull; {timeToRead} min read</span>
+        <p className="excerpt">{excerpt}</p>
+        <Link to={url} className="readMore">Read more...</Link>
       </div>
     )
   }
@@ -51,8 +51,8 @@ class Post extends Component {
 
 <h4 align="center">Routing</h4>
 
-Declarative routing with react-router. Make the URL your first
-thought, not an after-thought.
+Declarative routing with [react-router][react-router]. Make the URL
+your first thought, not an after-thought.
 
 ```javascript
 export default (
@@ -73,16 +73,27 @@ export default (
 )
 ```
 
-# Get Started
+# Quick Start
+
+Leo has a number of starter projects designed to get you started
+quickly.
 
 ```javascript
 git clone git@github.com:superawesome/leo-blog-starter.git
 cd leo-blog-starter && npm i
 ```
 
-# Why Leo?
+## Starters
 
-Leo is a bleeding edge static site generator built on React, React-Router and
+* [leo-blog-starter](https://github.com/superawesomelabs/leo-blog-starter)
+* leo-documentation-starter
+* leo-filepath-starter
+  - Shows how Leo can be used to emulate the url-from-location-on-disk
+    feature of other generators
+
+# Why Leo
+
+Leo is a bleeding edge static site generator built on React, Webpack and
 Relay. The output of a Leo site includes all static files as well as
 an optional client-side bundle which enables a high level of
 progressive enhancement. Leo can be thought of as a Universal
@@ -151,3 +162,5 @@ Development dependencies are located in the root package.
 npm i
 npm test
 ```
+
+[react-router]: https://github.com/reactjs/react-router
