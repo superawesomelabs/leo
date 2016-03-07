@@ -1,0 +1,55 @@
+#+begin_src dot :file ./dot-overview.png :cmdline -Kdot -Tpng
+  digraph deeper_overview {
+    Files -> JSON
+    JSON -> GraphQLSchema
+    GraphQLSchema -> renderFn
+    React -> renderFn
+    renderFn -> html_files
+  } 
+#+end_src
+
+#+RESULTS:
+[[file:./dot-overview.png]]
+
+#+begin_src dot :file ./dot-deeper-overview.png :cmdline -Kdot -Tpng
+  digraph deeper_overview {
+    subgraph cluster_files {
+      style=filled;
+      color=lightgrey;
+      node [style=filled,color=white];
+      "*.post";
+      "*.md";
+      "*.docu";
+      label=Files
+    }
+    subgraph cluster_genDatabase {
+      style=filled;
+      color=lightgrey;
+      node [style=filled,color=white];
+      label="Webpack Loaders"
+      "*.post" -> "blogpost-loader"
+      "*.md" -> "markdown-loader";
+      "*.docu" -> "docu-loader";
+    }
+    subgraph cluster_schema {
+      label="Create Schema"
+      "blogpost-loader" -> JSON;
+      "markdown-loader" -> JSON;
+      "docu-loader" -> JSON;
+      JSON -> GraphQLSchema;
+    }
+    subgraph cluster_renderFn {
+      label="renderFn"
+      GraphQLSchema -> RelayLocalSchema
+      Relay -> RelayLocalSchema
+      RelayLocalSchema -> Relay
+      ReactRouter -> Relay
+      Relay -> ReactRouter
+    }
+    ReactRouter -> html
+  } 
+#+end_src
+
+#+RESULTS:
+[[file:./dot-deeper-overview.png]]
+
