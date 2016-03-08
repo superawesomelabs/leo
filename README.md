@@ -1,13 +1,13 @@
 ![header](./assets/header.png)
 
 * [Leo](#leo)
-  - [data](#data)
-  - [templates](#templates)
-  - [routing](#routing)
-  - [Quick Start](#quick-started)
-  - [plugins](#plugins)
+  - [Data](#data)
+  - [Templates](#templates)
+  - [Routing](#routing)
+  - [Quick Start](#quick-start)
 * [More Docs](docs)
-  - [Technical Overview](docs/technical-overview)
+  - [Technical Overview](docs/technical-overview.md)
+  - [Plugins](docs/plugins.md)
   - [Developing](docs/developing.md)
 
 > Leo is a highly extensible, declarative static site generator.
