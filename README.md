@@ -1,13 +1,21 @@
 ![header](./assets/header.png)
 
-# Leo
+* [Leo](#leo)
+  - [data](#data)
+  - [templates](#templates)
+  - [routing](#routing)
+  - [Quick Start](#quick-started)
+  - [plugins](#plugins)
+* [More Docs](docs)
+  - [Technical Overview](docs/technical-overview)
+  - [Developing](docs/developing.md)
 
-Leo is a declarative static site generator.
+> Leo is a highly extensible, declarative static site generator.
 
 <h4 align="center">Data</h4>
 
-Declare the data you need to render a set of pages, such as blog
-posts.
+Declare the data components need to render a set of pages using an
+extensible, product-based API.
 
 ```javascript
 post(slug: $slug) {
@@ -19,8 +27,8 @@ post(slug: $slug) {
 <h4 align="center">Templates</h4>
 
 Use [React][react] to build up a declarative, reusable library of
-components that make up your site. The following example shows a
-component used to render blog posts when showing a list view.
+components and share them across projects. Using JavaScript means
+never being stuck with a restricted template language.
 
 ```javascript
 class Post extends Component {
@@ -51,7 +59,7 @@ class Post extends Component {
 
 <h4 align="center">Routing</h4>
 
-Declarative routing with [react-router][react-router]. Make the URL
+Declarative routing with [React Router][react-router]. Make the URL
 your first thought, not an after-thought.
 
 ```javascript
@@ -73,6 +81,17 @@ export default (
 )
 ```
 
+# Why Leo?
+
+* Declarative Approach
+* Extensible (via Plugins)
+* Reuse SPA Skills
+* Extremely Flexible
+* Reuse Component Libraries Across Client Projects
+* Write Content in Markdown, Latex, etc
+* Automatically Optimize Images
+* No Template Languages
+
 # Quick Start
 
 Leo has a number of starter projects designed to get you started
@@ -83,7 +102,7 @@ git clone git@github.com:superawesome/leo-blog-starter.git
 cd leo-blog-starter && npm i
 ```
 
-## Starters
+## List of Starters
 
 * [leo-blog-starter](https://github.com/superawesomelabs/leo-blog-starter)
 * leo-documentation-starter
@@ -91,51 +110,11 @@ cd leo-blog-starter && npm i
   - Shows how Leo can be used to emulate the url-from-location-on-disk
     feature of other generators
 
-# Why Leo
-
-Leo is a bleeding edge static site generator built on React, Webpack and
-Relay. The output of a Leo site includes all static files as well as
-an optional client-side bundle which enables a high level of
-progressive enhancement. Leo can be thought of as a Universal
-Application where the server responses are pre-rendered and
-distributed as .html files.
-
-## Data Processing
-
-Leo Plugins define a set of mappings from Content Type to JSON. Using these
-mappings, a directory (conventionally, `data/`) of files can be
-consumed as a GraphQL API. This approach enables a high level of
-[extensibility](#extensibility). Examples of what is possible includes
-generating search indexes and auto-creation of excerpts.
-
-## Templating
-
-Leo eschews template languages in favor of
-[React](https://facebook.github.io/react/) Components, which yields a
-familiar syntax and retains the full power of the JavaScript
-language. JavaScript files are processed with babel and the es2015
-preset by default.
-
-[React Router](https://github.com/rackt/react-router) is used to keep
-UI in sync with the URL. This enables declarative route configuration
-as well as more advanced techniques, such as code-splitting.
-
 ## Deployment
 
 Leo can deploy to [surge.sh](http://surge.sh/), [GitHub
 Pages](https://pages.github.com/) and anywhere else using [deployment
 plugins](#deployment).
-
-## Extensibility
-
-At the core of Leo sits webpack. Through webpack Leo can be extended
-to do almost anything.
-
-The primary method of extending Leo's static site functionality is via
-[plugins](./docs/plugins.md). Plugins can do many things including
-[post processing the JSON database](#todo-search-plugin),
-[defining new Content Types](#new-content-types), and
-[analyzing files](#css-analysis)
 
 # Themes
 
@@ -147,20 +126,6 @@ Themes can depend on multiple Content Types. This makes it possible to
 scale a theme from a single Blog Post to an entire site (including
 aggregate pages, such as a landing page).
 
-# Developing
 
-Leo is developed as a mono-repo. The root package contains all of the
-dependencies required to develop any of the packages in `packages/*`.
-
-# Dependencies
-
-Development dependencies are located in the root package.
-
-## Run All Tests
-
-```
-npm i
-npm test
-```
-
+[react]: https://facebook.github.io/react/
 [react-router]: https://github.com/reactjs/react-router
