@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-plugin-blogpost",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Blog Post Content Type for Leo",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   },
   "peerDependencies": {
     "frontmatter-loader": "^0.0.1",
-    "@sa-labs/leo-plugin-markdown": "^0.1.0"
+    "@sa-labs/leo-plugin-markdown": "^0.2.0"
   },
   "dependencies": {
     "excerpt-html": "^1.0.1",

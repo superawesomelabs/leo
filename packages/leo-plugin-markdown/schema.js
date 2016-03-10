@@ -8,6 +8,10 @@ var _find = require('lodash/find');
 
 var _find2 = _interopRequireDefault(_find);
 
+var _filter = require('lodash/filter');
+
+var _filter2 = _interopRequireDefault(_filter);
+
 var _debug = require('debug');
 
 var _debug2 = _interopRequireDefault(_debug);
@@ -53,7 +57,7 @@ module.exports = function (data) {
    * All of the parsed markdown files. Signified by `contentType`
    * being `leo-markdown`.
    */
-  var allMarkdown = filter(data, function (_ref) {
+  var allMarkdown = (0, _filter2.default)(data, function (_ref) {
     var a = _ref.attributes;
     return a.contentType === 'leo-markdown';
   });

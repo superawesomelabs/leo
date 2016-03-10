@@ -6,6 +6,7 @@ import graphql, {
 } from 'graphql/type';
 
 import find from 'lodash/find';
+import filter from 'lodash/filter';
 import oDebug from 'debug';
 const debug = oDebug('leo:plugin-markdown:schema');
 
