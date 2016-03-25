@@ -79,18 +79,34 @@ var BlogPostType = new _type.GraphQLObjectType({
   }
 });
 
-module.exports = function (data) {
+// Helper to create a Connection for Relay (paging, etc)
 
-  var allPosts = (0, _filter2.default)(data, function (_ref) {
-    var a = _ref.attributes;
-    return a.contentType === 'leo-blogpost';
-  }).sort(function (postA, postB) {
-    return !_moment2.default.utc(postA.date).isAfter(postB.date);
+var _connectionDefinition = (0, _graphqlRelay.connectionDefinitions)({
+  nodeType: BlogPostType
+});
+
+var BlogPostConnection = _connectionDefinition.connectionType;
+
+
+module.exports = function (data) {
+  // The set of posts we should return via the API
+  var allPosts = data.filter(function (post) {
+    return post.attributes.contentType === 'leo-blogpost';
+  })
+  // sort by publish date
+  .sort(function (postA, postB) {
+    var a = _moment2.default.utc(postA.attributes.date, 'MMM Do, YYYY');
+    var b = _moment2.default.utc(postB.attributes.date, 'MMM Do, YYYY');
+    return b.diff(a);
   });
 
+  console.log(allPosts.map(function (p) {
+    return p.attributes.date;
+  }));
+  // Get a single post by slug
   var getPost = function getPost(slug) {
-    var post = (0, _find2.default)(allPosts, function (_ref2) {
-      var a = _ref2.attributes;
+    var post = (0, _find2.default)(allPosts, function (_ref) {
+      var a = _ref.attributes;
       return a ? a.slug === slug : false;
     });
     if (!post) {
@@ -98,13 +114,6 @@ module.exports = function (data) {
     }
     return post;
   };
-
-  var _connectionDefinition = (0, _graphqlRelay.connectionDefinitions)({
-    nodeType: BlogPostType
-  });
-
-  var BlogPostConnection = _connectionDefinition.connectionType;
-
 
   return {
     post: {
@@ -115,8 +124,8 @@ module.exports = function (data) {
           description: 'The slugified version of a post title'
         }
       },
-      resolve: function resolve(root, _ref3) {
-        var slug = _ref3.slug;
+      resolve: function resolve(root, _ref2) {
+        var slug = _ref2.slug;
         return getPost(slug);
       }
     },
