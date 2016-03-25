@@ -69,13 +69,25 @@ const BlogPostType = new GraphQLObjectType({
       description: 'The Markdown rendered as HTML'
     }
   }
-})
+});
+
+// Helper to create a Connection for Relay (paging, etc)
+const { connectionType: BlogPostConnection } = connectionDefinitions({
+  nodeType: BlogPostType
+});
 
 module.exports = function(data) {
+  // The set of posts we should return via the API
+  const allPosts = data.filter(post => post.attributes.contentType === 'leo-blogpost')
+                       // sort by publish date
+                       .sort((postA, postB) => {
+                         const a = moment.utc(postA.attributes.date, 'MMM Do, YYYY');
+                         const b = moment.utc(postB.attributes.date, 'MMM Do, YYYY');
+                         return b.diff(a);
+                       })
 
-  const allPosts = filter(data, ({ attributes: a }) => a.contentType === 'leo-blogpost')
-                     .sort((postA, postB) => !moment.utc(postA.date).isAfter(postB.date));
-
+  console.log(allPosts.map(p => p.attributes.date));
+  // Get a single post by slug
   const getPost = (slug) => {
     const post = find(allPosts, ({ attributes: a }) => a ? a.slug === slug : false);
     if(!post) {
@@ -83,12 +95,6 @@ module.exports = function(data) {
     }
     return post
   }
-
-  const {
-    connectionType: BlogPostConnection
-  } = connectionDefinitions({
-    nodeType: BlogPostType
-  });
 
   return {
     post: {

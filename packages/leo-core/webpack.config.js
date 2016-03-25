@@ -55,7 +55,7 @@ module.exports = {
       /find-leoroutes-path/,
       /enable-plugins/,
       /get-plugin-schemas/,
-      /load-file/
+      /let-plugins-post-process-data/
     ],
     loaders: [{
       test: /\.jsx?$/,

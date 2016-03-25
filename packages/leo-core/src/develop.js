@@ -34,6 +34,7 @@ export default () => {
        * themselves at the same location.
        */
       const totalURLs = conf.urls.concat(map(data, 'attributes.url'));
+      console.log(conf.urls);
       const uniquedURLs = uniq(totalURLs);
       if(totalURLs.length !== uniquedURLs.length) {
         /**

@@ -2,6 +2,7 @@ import path from 'path';
 import webpackRequire from 'utils/webpack-require';
 import findLeorcPath from 'utils/find-leorc-path';
 import config from 'leo-graphql/webpack.config.graphql';
+import letPluginsPostProcessData from 'utils/let-plugins-post-process-data';
 import evaluate from 'eval';
 
 import MemoryFS from 'memory-fs';
@@ -41,10 +42,13 @@ export function genDatabase(conf, callback) {
      * End Error Checking
      */
     debug('dist output', fs.readdirSync('/dist'));
-    const str = fs.readFileSync('/dist/bundle.js').toString('utf-8');
-    callback(null, {
-      data: evaluate(str, 'api-database.json', null, true),
-      plugins: conf.plugins
-    });
+    const apiJSONAsString = fs.readFileSync('/dist/bundle.js', 'utf-8');
+    const apiJSON = evaluate(apiJSONAsString, 'api-database.json', null, true);
+    letPluginsPostProcessData(conf.plugins, apiJSON, (err, resultingData) => {
+      callback(null, {
+        data: resultingData,
+        plugins: conf.plugins
+      });
+    })
   })
 }

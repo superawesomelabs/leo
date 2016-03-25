@@ -26,8 +26,8 @@ example, consider the following `hello-world.post`.
 
 ```
 ---
-title: 'Hello world'
-publish: draft
+title: "Hello world"
+status: "draft"
 ---
 
 # Hi world
