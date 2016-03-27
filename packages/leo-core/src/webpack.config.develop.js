@@ -2,7 +2,6 @@ import StaticSiteGeneratorPlugin from './plugins/static-site-plugin';
 import Config from 'webpack-configurator';
 import path, { resolve } from 'path';
 import webpack from 'webpack';
-import findLeorcPath from 'utils/find-leorc-path';
 import findLeoRoutesPath from 'utils/find-leoroutes-path';
 import AssetsPlugin from 'assets-webpack-plugin';
 import serialize from 'serialize-javascript';

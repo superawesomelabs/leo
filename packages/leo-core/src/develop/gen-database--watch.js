@@ -1,5 +1,4 @@
 import path from 'path';
-import webpackRequire from 'utils/webpack-require';
 import config from 'leo-graphql/webpack.config.graphql';
 import letPluginsPostProcessData from 'utils/let-plugins-post-process-data';
 import evaluate from 'eval';
