@@ -16,7 +16,7 @@ function mkRequireArray(paths) {
   }).join(',') + ']';
 }
 
-export default (filepaths, plugins) => {
+export default (filepaths, leoConf) => {
 
   // create a new webpack-configurator instance
   const config = new Config();
@@ -64,5 +64,5 @@ export default (filepaths, plugins) => {
   /**
    * Allow plugins to add loaders to the database
    */
-  return enablePlugins(plugins, config);
+  return enablePlugins(leoConf, config);
 };

@@ -42,6 +42,7 @@
     "body-parser": "^1.14.2",
     "chalk": "^1.1.1",
     "commander": "^2.9.0",
+    "cosmiconfig": "^1.1.0",
     "debug": "^2.2.0",
     "eval": "^0.1.1",
     "express": "^4.13.3",

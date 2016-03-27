@@ -61,7 +61,7 @@ export default ({ conf, data, urls }) => {
        */
       new webpack.NormalModuleReplacementPlugin(
         /leorc/,
-        findLeorcPath()
+        resolve(__dirname + 'leo.js') // A file we know exists but won't actually use
       ),
       /**
        * replaces require('leoroutes') in application js files with the

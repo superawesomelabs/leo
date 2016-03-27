@@ -14,7 +14,7 @@ export default () => {
     leorc = require.resolve(path.resolve(process.cwd(), '.leorc'))
   } catch (e) {
     debug('falling back to default .leorc');
-    leorc = require.resolve('.leorc');
+    leorc = require.resolve(__dirname, '.leorc');
   }
   debug(`using ${leorc}`);
   return leorc;
