@@ -86,7 +86,6 @@ module.exports = function(data) {
                          return b.diff(a);
                        })
 
-  console.log(allPosts.map(p => p.attributes.date));
   // Get a single post by slug
   const getPost = (slug) => {
     const post = find(allPosts, ({ attributes: a }) => a ? a.slug === slug : false);
