@@ -1,4 +1,3 @@
-
 import graphql, {
   GraphQLSchema,
   GraphQLObjectType,

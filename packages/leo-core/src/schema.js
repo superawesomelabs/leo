@@ -13,11 +13,6 @@ import mkdirp from 'mkdirp';
 import oDebug from 'debug';
 const debug = oDebug('leo:schema');
 
-import {
-  GraphQLSchema
-}
-from 'graphql/type/schema';
-
 export default function({ print, update }) {
   genSchema((err, schema) => {
     update ? writeSchemaFiles(schema, !print) : null;
