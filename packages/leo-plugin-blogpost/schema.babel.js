@@ -84,8 +84,13 @@ module.exports = function(data) {
                          const a = moment.utc(postA.attributes.date, 'MMM Do, YYYY');
                          const b = moment.utc(postB.attributes.date, 'MMM Do, YYYY');
                          return b.diff(a);
-                       })
+                       });
 
+  allPosts.forEach(post => {
+    if(post.attributes.date === 'Invalid date') {
+      console.log(post.attributes.title || post.attributes.slug, 'has an invalid date', post.date);
+    }
+  })
   // Get a single post by slug
   const getPost = (slug) => {
     const post = find(allPosts, ({ attributes: a }) => a ? a.slug === slug : false);
