@@ -1,5 +1,4 @@
 var program = require('commander');
-var build = require('./src/build').default;
 var graphql = require('./src/graphql').default;
 var schema = require('./src/schema').default;
 var develop = require('./src/develop').default;

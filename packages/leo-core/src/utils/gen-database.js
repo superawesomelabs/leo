@@ -1,21 +1,19 @@
 import path from 'path';
-import webpackRequire from 'utils/webpack-require';
-import findLeorcPath from 'utils/find-leorc-path';
+//import webpackRequire from 'utils/webpack-require';
 import config from 'leo-graphql/webpack.config.graphql';
+import loadLeorc from 'develop/load-leorc';
 import evaluate from 'eval';
 
 import MemoryFS from 'memory-fs';
 import webpack from 'webpack';
 import oDebug from 'debug';
-const debug = oDebug('leo:graphql:database')
+const debug = oDebug('leo:graphql:database');
 
 export function genDatabase(callback) {
-  webpackRequire(findLeorcPath(), (err, factory, stats, fs) => {
-    // leorc conf object
-    const conf = factory();
+  loadLeorc((err, conf) => {
 
     debug('files', conf.files);
-    const compiler = webpack(config(conf.files, conf.plugins).resolve());
+    const compiler = webpack(config(conf.files, conf).resolve());
     var fs = new MemoryFS();
     fs.mkdirpSync('/dist');
     compiler.outputFileSystem = fs;

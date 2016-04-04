@@ -2,7 +2,6 @@ import StaticSiteGeneratorPlugin from './plugins/static-site-plugin';
 import Config from 'webpack-configurator';
 import path, { resolve } from 'path';
 import webpack from 'webpack';
-import findLeorcPath from 'utils/find-leorc-path';
 import findLeoRoutesPath from 'utils/find-leoroutes-path';
 import AssetsPlugin from 'assets-webpack-plugin';
 import serialize from 'serialize-javascript';
@@ -61,7 +60,7 @@ export default ({ conf, data, urls }) => {
        */
       new webpack.NormalModuleReplacementPlugin(
         /leorc/,
-        findLeorcPath()
+        resolve(__dirname + 'leo.js') // A file we know exists but won't actually use
       ),
       /**
        * replaces require('leoroutes') in application js files with the

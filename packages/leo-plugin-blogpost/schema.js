@@ -100,9 +100,11 @@ module.exports = function (data) {
     return b.diff(a);
   });
 
-  console.log(allPosts.map(function (p) {
-    return p.attributes.date;
-  }));
+  allPosts.forEach(function (post) {
+    if (post.attributes.date === 'Invalid date') {
+      console.log(post.attributes.title || post.attributes.slug, 'has an invalid date', post.date);
+    }
+  });
   // Get a single post by slug
   var getPost = function getPost(slug) {
     var post = (0, _find2.default)(allPosts, function (_ref) {

@@ -6,23 +6,6 @@ var slugify = require('slug');
 var loaderUtils = require('loader-utils');
 var debug = require('debug')('leo:markdown-loader');
 
-var md = require('markdown-it')({
-  html: true,
-  linkify: true,
-  typographer: true,
-  highlight: function (str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return '<pre class="hljs"><code>' +
-    hljs.highlight(lang, str, true).value +
-        '</code></pre>';
-      } catch (__) {}
-    }
-
-    return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
-  }
-});
-
 /**
  * only requires the filename argument
  */
@@ -59,6 +42,7 @@ function mkSlugAndURL(obj) {
 module.exports = function(content) {
   // Signal to webpack this is cacheable
   this.cacheable();
+  var md = this.options["@saLabs/leoPluginMarkdown/loader"].instance;
 
   /**
    * renderer that stores the relative src of images and requires them so that

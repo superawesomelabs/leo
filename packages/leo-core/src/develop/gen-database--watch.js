@@ -1,6 +1,4 @@
 import path from 'path';
-import webpackRequire from 'utils/webpack-require';
-import findLeorcPath from 'utils/find-leorc-path';
 import config from 'leo-graphql/webpack.config.graphql';
 import letPluginsPostProcessData from 'utils/let-plugins-post-process-data';
 import evaluate from 'eval';
@@ -13,7 +11,7 @@ const debug = oDebug('leo:graphql:database');
 export function genDatabase(conf, callback) {
 
   debug('files', conf.files);
-  const compiler = webpack(config(conf.files, conf.plugins).resolve());
+  const compiler = webpack(config(conf.files, conf).resolve());
   var fs = new MemoryFS();
   fs.mkdirpSync('/dist');
   compiler.outputFileSystem = fs;

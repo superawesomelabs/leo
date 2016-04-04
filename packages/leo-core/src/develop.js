@@ -34,7 +34,6 @@ export default () => {
        * themselves at the same location.
        */
       const totalURLs = conf.urls.concat(map(data, 'attributes.url'));
-      console.log(conf.urls);
       const uniquedURLs = uniq(totalURLs);
       if(totalURLs.length !== uniquedURLs.length) {
         /**
@@ -48,7 +47,7 @@ export default () => {
        * Enable third party plugins.
        * This is where we hook in to allow things like `npm i leo-blogpost`
        */
-      const configWithUrlsAndPlugins = enablePlugins(conf.plugins, configWithUrls);
+      const configWithUrlsAndPlugins = enablePlugins(conf, configWithUrls);
       webpack(configWithUrlsAndPlugins.resolve()).run((err, stats) => {
         if (err) {
           // hard failure
