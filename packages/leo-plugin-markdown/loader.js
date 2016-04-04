@@ -5,7 +5,7 @@ var isObject = require('lodash/isObject');
 var slugify = require('slug');
 var loaderUtils = require('loader-utils');
 var debug = require('debug')('leo:markdown-loader');
-
+var fileLoader = require("file-loader");
 /**
  * only requires the filename argument
  */
@@ -48,17 +48,31 @@ module.exports = function(content) {
    * renderer that stores the relative src of images and requires them so that
    * they are processed by loaders (img-loader, etc)
    */
-  var images = [];
+  var webpackContext = this;
   var defaultImageRenderer = md.renderer.rules.image;
   md.renderer.rules.image = function(tokens, idx, options, env, renderer) {
 
+    tokens = tokens.map(function(val) {
+      if(val.type === 'image') {
+        console.log(val);
+      }
+      return val;
+    });
     var token = tokens[idx];
     // get the index for the `src` attribute
     var srcIdx = tokens[idx].attrIndex('src');
     // get the value for the attribute `['src', './what.png']`
     var src = tokens[idx].attrs[srcIdx][1];
-    // push the src into images for later
-    images.push(src);
+    /**
+     * Require the image with file-loader, returning the hashed
+     * filename instead of the original require'd name
+     */
+//    resolveSync(context: string, request: string)
+    console.log('resolve', webpackContext.resolve('.', src, function(err, res) {
+      console.log('res', res);
+    }));
+    console.log(fileLoader.call(webpackContext, src));
+
     if (src && !src.match(/^http/)) {
       // we really only care if it's local for now
       debug('image url', src);
