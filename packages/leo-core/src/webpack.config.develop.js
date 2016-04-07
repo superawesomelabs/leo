@@ -1,4 +1,5 @@
 import StaticSiteGeneratorPlugin from './plugins/static-site-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import Config from 'webpack-configurator';
 import path, { resolve } from 'path';
 import webpack from 'webpack';
@@ -70,12 +71,14 @@ export default ({ conf, data, urls }) => {
         /leoroutes/,
         findLeoRoutesPath()
       ),
-      // definePlugin takes raw strings and inserts them, so you can put strings of JS if you want.
+      // definePlugin takes raw strings and inserts them, so we put in strings of JSON
       new webpack.DefinePlugin({
         __LEORC__: JSON.stringify(conf),
         __DATA__: JSON.stringify(data)
-      })
-      
+      }),
+      new CopyWebpackPlugin([
+        { from: "static" }
+      ])
     ],
     module: {
       noParse: [
