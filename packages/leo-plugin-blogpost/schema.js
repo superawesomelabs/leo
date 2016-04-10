@@ -37,9 +37,13 @@ var BlogPostAttributesType = new _type.GraphQLObjectType({
       type: _type.GraphQLString,
       description: 'url-safe string for use in URLs. Can be derived from Title, Filename or specified in Frontmatter'
     },
-    date: {
+    updatedAt: {
       type: _type.GraphQLString,
-      description: 'The most recent time that this BlogPost was updated, in moment-parseable format'
+      description: 'The most recent time that this BlogPost was updated, as `MMM Do, YYYY`'
+    },
+    publishedAt: {
+      type: _type.GraphQLString,
+      description: 'The time that this BlogPost was published, as `MMM Do, YYYY`'
     },
     featuredImage: {
       type: _type.GraphQLString,
@@ -93,18 +97,13 @@ module.exports = function (data) {
   var allPosts = data.filter(function (post) {
     return post.attributes.contentType === 'leo-blogpost';
   })
-  // sort by publish date
+  // sort by updatedAt date
   .sort(function (postA, postB) {
-    var a = _moment2.default.utc(postA.attributes.date, 'MMM Do, YYYY');
-    var b = _moment2.default.utc(postB.attributes.date, 'MMM Do, YYYY');
+    var a = _moment2.default.utc(postA.attributes.updatedAt, 'MMM Do, YYYY');
+    var b = _moment2.default.utc(postB.attributes.updatedAt, 'MMM Do, YYYY');
     return b.diff(a);
   });
 
-  allPosts.forEach(function (post) {
-    if (post.attributes.date === 'Invalid date') {
-      console.log(post.attributes.title || post.attributes.slug, 'has an invalid date', post.date);
-    }
-  });
   // Get a single post by slug
   var getPost = function getPost(slug) {
     var post = (0, _find2.default)(allPosts, function (_ref) {
@@ -113,6 +112,9 @@ module.exports = function (data) {
     });
     if (!post) {
       console.log('leo-plugin-blogpost could not find', slug, 'It may be useful to define `slug` in the frontmatter for this post');
+      debug('^^', allPosts.map(function (o) {
+        return o.attributes.title || o.attributes.slug;
+      }));
     }
     return post;
   };

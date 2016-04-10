@@ -1,9 +1,26 @@
+'use strict';
 var merge = require('lodash/merge');
-var slugify = require('slug');
+var mkSlug = require('slug');
 var loaderUtils = require('loader-utils');
 var excerpt = require('excerpt-html');
 var moment = require('moment');
 var sanitizeHTML = require('sanitize-html');
+var debug = require('debug')('leo:plugin-blogpost:loader');
+
+function parseDate(str) {
+  console.log('str', str);
+  if (!str) {
+    // If there's no date, use right now
+    debug('using now')
+    return moment.utc()
+  } else {
+    return moment.utc(str, ['MMM Do, YYYY'])
+  }
+}
+
+function slugify(str) {
+  return mkSlug(str, { mode: 'rfc3986' });
+}
 
 module.exports = function(json) {
   // Signal to webpack this is cacheable
@@ -17,29 +34,17 @@ module.exports = function(json) {
     content: json
   });
 
-  /**
-   * What to do about categories?
-   */
-  var category = json.attributes.category;
-  if (category) {
-    // slugify the category here?
-    category = slugify(category, { mode: 'rfc3986' })
+  // Categories are used to generate archival pages
+  var category = {
+    display: json.attributes.category || 'Uncategorized'
   }
+  category.slug = slugify(category.display);
 
-  /**
-   * Ensure a slug exists
-   */
-  var slug = json.attributes.slug;
+  // Ensure a title exists
   var title = json.attributes.title || filename;
-  // If there's no slug in the frontmatter
-  if (!slug) {
-    // use the title to generate one
-    if (title) {
-      slug = slugify(title, { mode: 'rfc3986' });
-    } else {
-      slug = slugify(filename, { mode: 'rfc3986' });
-    }
-  }
+
+  // Ensure a slug exists
+  var slug = json.attributes.slug || slugify(title);
 
   /**
    * Generate a URL if none exists
@@ -52,19 +57,17 @@ module.exports = function(json) {
     url = '/' + slug;
   }
 
-  /**
-   * TODO: this logic is sloppy right now. What date format is
-   * accepted should be well-defined.
-   */
-  var date;
-  if(json.attributes.date) {
-    // Should be ISO format
-    date = new Date(json.attributes.date);
-  } else {
-//    date = new Date();
+  // Momentize the publish date
+  const publishedAt = parseDate(json.attributes.publishedAt);
+  if(!publishedAt.isValid()) {
+    throw new Error(title, 'has an invalid `publishedAt` date');
   }
-
-  date = moment.utc(date).format('MMM Do, YYYY');
+  // If there's no updatedAt value, use publishedAt
+  let updatedAt = json.attributes.updatedAt;
+  updatedAt = updatedAt ? parseDate(updatedAt) : publishedAt;
+  if(!updatedAt.isValid()) {
+    throw new Error(title, 'has an invalid `updatedAt` date');
+  }
 
   /**
    * Calculate the time needed to read the post
@@ -96,7 +99,8 @@ module.exports = function(json) {
       attributes: {
         contentType: 'leo-blogpost',
         category: category,
-        date: date,
+        publishedAt: publishedAt.format('MMM Do, YYYY'),
+        updatedAt: updatedAt.format('MMM Do, YYYY'),
         slug: slug,
         url: url,
         excerpt: excerpt(json.body),

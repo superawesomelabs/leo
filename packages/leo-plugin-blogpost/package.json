@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-plugin-blogpost",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Blog Post Content Type for Leo",
   "main": "index.js",
   "scripts": {
