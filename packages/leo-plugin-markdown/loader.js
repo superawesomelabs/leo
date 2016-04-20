@@ -42,7 +42,7 @@ function mkSlugAndURL(obj) {
 module.exports = function(content) {
   // Signal to webpack this is cacheable
   this.cacheable();
-  var md = this.options["@saLabs/leoPluginMarkdown/loader"].instance;
+  var md = this.options['@saLabs/leoPluginMarkdown/loader'].instance;
 
   /**
    * renderer that stores the relative src of images and requires them so that
