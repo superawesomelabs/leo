@@ -7,7 +7,7 @@ module.exports = function configure(config, opts) {
 //opts.markdownLoader.markdownItInstance || 
   config.merge((current) => {
     current.resolve.extensions.push('.md');
-    current["@saLabs/leoPluginMarkdown/loader"] = {
+    current['@saLabs/leoPluginMarkdown/loader'] = {
       instance: opts.instance || require('markdown-it')({
         html: true,
         linkify: true,
