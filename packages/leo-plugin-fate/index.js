@@ -2,8 +2,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require('path');
 var constants = require('@sa-labs/fate-core/manual')();
 
-//debug(constants)
-module.exports = function configure(config) {
+module.exports = function configure(config, opts) {
+  opts = opts || {};
 
   config.loader('css', {
     test: /\.css$/,
@@ -16,7 +16,7 @@ module.exports = function configure(config) {
     }]);
 
   config.merge({
-    postcss: [
+    postcss: opts.postcss || [
       require('postcss-brand-colors'),
       require('postcss-constants')({
         defaults: constants
@@ -33,7 +33,7 @@ module.exports = function configure(config) {
         flexbox: 'flex'
       }),
       require('postcss-font-magician')({
-        hosted: path.resolve(process.cwd(), './fonts')
+        hosted: './static/fonts'
       }),
       // require('list-selectors').plugin(function(selectorList) {
       //   console.log(selectorList)
