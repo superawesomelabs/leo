@@ -77,7 +77,7 @@ export default ({ conf, data, urls }) => {
         __DATA__: JSON.stringify(data)
       }),
       new CopyWebpackPlugin([
-        { from: "static" }
+        { from: 'static' }
       ])
     ],
     module: {
