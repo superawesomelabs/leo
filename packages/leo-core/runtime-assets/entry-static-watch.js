@@ -12,7 +12,7 @@ const debug = require('debug')('leo:entry-static-watch');
 
 import { conf, schema } from './inserted-files';
 import routes from './load-routes';
-import HTML from './html';
+import HTML from './load-html';
 
 console.log('injecting local network layer');
 Relay.injectNetworkLayer(new RelayLocalSchema.NetworkLayer({

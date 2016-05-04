@@ -4,6 +4,7 @@ import Config from 'webpack-configurator';
 import path, { resolve } from 'path';
 import webpack from 'webpack';
 import findLeoRoutesPath from 'utils/find-leoroutes-path';
+import findLeoHTMLPath from 'utils/find-leohtml-path';
 import AssetsPlugin from 'assets-webpack-plugin';
 import serialize from 'serialize-javascript';
 
@@ -61,7 +62,7 @@ export default ({ conf, data, urls }) => {
        */
       new webpack.NormalModuleReplacementPlugin(
         /leorc/,
-        resolve(__dirname + 'leo.js') // A file we know exists but won't actually use
+        resolve(__dirname, 'leo.js') // A file we know exists but won't actually use
       ),
       /**
        * replaces require('leoroutes') in application js files with the
@@ -71,14 +72,16 @@ export default ({ conf, data, urls }) => {
         /leoroutes/,
         findLeoRoutesPath()
       ),
+      new webpack.NormalModuleReplacementPlugin(
+        /leohtml/,
+        findLeoHTMLPath()
+      ),
       // definePlugin takes raw strings and inserts them, so we put in strings of JSON
       new webpack.DefinePlugin({
         __LEORC__: JSON.stringify(conf),
         __DATA__: JSON.stringify(data)
       }),
-      new CopyWebpackPlugin([
-        { from: 'static' }
-      ])
+      new CopyWebpackPlugin([{ from: 'static' }])
     ],
     module: {
       noParse: [

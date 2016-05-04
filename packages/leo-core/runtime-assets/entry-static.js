@@ -13,7 +13,7 @@ import routes from './load-routes';
 
 const debug = require('debug')('leo:entry-static');
 
-import HTML from './html';
+import HTML from './load-html';
 
 const GRAPHQL_URL = 'http://localhost:3000/graphql';
 

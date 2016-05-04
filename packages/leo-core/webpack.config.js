@@ -53,9 +53,10 @@ module.exports = {
     noParse: [
       /find-leorc-path/,
       /find-leoroutes-path/,
+      /find-leohtml-path/,
       /enable-plugins/,
       /get-plugin-schemas/,
-      /let-plugins-post-process-data/
+      /let-plugins-post-process-data/,
     ],
     loaders: [{
       test: /\.jsx?$/,
