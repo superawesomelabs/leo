@@ -36,7 +36,7 @@
     "json-loader": "^0.5.4",
     "memory-fs": "^0.3.0",
     "nyc": "^6.4.4",
-    "webpack": "^1.13.0"
+    "webpack": "^1.13.1"
   },
   "devDependencies": {
     "@sa-labs/leo-core": "./packages/leo-core",
