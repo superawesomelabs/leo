@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-plugin-rae",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Analyze stylesheets automatically with every build",
   "main": "index.js",
   "scripts": {

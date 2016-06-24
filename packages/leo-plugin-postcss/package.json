@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-plugin-postcss",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "PostCSS processing for Leo; Includes CSSModules",
   "main": "index.js",
   "scripts": {
