@@ -113,7 +113,7 @@ module.exports = function (data) {
     if (!post) {
       console.log('leo-plugin-blogpost could not find', slug, 'It may be useful to define `slug` in the frontmatter for this post');
       debug('^^', allPosts.map(function (o) {
-        return o.attributes.title || o.attributes.slug;
+        return o.attributes.title;
       }));
     }
     return post;
