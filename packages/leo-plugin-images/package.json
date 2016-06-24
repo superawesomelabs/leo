@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-plugin-images",
-  "version": "0.2.0",
+  "version": "0.3.2",
   "description": "Image processing for Leo",
   "main": "index.js",
   "keywords": [
