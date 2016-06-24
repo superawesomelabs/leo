@@ -1,11 +1,12 @@
 {
   "name": "@sa-labs/leo-core",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "The Declarative static site generator. Core module.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-runtime-assets": "babel --presets react,es2015 runtime-assets --out-dir build/"
+    "build-runtime-assets": "babel --presets react,es2015 runtime-assets --out-dir build/",
+    "dist": "make dist"
   },
   "repository": {
     "type": "git",
