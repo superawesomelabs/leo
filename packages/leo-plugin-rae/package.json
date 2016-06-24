@@ -17,7 +17,6 @@
   "author": "Chris Biscardi <chris@christopherbiscardi.com>",
   "license": "ISC",
   "dependencies": {
-    "rae-core": "^0.0.1",
     "lodash": "^4.0.0"
   }
 }

@@ -39,9 +39,9 @@
     "webpack": "^1.13.1"
   },
   "devDependencies": {
-    "@sa-labs/leo-core": "./packages/leo-core",
-    "@sa-labs/leo-plugin-blogpost": "./packages/leo-plugin-blogpost",
-    "@sa-labs/leo-plugin-images": "./packages/leo-plugin-images",
-    "@sa-labs/leo-plugin-markdown": "./packages/leo-plugin-markdown"
+    "commitizen": "^2.8.2",
+    "cz-lerna-changelog": "^0.2.1",
+    "lerna": "2.0.0-beta.22",
+    "lerna-semantic-release": "^1.1.8"
   }
 }
