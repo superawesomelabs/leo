@@ -1,10 +1,11 @@
 {
   "name": "@sa-labs/leo-plugin-blogpost",
-  "version": "0.2.3",
+  "version": "0.3.4",
   "description": "Blog Post Content Type for Leo",
   "main": "index.js",
   "scripts": {
-    "build": "NODE_ENV=production ../../node_modules/.bin/babel --presets react,es2015 schema.babel.js -o schema.js"
+    "build": "NODE_ENV=production ../../node_modules/.bin/babel --presets react,es2015 schema.babel.js -o schema.js",
+    "dist": "npm run build"
   },
   "keywords": [
     "leo"
@@ -19,7 +20,7 @@
   },
   "peerDependencies": {
     "frontmatter-loader": "^0.0.1",
-    "@sa-labs/leo-plugin-markdown": "^0.2.0"
+    "@sa-labs/leo-plugin-markdown": "^0.3.4"
   },
   "dependencies": {
     "excerpt-html": "^1.0.1",

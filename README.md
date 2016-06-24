@@ -126,6 +126,21 @@ Themes can depend on multiple Content Types. This makes it possible to
 scale a theme from a single Blog Post to an entire site (including
 aggregate pages, such as a landing page).
 
+# Developing Leo
+
+Leo is [lerna-based](https://github.com/lerna/lerna).
+
+## Deploying
+
+Ideally, this would run off of
+[lerna-semantic-release](https://github.com/atlassian/lerna-semantic-release). Until
+then, here are the commands to run to deploy new lerna versions.
+
+```
+./node_modules/.bin/lerna bootstrap
+./node_modules/.bin/lerna run dist
+./node_modules/.bin/lerna deploy
+```
 
 [react]: https://facebook.github.io/react/
 [react-router]: https://github.com/reactjs/react-router
