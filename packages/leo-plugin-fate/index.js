@@ -5,9 +5,24 @@ var constants = require('@sa-labs/fate-core/manual')();
 module.exports = function configure(config, opts) {
   opts = opts || {};
 
+  // Project's CSS. Run CSS in modules mode with postcss
   config.loader('css', {
     test: /\.css$/,
-    loader: ExtractTextPlugin.extract('style', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
+    exclude: /node_modules/,
+    loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
+  });
+
+  // Project's global css. Run PostCSS but not modules mode.
+  config.loader('global-css', {
+    test: /\.global\.css$/,
+    loader: ExtractTextPlugin.extract('style-loader', 'css-loader?importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
+  });
+
+  // Third Party CSS. From node_modules. Don't process, just load.
+  config.loader('third-party-css', {
+    test: /\.css$/,
+    include: /node_modules/,
+    loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
   });
 
   config.plugin('extract-css',
