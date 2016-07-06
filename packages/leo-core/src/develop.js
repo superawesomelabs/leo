@@ -18,11 +18,39 @@ import graphql, {
 } from 'graphql/type';
 import getPluginSchemas from 'leo-graphql/get-plugin-schemas';
 
+const webpackDevServerOptions = {
+  contentBase: "/dist",
+  // or: contentBase: "http://localhost/",
+  hot: true,
+  // Set this as true if you want to access dev server from arbitrary url.
+  // This is handy if you are using a html5 router.
+  historyApiFallback: false,
+
+  // Set this if you want to enable gzip compression for assets
+  compress: true,
+  // pass [static options](http://expressjs.com/en/4x/api.html#express.static) to inner express server
+  staticOptions: {
+  },
+
+  // webpack-dev-middleware options
+  quiet: false,
+  noInfo: false,
+  lazy: true,
+  filename: "bundle.js",
+  watchOptions: {
+    aggregateTimeout: 300,
+    poll: 1000
+  },
+  publicPath: "/assets/",
+  stats: { colors: true }
+}
+
 export default () => {
   loadLeorc((err, conf) => {
     if(err) {
       throw new Error('error loading .leorc', err);
     }
+    let server;
     genDatabase(conf, (err, { data }) => {
       if (err) {
         throw new Error('failed to generate database', err);
@@ -48,21 +76,13 @@ export default () => {
        * This is where we hook in to allow things like `npm i leo-blogpost`
        */
       const configWithUrlsAndPlugins = enablePlugins(conf, configWithUrls);
-      webpack(configWithUrlsAndPlugins.resolve()).run((err, stats) => {
-        if (err) {
-          // hard failure
-          return console.error(chalk.red(err));
-        }
-        const jsonStats = stats.toJson();
-        if (jsonStats.errors.length > 0) {
-          //soft failure
-          jsonStats.errors.forEach(e => console.error(chalk.red(e)))
-        }
-        if (jsonStats.warnings.length > 0) {
-          jsonStats.warnings.forEach(warning => console.warn(chalk.yellow(warning)))
-        }
-        debug('built');
-      });
+      if(server) {
+        server.close();
+        server = null;
+      }
+      server = new WebpackDevServer(configWithUrlsAndPlugins.resolve(),
+                                    webpackDevServerOptions);
+      server.listen(8080, "localhost", function() {});
     })
   });
 }
