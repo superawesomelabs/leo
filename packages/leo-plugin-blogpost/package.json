@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "excerpt-html": "^1.0.1",
-    "graphql": "^0.4.14",
-    "graphql-relay": "^0.3.6",
+    "graphql": "^0.6.0",
+    "graphql-relay": "^0.4.2",
     "loader-utils": "^0.2.12",
     "lodash": "^4.0.0",
     "moment": "^2.11.1",

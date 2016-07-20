@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import IsomorphicRouter from 'isomorphic-relay-router';
 import path from 'path';
 import React from 'react';
@@ -15,16 +16,16 @@ import routes from './load-routes';
 import HTML from './load-html';
 
 console.log('injecting local network layer');
-Relay.injectNetworkLayer(new RelayLocalSchema.NetworkLayer({
+const networkLayer = new RelayLocalSchema.NetworkLayer({
   schema,
   onError: (errors, request) => console.error(errors, request)
-}));
+});
 
 // Exported static site renderer:
 export default (locals, callback) => {
-  console.log(`rendering html for ${locals.path}`)
+  console.log(`rendering html for ${locals.path}`);
 
-    const history = createMemoryHistory();
+  const history = createMemoryHistory();
   const location = history.createLocation(locals.path);
 
   match({ routes, location }, (error, redirectLocation, renderProps) => {
@@ -33,9 +34,9 @@ export default (locals, callback) => {
         callback(error);
     } else {
 
-      IsomorphicRouter.prepareData(renderProps).then(({ data, props }) => {
+      IsomorphicRouter.prepareData(renderProps, networkLayer).then(({ data, props }) => {
         try {
-          const body = renderToString(<IsomorphicRouter.RouterContext {...props} />);
+          const body = renderToString(IsomorphicRouter.render(props));
           const htmlAsString = renderToStaticMarkup(
             <HTML body={body}
                   assets={locals.assets}

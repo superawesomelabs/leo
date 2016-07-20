@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "debug": "^2.2.0",
-    "graphql": "^0.4.14",
+    "graphql": "^0.6.0",
     "hljs-modules": "^9.5.1-alpha",
     "loader-utils": "^0.2.12",
     "lodash": "^4.0.0",
