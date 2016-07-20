@@ -32,6 +32,7 @@ module.exports = function configure(config, opts) {
 
   config.merge({
     postcss: opts.postcss || [
+      require('postcss-import'),
       require('postcss-brand-colors'),
       require('postcss-constants')({
         defaults: constants

@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-plugin-markdown",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Markdown Content Type for Leo",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
   "dependencies": {
     "debug": "^2.2.0",
     "graphql": "^0.4.14",
-    "highlight.js": "^9.1.0",
+    "hljs-modules": "^9.5.1-alpha",
     "loader-utils": "^0.2.12",
     "lodash": "^4.0.0",
     "markdown-it": "^5.1.0",

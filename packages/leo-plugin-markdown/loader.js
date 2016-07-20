@@ -1,4 +1,4 @@
-var hljs = require('highlight.js')
+var hljs = require('hljs-modules')
 var merge = require('lodash/merge');
 var isString = require('lodash/isString');
 var isObject = require('lodash/isObject');
