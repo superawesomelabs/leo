@@ -1,4 +1,5 @@
 'use strict';
+var fs = require('fs');
 var merge = require('lodash/merge');
 var mkSlug = require('slug');
 var loaderUtils = require('loader-utils');
@@ -6,9 +7,9 @@ var excerpt = require('excerpt-html');
 var moment = require('moment');
 var sanitizeHTML = require('sanitize-html');
 var debug = require('debug')('leo:plugin-blogpost:loader');
+var fileLoader = require('file-loader');
 
 function parseDate(str) {
-  console.log('str', str);
   if (!str) {
     // If there's no date, use right now
     debug('using now')
@@ -33,6 +34,24 @@ module.exports = function(json) {
   var filename = loaderUtils.interpolateName(this, '[name]', {
     content: json
   });
+  var headerImagePath = loaderUtils.interpolateName(this, '[path]header.png', {
+    content: json
+  });
+
+  var headerImg;
+  // TODO: check if header image exists via headerImagePath
+  if(filename === 'index') {
+    try {
+      fs.accessSync(headerImagePath, fs.F_OK);
+      this.addDependency(headerImagePath);
+      headerImg = loaderUtils.urlToRequest(headerImagePath);
+//      console.log(fileLoader.call(this, headerImagePath));
+      console.log(this);
+      console.log(headerImg);
+  } catch (e) {
+    console.log('doesnt exist', e);
+  }
+    }
 
   // Categories are used to generate archival pages
   var category = {
@@ -41,7 +60,11 @@ module.exports = function(json) {
   category.slug = slugify(category.display);
 
   // Ensure a title exists
-  var title = json.attributes.title || filename;
+  var title = json.attributes.title;
+  // if there's no title and the filename is not index, use it
+  if(!json.attributes.title && filename !== 'index') {
+    filename;
+  }
 
   // Ensure a slug exists
   var slug = json.attributes.slug || slugify(title);
@@ -107,6 +130,22 @@ module.exports = function(json) {
         timeToRead: timeToRead
       }
     })
-
-  return 'module.exports =' + JSON.stringify(finalContent);
+    //TODO require headerImg
+    if(headerImg) {
+      /**
+       * If headerImg exists, we were able to access the header.png
+       * file. This means we should include it as a require, so it
+       * can be picked up by img-loader, etc.
+       */
+      return `
+      module.exports = Object.assign(${JSON.stringify(finalContent)},
+        {
+          attributes: Object.assign(
+                        ${JSON.stringify(finalContent.attributes)},
+                        { headerImage: '/' + require("./header.png") }
+                      )
+        })`;
+    } else {
+      return 'module.exports = ' + JSON.stringify(finalContent);
+    }
 }

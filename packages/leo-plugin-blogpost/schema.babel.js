@@ -37,10 +37,6 @@ const BlogPostAttributesType = new GraphQLObjectType({
       type: GraphQLString,
       description: 'The time that this BlogPost was published, as `MMM Do, YYYY`'
     },
-    featuredImage: {
-      type: GraphQLString,
-      description: 'Featured image for display in Heros and Previews'
-    },
     url: {
       type: GraphQLString,
       description: 'The absolute pathname of the BlogPost, ex. `/post`'
@@ -52,6 +48,10 @@ const BlogPostAttributesType = new GraphQLObjectType({
     timeToRead: {
       type: GraphQLInt,
       description: 'The time it takes the average person to read this post in minutes'
+    },
+    headerImage: {
+      type: GraphQLString,
+      description: 'header.png in the post folder.'
     }
   }
 })

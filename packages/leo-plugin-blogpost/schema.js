@@ -45,10 +45,6 @@ var BlogPostAttributesType = new _type.GraphQLObjectType({
       type: _type.GraphQLString,
       description: 'The time that this BlogPost was published, as `MMM Do, YYYY`'
     },
-    featuredImage: {
-      type: _type.GraphQLString,
-      description: 'Featured image for display in Heros and Previews'
-    },
     url: {
       type: _type.GraphQLString,
       description: 'The absolute pathname of the BlogPost, ex. `/post`'
@@ -60,6 +56,10 @@ var BlogPostAttributesType = new _type.GraphQLObjectType({
     timeToRead: {
       type: _type.GraphQLInt,
       description: 'The time it takes the average person to read this post in minutes'
+    },
+    headerImage: {
+      type: _type.GraphQLString,
+      description: 'header.png in the post folder.'
     }
   }
 });

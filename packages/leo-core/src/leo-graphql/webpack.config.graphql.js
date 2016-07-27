@@ -25,7 +25,7 @@ export default (filepaths, leoConf) => {
     target: 'node',
     entry: resolve(__dirname, 'entry-database.js'),
     output: {
-      path: '/dist',
+      path: 'dist',
       library: true,
       libraryTarget: 'commonjs2'
     },
