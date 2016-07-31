@@ -15,7 +15,6 @@ import { conf, schema } from './inserted-files';
 import routes from './load-routes';
 import HTML from './load-html';
 
-console.log('injecting local network layer');
 const networkLayer = new RelayLocalSchema.NetworkLayer({
   schema,
   onError: (errors, request) => console.error(errors, request)
@@ -40,7 +39,9 @@ export default (locals, callback) => {
           const htmlAsString = renderToStaticMarkup(
             <HTML body={body}
                   assets={locals.assets}
-                  bundleAssets={locals.assetsPluginHash} />
+                  bundleAssets={locals.assetsPluginHash}
+                  props={props}
+            />
           )
             callback(null, htmlAsString);
         } catch (e) {
