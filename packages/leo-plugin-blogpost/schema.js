@@ -49,6 +49,10 @@ var BlogPostAttributesType = new _type.GraphQLObjectType({
       type: _type.GraphQLString,
       description: 'The absolute pathname of the BlogPost, ex. `/post`'
     },
+    canonicalURL: {
+      type: _type.GraphQLString,
+      description: 'The Canonical URL for this content. Can be used to deprecate pages for SEO when you want to keep the old content around.'
+    },
     excerpt: {
       type: _type.GraphQLString,
       description: 'A short excerpt of the `body` content'

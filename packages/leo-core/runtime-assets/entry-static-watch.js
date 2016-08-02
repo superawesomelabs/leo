@@ -9,6 +9,7 @@ import { createMemoryHistory } from 'history';
 import { match } from 'react-router';
 import Relay from 'react-relay';
 import RelayLocalSchema from 'relay-local-schema';
+import Helmet from 'react-helmet';
 const debug = require('debug')('leo:entry-static-watch');
 
 import { conf, schema } from './inserted-files';
@@ -36,8 +37,15 @@ export default (locals, callback) => {
       IsomorphicRouter.prepareData(renderProps, networkLayer).then(({ data, props }) => {
         try {
           const body = renderToString(IsomorphicRouter.render(props));
+          /**
+           * https://github.com/nfl/react-helmet/tree/16b3d67492f047aea635cddfaeadcf2686a00883#server-usage 
+           * See above URL for reasoning behind `rewind()`
+           */
+          const head = Helmet.rewind();
+          
           const htmlAsString = renderToStaticMarkup(
             <HTML body={body}
+                  helmet={head}
                   assets={locals.assets}
                   bundleAssets={locals.assetsPluginHash}
                   props={props}

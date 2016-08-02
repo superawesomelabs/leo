@@ -13,6 +13,28 @@ export default ({ conf, data, urls }) => {
   // create a new webpack-configurator instance
   const config = new Config();
 
+  function getDefinePlugins() {
+    const dPlugins = [
+      /**
+       * definePlugin takes raw strings and inserts them, so we put in
+       * strings of JSON. This includes the leo configuration and 
+       * the full set of loaded data (markdown, etc)
+       */
+      new webpack.DefinePlugin({
+        __LEORC__: JSON.stringify(conf),
+        __DATA__: JSON.stringify(data),
+      })
+    ]
+    if(conf.define) {
+      /**
+       * If there are any user-defined ENV vars or Flags,
+       * inject hem too.
+       */
+      dPlugins.push(new webpack.DefinePlugin(conf.define));
+    }
+    return dPlugins;
+  }
+  
   config.merge({
     entry: {
       'static': path.resolve(__dirname, 'entry-static-watch.js'),
@@ -76,11 +98,7 @@ export default ({ conf, data, urls }) => {
         /leohtml/,
         findLeoHTMLPath()
       ),
-      // definePlugin takes raw strings and inserts them, so we put in strings of JSON
-      new webpack.DefinePlugin({
-        __LEORC__: JSON.stringify(conf),
-        __DATA__: JSON.stringify(data)
-      }),
+      ...getDefinePlugins(),
       new CopyWebpackPlugin([{ from: 'static' }])
     ],
     module: {

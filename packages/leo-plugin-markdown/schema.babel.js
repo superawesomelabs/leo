@@ -22,6 +22,10 @@ const MarkdownAttributesType = new GraphQLObjectType({
     url: {
       type: GraphQLString,
       description: 'The absolute pathname of the content, ex. `/post`'
+    },
+    canonicalURL: {
+      type: GraphQLString,
+      description: 'The Canonical URL for this content. Can be used to deprecate pages for SEO when you want to keep the old content around.'
     }
   }
 })
