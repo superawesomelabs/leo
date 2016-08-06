@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/superawesomelabs/leo#readme",
   "dependencies": {
-    "ava": "^0.15.2",
+    "ava": "^0.16.0",
     "babel-cli": "^6.11.4",
     "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
