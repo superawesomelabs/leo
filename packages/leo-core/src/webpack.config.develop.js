@@ -11,7 +11,8 @@ import serialize from 'serialize-javascript';
 export default ({ conf, data, urls }) => {
 
   // create a new webpack-configurator instance
-  const config = new Config();
+  const staticConfig = new Config();
+  const clientConfig = new Config();
 
   function getDefinePlugins() {
     const dPlugins = [
@@ -35,10 +36,9 @@ export default ({ conf, data, urls }) => {
     return dPlugins;
   }
   
-  config.merge({
+  staticConfig.merge({
     entry: {
       'static': path.resolve(__dirname, 'entry-static-watch.js'),
-//      'client': path.resolve(__dirname, 'entry-client.js')
     },
 
     target: 'node',
@@ -73,7 +73,8 @@ export default ({ conf, data, urls }) => {
       ]
     },
     plugins: [
-       new AssetsPlugin({
+      new AssetsPlugin({
+         filename: 'webpack-static-assets.json',
          path: path.resolve(process.cwd(), 'dist/js'),
          prettyPrint: true
        }),
@@ -94,6 +95,8 @@ export default ({ conf, data, urls }) => {
         /leoroutes/,
         findLeoRoutesPath()
       ),
+      //wat
+//      new webpack.DefinePlugin({ "global.GENTLY": false }),
       new webpack.NormalModuleReplacementPlugin(
         /leohtml/,
         findLeoHTMLPath()
@@ -125,5 +128,62 @@ export default ({ conf, data, urls }) => {
     }
   });
 
-  return config;
+  clientConfig.merge({
+    entry: {
+      'client': path.resolve(__dirname, 'entry-client.js')
+    },
+    output: {
+      // chunkhash can't be used in hmr
+      filename: 'js/client.js',
+      path: 'dist',
+    },
+    target: 'web',
+    resolve: {
+      extensions: ['', '.js', '.json', '.leorc']
+    },
+    plugins: [
+      new AssetsPlugin({
+         filename: 'webpack-client-assets.json',
+         path: path.resolve(process.cwd(), 'dist/js'),
+         prettyPrint: true
+       }),
+      /**
+       * replaces require('.leorc') in application js files with the
+       * location of a .leorc
+       */
+      new webpack.NormalModuleReplacementPlugin(
+        /leorc/,
+        resolve(__dirname, 'leo.js') // A file we know exists but won't actually use
+      ),
+      /**
+       * replaces require('leoroutes') in application js files with the
+       * location of a routes.js
+       */
+      new webpack.NormalModuleReplacementPlugin(
+        /leoroutes/,
+        findLeoRoutesPath()
+      ),
+      //wat
+//      new webpack.DefinePlugin({ "global.GENTLY": false }),
+      ...getDefinePlugins(),
+    ],
+    module: {
+      loaders: [{
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          presets: ['react', 'es2015', 'stage-0'],
+          plugins: [
+            '@sa-labs/leo-core/build/babelRelayPlugin.js'
+          ],
+        }
+      }, {
+        test: /\.json/,
+        loader: 'json'
+      }]
+    }
+  });
+
+  return [staticConfig, clientConfig];
 };

@@ -35,6 +35,11 @@ export default (locals, callback) => {
     } else {
 
       IsomorphicRouter.prepareData(renderProps, networkLayer).then(({ data, props }) => {
+        console.log(`renderingJSON at ${locals.jsonOutputFileName}`);
+        _globalJSONAsset({
+          name: locals.jsonOutputFileName,
+          json: data
+        })
         try {
           const body = renderToString(IsomorphicRouter.render(props));
           /**
@@ -49,6 +54,7 @@ export default (locals, callback) => {
                   assets={locals.assets}
                   bundleAssets={locals.assetsPluginHash}
                   props={props}
+                  data={data}
             />
           )
             callback(null, htmlAsString);
