@@ -2,6 +2,7 @@ var evaluate = require('eval');
 var path = require('path');
 var Promise = require('bluebird');
 var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+var md5 = require('md5');
 var debug = require('debug')('static-site-plugin');
 
 function StaticSiteGeneratorWebpackPlugin(renderSrc, outputPaths, locals) {
@@ -69,7 +70,7 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
       if (asset == null) {
         throw new Error('Source file not found: "' + self.renderSrc + '"');
       }
-      var webpackAssetsJSON = findAsset('webpack-assets.json', compiler, webpackStatsJson);
+      var webpackAssetsJSON = findAsset('webpack-static-assets.json', compiler, webpackStatsJson);
       console.log(webpackAssetsJSON)
 
       var assets = getAssetsFromCompiler(compiler, webpackStatsJson);
@@ -83,7 +84,13 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
         self: {
           XMLHttpRequest: XMLHttpRequest
         },
-        XMLHttpRequest: XMLHttpRequest
+        XMLHttpRequest: XMLHttpRequest,
+        _globalJSONAsset: function writeJSON(obj) {
+          // the filename here should be the URL of the "current
+          // page", because the client-side relay network layer relies
+          // on the URL hash to fetch the json file 
+          compiler.assets[obj.name] = createAssetFromContents(JSON.stringify(obj.json));
+        }
       }
       var render = evaluate(source, /* filename: */ self.renderSrc, /* scope: */ scopeGlobals, /* includeGlobals: */ true);
 
@@ -98,6 +105,7 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
       renderPromises = self.outputPaths.map(function(outputPath) {
         var outputFileName = outputPath.replace(/^(\/|\\)/, ''); // Remove leading slashes for webpack-dev-server
 
+        var jsonOutputFileName = path.join('api', md5('/' + outputFileName) + '.json');
         if (!/\.(html?)$/i.test(outputFileName)) {
           outputFileName = path.join(outputFileName, 'index.html');
         }
@@ -106,7 +114,8 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
           path: outputPath,
           assets: assets,
           webpackStats: webpackStats,
-          assetsPluginHash: assetsPluginHash.bundle || assetsPluginHash.static
+          assetsPluginHash: assetsPluginHash.bundle || assetsPluginHash.static && assetsPluginHash,
+          jsonOutputFileName: jsonOutputFileName
         };
 
         for (var prop in self.locals) {

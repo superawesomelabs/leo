@@ -47,8 +47,8 @@ export default () => {
        * Enable third party plugins.
        * This is where we hook in to allow things like `npm i leo-blogpost`
        */
-      const configWithUrlsAndPlugins = enablePlugins(conf, configWithUrls);
-      webpack(configWithUrlsAndPlugins.resolve()).run((err, stats) => {
+      const configWithUrlsAndPlugins = configWithUrls.map(c => enablePlugins(conf, c));
+      webpack(configWithUrlsAndPlugins.map(c => c.resolve())).run((err, stats) => {
         if (err) {
           // hard failure
           return console.error(chalk.red(err));
