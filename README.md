@@ -92,6 +92,17 @@ export default (
 * Automatically Optimize Images
 * No Template Languages
 
+## Optional Modern Client-Side JS
+
+Leo builds a client-side bundle using Relay which you can optionally
+include when rendering .html files. Once the inital JS is downloaded,
+every page can be rendered by fetching a JSON file from the same
+static server. The JSON files contain the minimal set of content
+required to render each URL. It is also cached, which means each
+request happens only once.
+
+![header](./assets/leo-network-cache.gif)
+
 # Quick Start
 
 Leo has a number of starter projects designed to get you started
