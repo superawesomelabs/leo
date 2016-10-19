@@ -16,10 +16,12 @@ export default function generate(opts={
     genSchema({
       data,
       plugins: opts.plugins
-    }).then(schema => {
-      cb(null, schema);
-    }).catch(pErr => {
-      cb(pErr);
+    }, (pErr, schema) => {
+      if(pErr) {
+        cb(pErr);
+      } else {
+        cb(null, schema);
+      }
     })
   })
 }

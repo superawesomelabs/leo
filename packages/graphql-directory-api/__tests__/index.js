@@ -1,8 +1,14 @@
+import { GraphQLSchema } from 'graphql/type';
 import generate from '../src';
 
-test('generates nothing', () => {
-  generate(undefined, (err, result) => {
-    expect(err).toBe(null);
-    expect(result).toEqual([]);
+describe('index', () => {
+  it('generates nothing', done => {
+    generate({
+      memoryFS: true
+    }, (err, result) => {
+      expect(err).toEqual(jasmine.any(Error));
+      expect(result).toBeUndefined();
+      done();
+    });
   });
-});
+})

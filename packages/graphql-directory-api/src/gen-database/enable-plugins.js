@@ -6,7 +6,6 @@
  */
 import oDebug from 'debug';
 const debug = oDebug('graphql-directory-api:enable-plugins');
-import { isFunction } from 'lodash';
 import { resolve } from 'path';
 
 export default function enablePlugins(plugins=[], opts, config) {
@@ -19,7 +18,7 @@ export default function enablePlugins(plugins=[], opts, config) {
      * plugins are expected to have an `index.js` which
      */
     const addPluginConfig = require(resolve(process.cwd(), plugin));
-    if(isFunction(addPluginConfig)) {
+    if(typeof addPluginConfig === 'function') {
       addPluginConfig(config, opts[plugin] || {});
     } else {
       debug(`plugin ${plugin} does not have an index.js`)

@@ -1,18 +1,20 @@
+import { GraphQLSchema } from 'graphql/type';
 import generate from '../src';
 
-test('text content', (done) => {
-  const callback = jest.fn();
-  generate({
-    files: [
-      './data/content.md'
-    ],
-    plugins: [
-      './__utils__/text'
-    ]
-  }, (err, result) => {
-    console.log('s');
-    expect(err).toBe(null);
-    expect(result.length).toEqual(1);
-    done();
-  })
-});
+describe('basic', () => {
+  it('should handle text content', done => {
+    generate({
+      memoryFS: true,
+      files: [
+        './data/content.md'
+      ],
+      plugins: [
+        './__utils__/text'
+      ]
+    }, (err, result) => {
+      expect(err).toBeNull();
+      expect(result).toEqual(jasmine.any(GraphQLSchema));
+      done();
+    })
+  });
+})

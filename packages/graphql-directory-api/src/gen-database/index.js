@@ -1,17 +1,20 @@
 /* @flow */
-import path from 'path';
+import path, { resolve } from 'path';
 import mkdirp from 'mkdirp';
 import config from './webpack.config.js';
 import letPluginsPostProcessData from './let-plugins-post-process-data';
 import evaluate from 'eval';
 import enablePlugins from './enable-plugins';
-import fs from 'fs'
-//import MemoryFS from 'memory-fs';
+import normalFS from 'fs'
+import MemoryFS from 'memory-fs';
 import webpack from 'webpack';
 import oDebug from 'debug';
 const debug = oDebug('graphql-directory-api:gen-database');
+let fs = normalFS;
 
 type DatabaseInterface = {
+  watch: boolean,
+  memoryFS: boolean,
   files: Array<string>;
   plugins: Array<string>;
   pluginOpts: { [key: string]: number };
@@ -19,11 +22,15 @@ type DatabaseInterface = {
 }
 type Callback = (err: ?Error, data: ?Array<Object>) => void
 export default function genDatabase({
+  watch=false,
+  memoryFS=false,
   files=[],
   plugins=[],
   pluginOpts={},
   outputDir='./dist'
 }: DatabaseInterface = {
+  watch: false,
+  memoryFS: false,
   files: [],
   plugins: [],
   pluginOpts: {},
@@ -36,7 +43,8 @@ export default function genDatabase({
     return callback(null, []);
   }
 
-  const distFolder = path.resolve(process.cwd(), outputDir);
+  // use root directory as output if we're using memoryFS
+  let distFolder = memoryFS ? '/' : resolve(process.cwd(), outputDir);
   debug('distFolder', distFolder);
   debug('files', files);
   debug('dirs', process.cwd(), __dirname);
@@ -44,15 +52,17 @@ export default function genDatabase({
     filepaths: files,
     plugins
   }, {
-    outputPath: outputDir
+    outputPath: distFolder
   }));
   const compiler = webpack(createdConfig.resolve());
+  if(memoryFS) {
+    fs = new MemoryFS();
+    compiler.outputFileSystem = fs;
+  } else {
+    mkdirp.sync(distFolder);
+  }
 
-  mkdirp.sync(distFolder);
-
-  compiler.watch({
-    aggregateTimeout: 300
-  }, (err, stats) => {
+  function webpackHandler(err, stats) {
     // Start Error Checking
     if (err) {
       // hard failure
@@ -74,13 +84,25 @@ export default function genDatabase({
     }
     // End Error Checking
     debug('dist output', fs.readdirSync(distFolder));
-    const apiJSONAsString = fs.readFileSync(distFolder + '/database-bundle.js', 'utf-8');
+    const apiJSONAsString = fs.readFileSync(resolve(distFolder, 'database-bundle.js'), 'utf-8');
     const apiJSON = evaluate(apiJSONAsString, 'api-database.json', null, true);
     letPluginsPostProcessData(plugins, apiJSON, (err, resultingData) => {
       if(err) {
+        debug('caught err', err);
+        // facilitate callback if error is thrown
         return callback(err);
       }
       return callback(null, resultingData);
     })
-  })
+
+  }
+
+
+  if(watch) {
+    compiler.watch({
+      aggregateTimeout: 300
+    }, webpackHandler);
+  } else {
+    compiler.run(webpackHandler);
+  }
 }

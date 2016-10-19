@@ -19,7 +19,7 @@ export default ({ filepaths, plugins }: WebpackOpts,
     entry: resolve(__dirname, '../runtime-assets/entry-database.js'),
     output: {
       path: outputPath,
-      filename: 'database-bundle',
+      filename: 'database-bundle.js',
       library: true,
       libraryTarget: 'commonjs2'
     },
