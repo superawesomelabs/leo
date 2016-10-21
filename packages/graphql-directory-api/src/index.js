@@ -1,6 +1,12 @@
 import genDatabase from './gen-database';
 import genSchema from './gen-schema';
 
+export { default as genDatabase } from './gen-database';
+export {
+  default as genSchema,
+  NoFieldsError
+} from './gen-schema';
+
 export default function generate(opts={
   files: [],
   plugins: [],
@@ -13,15 +19,12 @@ export default function generate(opts={
     if(err) {
       return cb(err);
     }
-    genSchema({
+    cb(null, {
       data,
-      plugins: opts.plugins
-    }, (pErr, schema) => {
-      if(pErr) {
-        cb(pErr);
-      } else {
-        cb(null, schema);
-      }
+      schema: genSchema({
+        data,
+        plugins: opts.plugins
+      })
     })
   })
 }

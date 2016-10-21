@@ -8,6 +8,9 @@ import getPluginSchemas from './get-plugin-schemas';
 import type { PluginSpec } from './types';
 import oDebug from 'debug';
 const debug = oDebug('graphql-directory-api:gen-schema');
+import ExtendableError from 'es6-error';
+
+export class NoFieldsError extends ExtendableError {}
 
 type Callback = (err: ?Error, data: ?GraphQLSchema) => void
 /**
@@ -15,20 +18,18 @@ type Callback = (err: ?Error, data: ?GraphQLSchema) => void
  */
 export default function genSchema({
   data=[], plugins=[]
-}: PluginSpec, cb: Callback) {
+}: PluginSpec) {
   /**
    * This is the root query type. We use a self-reference trick to
    * enable List responses, solving issue 112 temporarily.
    * https://github.com/facebook/relay/issues/112
    */
-  debug('queryFields')
-    const queryFields = getPluginSchemas({ plugins, data });
+  const queryFields = getPluginSchemas({ plugins, data });
 
   if (Object.keys(queryFields).length === 0) {
-    debug('no fields');
-    cb(Error('no fields in Query schema'));
+    throw new NoFieldsError('no fields in Query schema');
   } else {
-    cb(null, new GraphQLSchema({
+    return new GraphQLSchema({
       query: new GraphQLObjectType({
         name: 'Root',
         fields: () => ({
@@ -41,6 +42,6 @@ export default function genSchema({
           }
         })
       })
-    }));
+    });
   }
 }

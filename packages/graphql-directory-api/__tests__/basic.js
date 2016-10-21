@@ -6,14 +6,15 @@ describe('basic', () => {
     generate({
       memoryFS: true,
       files: [
-        './data/content.md'
+        './_tests__/basic/data/content.md'
       ],
       plugins: [
         './__utils__/text'
       ]
-    }, (err, result) => {
+    }, (err, { data, schema }) => {
       expect(err).toBeNull();
-      expect(result).toEqual(jasmine.any(GraphQLSchema));
+      expect(schema).toEqual(jasmine.any(GraphQLSchema));
+      expect(Array.isArray(data)).toEqual(true);
       done();
     })
   });

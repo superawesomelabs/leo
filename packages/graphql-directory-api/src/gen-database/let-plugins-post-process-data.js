@@ -16,7 +16,7 @@ const debug = oDebug('graphql-directory-api:post-process');
 import waterfall from 'async/waterfall';
 type Callback = (err: ?Error, data: ?Array<Object>) => void
 
-export default function letPluginsPostProcessData(plugins: [string], data: [Object], callback: Callback): void {
+export default function letPluginsPostProcessData(plugins: [string], data: Array<Object>, callback: Callback): void {
   let arr = [cb => cb(null, data)];
   plugins.forEach(plugin => {
     try {

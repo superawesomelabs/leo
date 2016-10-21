@@ -1,5 +1,5 @@
 {
-  "name": "graphql-directory-api",
+  "name": "@sa-labs/graphql-directory-api",
   "version": "1.0.0",
   "description": "Create GraphQL APIs from a folder of files",
   "main": "index.js",
@@ -26,6 +26,7 @@
     "async": "^2.1.1",
     "babel-loader": "^6.2.5",
     "debug": "^2.2.0",
+    "es6-error": "^4.0.0",
     "eval": "^0.1.1",
     "graphql": "^0.7.2",
     "loader-utils": "^0.2.16",

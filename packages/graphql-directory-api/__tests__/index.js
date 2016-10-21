@@ -1,14 +1,22 @@
 import { GraphQLSchema } from 'graphql/type';
-import generate from '../src';
+import generate, {
+  genDatabase,
+  genSchema,
+  NoFieldsError
+} from '../src';
 
 describe('index', () => {
-  it('generates nothing', done => {
-    generate({
+  it.skip('generates nothing', () => {
+    expect(generate()).toThrow(NoFieldsError);
+  });
+  it('generates a database', done => {
+    genDatabase({
       memoryFS: true
-    }, (err, result) => {
-      expect(err).toEqual(jasmine.any(Error));
-      expect(result).toBeUndefined();
+    }, (err, data) => {
+      expect(err).toBeNull();
+      expect(Array.isArray(data)).toEqual(true);
       done();
     });
   });
+
 })

@@ -12,10 +12,11 @@ function mkRequireArray(paths) {
   // requirePaths generates `[require('a')]`
   const requirePaths = t.arrayExpression(
     paths.map(v => {
-      return t.callExpression(t.identifier('require'),
-                              [
-                                t.stringLiteral(require.resolve(v))
-                              ])
+        require.resolve(v);
+        return t.callExpression(t.identifier('require'),
+                                [
+                                  t.stringLiteral(require.resolve(v))
+                                ])
     })
   );
 
@@ -29,6 +30,7 @@ function mkRequireArray(paths) {
 
 module.exports = function(content, map) {
   this.cacheable && this.cacheable();
-  const { files=[] } = this.options.database;
+  const options = this.options.database || {};
+  const { files=[] } = options;
   return mkRequireArray(files)
 }
