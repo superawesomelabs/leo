@@ -1,1 +1,1 @@
-module.exports = require('./load-database-files');
+module.exports = require('database-loader!');
