@@ -12,7 +12,11 @@ import RelayLocalSchema from 'relay-local-schema';
 import Helmet from 'react-helmet';
 const debug = require('debug')('leo:entry-static-watch');
 
-import { conf, schema } from './inserted-files';
+//require('leo-gql-database-loader!');
+import {
+  conf,
+  schema
+} from './inserted-files';
 import routes from './load-routes';
 import HTML from './load-html';
 
@@ -43,11 +47,11 @@ export default (locals, callback) => {
         try {
           const body = renderToString(IsomorphicRouter.render(props));
           /**
-           * https://github.com/nfl/react-helmet/tree/16b3d67492f047aea635cddfaeadcf2686a00883#server-usage 
+           * https://github.com/nfl/react-helmet/tree/16b3d67492f047aea635cddfaeadcf2686a00883#server-usage
            * See above URL for reasoning behind `rewind()`
            */
           const head = Helmet.rewind();
-          
+
           const htmlAsString = renderToStaticMarkup(
             <HTML body={body}
                   helmet={head}
@@ -69,4 +73,3 @@ export default (locals, callback) => {
     }
   });
 };
-

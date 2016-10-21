@@ -18,7 +18,7 @@ export default ({ conf, data, urls }) => {
     const dPlugins = [
       /**
        * definePlugin takes raw strings and inserts them, so we put in
-       * strings of JSON. This includes the leo configuration and 
+       * strings of JSON. This includes the leo configuration and
        * the full set of loaded data (markdown, etc)
        */
       new webpack.DefinePlugin({
@@ -35,7 +35,7 @@ export default ({ conf, data, urls }) => {
     }
     return dPlugins;
   }
-  
+
   staticConfig.merge({
     entry: {
       'static': path.resolve(__dirname, 'entry-static-watch.js'),
