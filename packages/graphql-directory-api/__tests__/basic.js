@@ -1,4 +1,5 @@
 import { GraphQLSchema } from 'graphql/type';
+import { resolve } from 'path';
 import generate from '../src';
 
 describe('basic', () => {
@@ -6,15 +7,17 @@ describe('basic', () => {
     generate({
       memoryFS: true,
       files: [
-        './_tests__/basic/data/content.md'
+        './__tests__/basic/data/content.md'
       ],
       plugins: [
-        './__utils__/text'
+        resolve(process.cwd(), './__utils__/text')
       ]
-    }, (err, { data, schema }) => {
+    }, (err, { data, schema }={}) => {
       expect(err).toBeNull();
       expect(schema).toEqual(jasmine.any(GraphQLSchema));
       expect(Array.isArray(data)).toEqual(true);
+      expect(data[0].attributes.slug).toBe('slug');
+      expect(data[0].rawBody).toBe('---\ntitle: "Some Content"\n---\n# What is this\n\ntesting\n\n> quoootes\n');
       done();
     })
   });

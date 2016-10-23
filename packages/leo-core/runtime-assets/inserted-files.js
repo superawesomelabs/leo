@@ -1,4 +1,4 @@
-import { genSchema } from 'graphql-directory-api';
+import genSchema from '@sa-labs/graphql-directory-api/build/gen-schema';
 
 export const conf = __LEORC__;
 

@@ -108,7 +108,7 @@ export default ({ conf, data, urls }) => {
       noParse: [
         /node_modules\/rc/,
         /node_modules\/eval/,
-        /copyof-get-plugin-schemas/,
+        /get-plugin-schemas/,
       ],
       loaders: [{
         test: /\.jsx?$/,

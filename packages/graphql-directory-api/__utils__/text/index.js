@@ -2,7 +2,7 @@ module.exports = function configure(config, opts) {
   config.loader('text', {
     test: /\.md$/,
     exclude: /node_modules/,
-    loaders: ['text/loader']
+    loaders: ['./__utils__/text/loader']
   });
   config.merge((current) => {
     current.resolve.extensions.push('.md');

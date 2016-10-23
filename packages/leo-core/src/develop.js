@@ -22,9 +22,13 @@ export default () => {
     if(err) {
       throw new Error('error loading .leorc', err);
     }
-    genDatabase(conf, (err, { data }) => {
+    genDatabase({
+      memoryFS: true,
+      ...conf
+    }, (err, data) => {
       if (err) {
-        throw new Error('failed to generate database', err);
+        console.log(err);
+        throw new Error('failed to generate database');
       };
 
       /**

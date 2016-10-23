@@ -1,4 +1,5 @@
 import loader from './database-loader';
+import { resolve } from 'path';
 
 describe('index', () => {
 
@@ -25,7 +26,9 @@ describe('index', () => {
     expect(loader.bind({
       options: {
         database: {
-          files: ['../../__utils__/database-loader-file.txt']
+          files: [
+            resolve(process.cwd(), './__utils__/database-loader-file.txt')
+          ]
         }
       }
     })()).toEqual(`module.exports = [require("${process.cwd()}/__utils__/database-loader-file.txt")];`);

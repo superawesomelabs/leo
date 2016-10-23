@@ -4,7 +4,7 @@ import { graphql } from 'graphql';
 import {
   introspectionQuery, printSchema
 } from 'graphql/utilities';
-import generate from '@sa-labs/graphql-directory-api';
+import genSchema from '@sa-labs/graphql-directory-api/build/gen-schema';
 import mkdirp from 'mkdirp';
 import oDebug from 'debug';
 const debug = oDebug('leo:schema');

@@ -10,7 +10,7 @@ export default function({
 }: PluginSpec) {
   return plugins.reduce((acc, pluginString) => {
     debug('reducing plugin schema', pluginString);
-    const pluginSchemaPath = path.resolve(process.cwd(), `${pluginString}/schema`);
+    const pluginSchemaPath = `${pluginString}/schema`;
     try {
       require.resolve(pluginSchemaPath);
       debug('pluginSchemaPath', pluginSchemaPath);

@@ -17,7 +17,7 @@ export default function enablePlugins(plugins=[], opts, config) {
      *
      * plugins are expected to have an `index.js` which
      */
-    const addPluginConfig = require(resolve(process.cwd(), plugin));
+    const addPluginConfig = require(plugin);
     if(typeof addPluginConfig === 'function') {
       addPluginConfig(config, opts[plugin] || {});
     } else {

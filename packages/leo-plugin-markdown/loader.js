@@ -1,4 +1,3 @@
-var hljs = require('hljs-modules')
 var merge = require('lodash/merge');
 var isString = require('lodash/isString');
 var isObject = require('lodash/isObject');
@@ -92,7 +91,7 @@ module.exports = function(content) {
       body: md.render(content)
     });
   } else if (isObject(content)) {
-    debug('content isObject');
+    debug('content isObject', filename);
     // The loader is operating on JSON; Likely a secondary loader.
     var newObj = mkSlugAndURL(merge({}, content.attributes, {
       filename: filename

@@ -15,7 +15,7 @@ export default ({ filepaths, plugins }: WebpackOpts,
   // merge some initial config in
   config.merge({
     target: 'node',
-    entry: resolve(__dirname, '../runtime-assets/entry-database.js'),
+    entry: 'database-loader!',//resolve(__dirname, '../runtime-assets/entry-database.js'),
     output: {
       path: outputPath,
       filename: 'database-bundle.js',
@@ -32,11 +32,17 @@ export default ({ filepaths, plugins }: WebpackOpts,
         /**
          * Allow custom loaders to be accessed without specifying the full
          * path. ie: database-loader vs './node_modules/database-loader/...'
+         * To allow this to work in dev and after build, loaders folder
+         * should be at ./loaders from the artifact
          */
-        resolve(__dirname, '../loaders')
+        resolve(__dirname, './loaders')
       ]
     },
     module: {
+      noParse: [
+        /get-plugin-schemas/,
+        /enable-plugins/,
+      ],
       loaders: [{
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -49,7 +55,7 @@ export default ({ filepaths, plugins }: WebpackOpts,
         loaders: ['database-loader', 'babel']
       }]
     },
-    leoDatabase: {
+    database: {
       files: filepaths
     }
   });

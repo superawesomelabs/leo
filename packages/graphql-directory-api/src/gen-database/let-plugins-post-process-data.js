@@ -12,7 +12,7 @@
  */
 import oDebug from 'debug';
 import path from 'path';
-const debug = oDebug('graphql-directory-api:post-process');
+const debug = oDebug('graphql-directory-api:let-plugins-post-process-data');
 import waterfall from 'async/waterfall';
 type Callback = (err: ?Error, data: ?Array<Object>) => void
 
@@ -20,21 +20,22 @@ export default function letPluginsPostProcessData(plugins: [string], data: Array
   let arr = [cb => cb(null, data)];
   plugins.forEach(plugin => {
     try {
-      require.resolve(`${plugin}/process`)
+      require.resolve(`${plugin}/process`);
+      debug(plugin, 'wants to post-process the data');
+      arr.push(require(`${plugin}/process`))
     } catch (e) {
       debug('No process for plugin', plugin);
       return;
     }
-    debug(plugin, 'wants to post-process the data');
-    arr.push(require(path.resolve(process.cwd(), `${plugin}/process`)))
   });
 
   /**
    * allow each plugin to process the full data set
    * run order is not guarenteed.
    */
+  debug('pre-waterfall count', data.length);
   waterfall(arr, (err, result) => {
-    debug('eeee', err, result);
+    debug('post-waterfall count', result && result.length);
     if(err) {
       debug('a plugin threw an error when processing data');
       callback(err);
