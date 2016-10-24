@@ -2,13 +2,14 @@ import express from 'express';
 import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
-import { generate } from '@sa-labs/graphql-directory-api';
+import generate from '@sa-labs/graphql-directory-api';
 import { graphql } from 'graphql';
 import graphqlHTTP from 'express-graphql';
 import fs from 'fs';
 import md5 from 'md5';
 import mkdirp from 'mkdirp';
 
+import loadLeorc from 'utils/load-leorc';
 
 var debug = require('debug')('leo:graphql:api');
 
@@ -18,7 +19,7 @@ export default function(callback) {
     generate({
       memoryFS: true,
       ...conf
-    }, (err, schema) => {
+    }, (err, { schema }) => {
 
       const apiFolder = './dist/api';
       const app = express();
@@ -45,40 +46,18 @@ export default function(callback) {
       debug('ensuring api folder exists');
       mkdirp.sync('./dist/api/');
 
-      const writeGraphQLJSONResponseToFile = (filename, json) => {
-        const filePath = path.resolve(apiFolder, `${filename}.json`);
-        fs.writeFile(filePath, json, function(err) {
-          if (err) throw err;
-          return debug(`wrote JSON to ${path.resolve(apiFolder, filename)}.json`);
-        });
-      }
+      /* const writeGraphQLJSONResponseToFile = (filename, json) => {
+         const filePath = path.resolve(apiFolder, `${filename}.json`);
+         fs.writeFile(filePath, json, function(err) {
+         if (err) throw err;
+         return debug(`wrote JSON to ${path.resolve(apiFolder, filename)}.json`);
+         });
+         } */
 
-      app.use('/graphql', (req, res, next) => {
-        // store the GraphQL query as a string
-        debug('/graphql query:', req.body.query);
-        const graphQLQueryHash = md5(req.body.query);
-        // keep the actual send around for later
-        const send = res.send;
-        // but replace the send for any future middleware so that it calls *our*
-        // send
-        res.send = function(json) {
-          if (json.errors) {
-            throw new Error(json.errors);
-          } else {
-            if (req.headers['content-type']) {
-              writeGraphQLJSONResponseToFile(graphQLQueryHash, json);
-            } else {
-              debug('no content-type header');
-            }
-            send.call(this, json);
-          }
-        }
-        next()
-      },
-              graphqlHTTP({
-                schema: schema,
-                graphiql: true
-              }));
+      app.use('/graphql', graphqlHTTP({
+        schema: schema,
+        graphiql: true
+      }));
 
       // catch 404 and forward to error handler
       app.use(function(req, res, next) {
