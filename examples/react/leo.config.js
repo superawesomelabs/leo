@@ -1,4 +1,5 @@
 module.exports = {
+  "scaffolding": "@sa-labs/leo-scaffolding-relay",
   "plugins": [
     "@sa-labs/leo-plugin-blogpost",
     "@sa-labs/leo-plugin-markdown",
