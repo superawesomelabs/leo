@@ -1,0 +1,10 @@
+{
+  "presets": ["react", "es2015", "stage-0"],
+  "plugins": ["transform-runtime"],
+  "ignore": "test.js",
+  "env": {
+    "development": {
+      "sourceMaps": "inline"
+    }
+  }
+}
