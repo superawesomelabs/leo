@@ -24,7 +24,7 @@ export default () => {
     }
     genDatabase({
       memoryFS: true,
-      ...conf
+      ...conf,
     }, (err, data) => {
       if (err) {
         console.log(err);

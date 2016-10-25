@@ -12,16 +12,15 @@ import loadLeorc from 'utils/load-leorc';
 
 export default function({ print, update }) {
   loadLeorc((err, conf) => {
-    genSchema({
+    const schema = genSchema({
       data: [],
       plugins: conf.plugins
-    }, (err, schema) => {
-      update ? writeSchemaFiles(schema, !print) : null;
-      // Default behavior is to print human-readable schema
-      if(print || !print && !update) {
-        console.log(printSchema(schema));
-      }
-    })
+    });
+    update ? writeSchemaFiles(schema, !print) : null;
+    // Default behavior is to print human-readable schema
+    if(print || !print && !update) {
+      console.log(printSchema(schema));
+    }
   })
 }
 

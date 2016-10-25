@@ -1,0 +1,22 @@
+{
+  "name": "leo-react-example",
+  "version": "1.0.0",
+  "description": "An example LEO site using React",
+  "main": "index.js",
+  "author": "Chris Biscardi <chris@christopherbiscardi.com> (www.christopherbiscardi.com)",
+  "license": "MIT",
+  "scripts": {
+    "start": "leo develop",
+    "update-schema": "leo schema -u"
+  },
+  "dependencies": {
+    "@sa-labs/graphql-directory-api": "file:../..//packages/graphql-directory-api",
+    "@sa-labs/leo-core": "file:../../packages/leo-core",
+    "@sa-labs/leo-plugin-blogpost": "file:../../packages/leo-plugin-blogpost",
+    "@sa-labs/leo-plugin-images": "file:../../packages/leo-plugin-images",
+    "@sa-labs/leo-plugin-markdown": "file:../../packages/leo-plugin-markdown",
+    "@sa-labs/leo-plugin-postcss": "file:../../packages/leo-plugin-postcss",
+    "frontmatter-loader": "0.0.1",
+    "lost": "^7.1.0"
+  }
+}

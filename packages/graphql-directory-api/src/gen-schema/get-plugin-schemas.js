@@ -8,8 +8,8 @@ export default function({
   plugins=[],
   data=[]
 }: PluginSpec) {
+  debug('reducing plugin schema');
   return plugins.reduce((acc, pluginString) => {
-    debug('reducing plugin schema', pluginString);
     const pluginSchemaPath = `${pluginString}/schema`;
     try {
       require.resolve(pluginSchemaPath);
