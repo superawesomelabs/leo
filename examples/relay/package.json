@@ -17,7 +17,6 @@
     "@sa-labs/leo-plugin-markdown": "file:../../packages/leo-plugin-markdown",
     "@sa-labs/leo-plugin-postcss": "file:../../packages/leo-plugin-postcss",
     "@sa-labs/leo-scaffolding-relay": "file:../../packages/leo-scaffolding-relay",
-    "frontmatter-loader": "0.0.1",
-    "lost": "^7.1.0"
+    "frontmatter-loader": "0.0.1"
   }
 }
