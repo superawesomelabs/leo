@@ -119,10 +119,6 @@ export default ({ conf, data, urls }) => {
         exclude: /(graphql|node_modules)/,
         loader: 'babel',
         query: {
-          presets: ['react', 'es2015', 'stage-0'],
-          plugins: [
-            '@sa-labs/leo-core/build/babelRelayPlugin.js'
-          ],
           cacheDirectory: path.resolve(process.cwd(), '.babelcache')
         }
       }, {
@@ -180,12 +176,6 @@ export default ({ conf, data, urls }) => {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel',
-        query: {
-          presets: ['react', 'es2015', 'stage-0'],
-          plugins: [
-            '@sa-labs/leo-core/build/babelRelayPlugin.js'
-          ],
-        }
       }, {
         test: /\.json/,
         loader: 'json'
