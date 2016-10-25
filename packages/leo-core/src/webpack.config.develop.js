@@ -36,9 +36,13 @@ export default ({ conf, data, urls }) => {
     return dPlugins;
   }
 
+  let staticEntry = path.resolve(__dirname, 'entry-static-watch.js');
+  if(conf.scaffolding) {
+    staticEntry = `${conf.scaffolding}/entry-static`
+  };
   staticConfig.merge({
     entry: {
-      'static': path.resolve(__dirname, 'entry-static-watch.js'),
+      'static': staticEntry
     },
 
     target: 'node',
@@ -128,9 +132,13 @@ export default ({ conf, data, urls }) => {
     }
   });
 
+  let clientEntry = path.resolve(__dirname, 'entry-client');
+  if(conf.scaffolding) {
+    clientEntry = `${conf.scaffolding}/entry-client`
+  };
   clientConfig.merge({
     entry: {
-      'client': path.resolve(__dirname, 'entry-client.js')
+      'client': clientEntry
     },
     output: {
       // chunkhash can't be used in hmr
