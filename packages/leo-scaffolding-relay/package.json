@@ -2,10 +2,13 @@
   "name": "leo-scaffolding-relay",
   "version": "1.0.0",
   "description": "Entrypoints that support Relay-based LEO static sites",
-  "main": "index.js",
+  "main": "entry-static.js",
   "author": "Chris Biscardi <chris@christopherbiscardi.com> (www.christopherbiscardi.com)",
   "license": "MIT",
   "scripts": {
     "build": "../../node_modules/.bin/babel --presets react,es2015 src --out-dir ."
+  },
+  "peerDependencies": {
+    "@sa-labs/leo-core": "*"
   }
 }

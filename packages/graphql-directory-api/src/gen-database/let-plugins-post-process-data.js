@@ -20,12 +20,19 @@ export default function letPluginsPostProcessData(plugins: [string], data: Array
   let arr = [cb => cb(null, data)];
   plugins.forEach(plugin => {
     try {
+      // try to resolve plugin as node_module
       require.resolve(`${plugin}/process`);
       debug(plugin, 'wants to post-process the data');
       arr.push(require(`${plugin}/process`))
     } catch (e) {
-      debug('No process for plugin', plugin);
-      return;
+      try {
+        const p = require.resolve(path.resolve(process.cwd(), `${plugin}/process`));
+        debug(plugin, 'is a local plugin that wants to post-process the data');
+        arr.push(require(p));
+      } catch (e) {
+        debug('No process for plugin', plugin);
+        return;
+        }
     }
   });
 

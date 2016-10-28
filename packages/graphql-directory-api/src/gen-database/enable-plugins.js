@@ -17,9 +17,23 @@ export default function enablePlugins(plugins=[], opts, config) {
      *
      * plugins are expected to have an `index.js` which
      */
-    const addPluginConfig = require(plugin);
+    let addPluginConfig;
+    try {
+      addPluginConfig = require(plugin);
+    } catch (e) {
+      try {
+        addPluginConfig = require(resolve(process.cwd(), plugin));
+      } catch (e) {
+        throw new Error(`Can not resolve plugin ${plugin}`);
+      }
+    }
     if(typeof addPluginConfig === 'function') {
-      addPluginConfig(config, opts[plugin] || {});
+      addPluginConfig(config, {
+        ...(opts[plugin] || {}),
+        leo: {
+          pipeline: 'data'
+        }
+      });
     } else {
       debug(`plugin ${plugin} does not have an index.js`)
     }
