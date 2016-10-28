@@ -24,7 +24,7 @@ var _moment2 = _interopRequireDefault(_moment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var debug = (0, _debug2.default)('leo:plugin-blogpost:schema');
+var debug = (0, _debug2.default)('leo-plugin-blogpost:schema');
 
 var BlogPostAttributesType = new _type.GraphQLObjectType({
   name: 'BlogPostAttributes',

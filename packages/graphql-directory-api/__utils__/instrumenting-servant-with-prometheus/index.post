@@ -1,0 +1,155 @@
+---
+title: "Instrumenting Servant with Prometheus"
+slug: "instrumenting-servant-with-prometheus"
+publishedAt: "May 21st, 2016"
+---
+
+To set up a Servant/WAI application with monitoring, we will first
+scaffold a servant application using stack.
+
+```bash
+> stack new servant-prometheus \
+https://raw.githubusercontent.com/commercialhaskell/stack-templates/8cb4889fb7c502c18f6f9ecf9cd62aef58589c21/servant.hsfiles \
+--resolver nightly-2016-05-21
+```
+
+To instrument our servant application, add the following three
+dependencies to `servant-prometheus.cabal` under the `build-depends`
+of the `library`. 
+
+```haskell
+, wai-middleware-prometheus >= 0.1.0.1
+, prometheus-client >= 0.1.0.1
+, prometheus-metrics-ghc >= 0.1.0.1
+```
+
+In `src/Lib.hs` we need the following 3 imports. They are fully
+qualified for clarity.
+
+```haskell
+import Network.Wai.Middleware.Prometheus (prometheus, PrometheusSettings(..))
+import Prometheus (register)
+import Prometheus.Metric.GHC (ghcMetrics)
+```
+
+All of our work will be in the `startApp` function defined in the same
+file. Currently, `startApp` is defined as `run 8080 app`. We are going
+to change that to the following.
+
+```haskell
+startApp = do
+  register ghcMetrics
+  let promMiddleware = prometheus $ PrometheusSettings ["metrics"] True True
+  run 8080 $ promMiddleware $ app
+```
+
+We also need `{-# LANGUAGE OverloadedStrings #-}` for the
+`["metrics"]` literal.
+
+Finally, to actually enable consumption of GHC metrics, we need to
+include the `-T` flag in our executable. The `executable`'s
+`ghc-options` becomes:
+
+```
+ghc-options: -threaded -rtsopts -with-rtsopts=-TN
+```
+
+After building and running, the servant server should be providing
+prometheus metrics at /metrics.
+
+```bash
+stack install --only-dependencies
+stack build
+stack exec servant-prometheus-exe
+```
+
+# Details
+
+All three of the packages we added as dependencies come from
+[fimad/prometheus-haskell](https://github.com/fimad/prometheus-haskell).
+
+* Prometheus Client
+  - Defines the core data types and metrics. The other two packages
+    build on client to provide their metrics.
+  - This is the package to use to set up custom metrics.
+* Prometheus Metrics GHC
+  - Provides a set of custom metrics for Prometheus Client that are
+    exposed from GHC's runtime system.
+* WAI Middleware Prometheus
+  - Instruments a WAI application, exposing common HTTP metrics. Also
+    exposes those metrics on /metrics (or the url of the user's
+    choice)
+
+[localhost:8080/metrics](http://localhost:8080/metrics) should now
+have the following output, which can be scraped by Prometheus.
+
+* `http_` prefixed metrics come from the WAI middleware
+* `ghc_` prefixed metrics come from `ghcMetrics`
+
+```
+# HELP http_request_duration_microseconds The HTTP request latencies in microseconds.
+# TYPE http_request_duration_microseconds summary
+http_request_duration_microseconds{handler="app",quantile="0.5"} 258.0
+http_request_duration_microseconds{handler="app",quantile="0.9"} 258.0
+http_request_duration_microseconds{handler="app",quantile="0.99"} 258.0
+http_request_duration_microseconds_sum{handler="app"} 258.0
+http_request_duration_microseconds_count{handler="app"} 1
+# HELP ghc_sparks The number of sparks in the local spark pool.
+# TYPE ghc_sparks gauge
+ghc_sparks 0
+# HELP ghc_capabilities The number of threads that can run truly simultaneously.
+# TYPE ghc_capabilities gauge
+ghc_capabilities 1
+# HELP ghc_bytes_allocated Total number of bytes allocated.
+# TYPE ghc_bytes_allocated gauge
+ghc_bytes_allocated 249136
+# HELP ghc_num_gcs The number of garbage collections performed.
+# TYPE ghc_num_gcs gauge
+ghc_num_gcs 3
+# HELP ghc_max_bytes_used The maximum number of live bytes seen so far.
+# TYPE ghc_max_bytes_used gauge
+ghc_max_bytes_used 65576
+# HELP ghc_cumulative_bytes_used The cumulative total bytes used.
+# TYPE ghc_cumulative_bytes_used gauge
+ghc_cumulative_bytes_used 149136
+# HELP ghc_bytes_copied The number of bytes copied during garbage collection.
+# TYPE ghc_bytes_copied gauge
+ghc_bytes_copied 76344
+# HELP ghc_current_bytes_used The number of current live bytes.
+# TYPE ghc_current_bytes_used gauge
+ghc_current_bytes_used 65504
+# HELP ghc_current_bytes_slop The current number of bytes lost to slop.
+# TYPE ghc_current_bytes_slop gauge
+ghc_current_bytes_slop 0
+# HELP ghc_max_bytes_slop The maximum number of bytes lost to slop so far.
+# TYPE ghc_max_bytes_slop gauge
+ghc_max_bytes_slop 8152
+# HELP ghc_peak_megabytes_allocated The maximum number of megabytes allocated.
+# TYPE ghc_peak_megabytes_allocated gauge
+ghc_peak_megabytes_allocated 1
+# HELP ghc_mutator_cpu_seconds The CPU time spent running mutator threads.
+# TYPE ghc_mutator_cpu_seconds gauge
+ghc_mutator_cpu_seconds 1.471e-3
+# HELP ghc_mutator_wall_seconds The wall clock time spent running mutator threads.
+# TYPE ghc_mutator_wall_seconds gauge
+ghc_mutator_wall_seconds 1.48e-3
+# HELP ghc_gc_cpu_seconds The CPU time spent running GC.
+# TYPE ghc_gc_cpu_seconds gauge
+ghc_gc_cpu_seconds 1.428e-3
+# HELP ghc_gc_wall_seconds The wall clock time spent running GC.
+# TYPE ghc_gc_wall_seconds gauge
+ghc_gc_wall_seconds 1.781416e-3
+# HELP ghc_cpu_seconds Total CPU time elapsed since program start.
+# TYPE ghc_cpu_seconds gauge
+ghc_cpu_seconds 0.352497
+# HELP ghc_wall_seconds Total wall clock time elapsed since start.
+# TYPE ghc_wall_seconds gauge
+ghc_wall_seconds 28.681236189
+# HELP ghc_parallel_total_bytes_copied Number of bytes copied during GC, minus space held by mutable lists held by the capabilities.
+# TYPE ghc_parallel_total_bytes_copied gauge
+ghc_parallel_total_bytes_copied 0
+# HELP ghc_parallel_max_bytes_copied Sum of number of bytes copied
+each GC by the most active GC thread each GC.
+# TYPE ghc_parallel_max_bytes_copied gauge
+ghc_parallel_max_bytes_copied 0
+```

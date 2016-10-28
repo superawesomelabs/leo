@@ -23,7 +23,8 @@ nodeModules.push([
   /^lodash/,
   /^core-js/,
   /^babel-runtime/,
-  /^assets-webpack-plugin/
+  /^assets-webpack-plugin/,
+  /^@sa-labs\/graphql-directory-api/
 ])
 
 module.exports = {
@@ -58,7 +59,10 @@ module.exports = {
       /get-plugin-schemas/,
       /let-plugins-post-process-data/,
     ],
-    loaders: [{
+    loaders: [,{
+      test: /@sa-labs.*\.jsx?$/,
+      loader: 'babel'
+    }, {
       test: /\.jsx?$/,
       exclude: /(node_modules|bower_components)/,
       loader: 'babel'

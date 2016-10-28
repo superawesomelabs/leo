@@ -26,7 +26,6 @@ function slugify(str) {
 module.exports = function(json) {
   // Signal to webpack this is cacheable
   this.cacheable();
-
   /**
    * Get the filename for the currently loading content
    * given `/whatever/post-a.post`, will return `post-a`
@@ -45,14 +44,13 @@ module.exports = function(json) {
       fs.accessSync(headerImagePath, fs.F_OK);
       this.addDependency(headerImagePath);
       headerImg = loaderUtils.urlToRequest(headerImagePath);
-//      console.log(fileLoader.call(this, headerImagePath));
-      console.log(this);
-      console.log(headerImg);
-  } catch (e) {
-    console.log('doesnt exist', e);
-  }
+      //      console.log(fileLoader.call(this, headerImagePath));
+      //      console.log(this);
+      //      console.log(headerImg);
+    } catch (e) {
+      console.log('doesnt exist', e);
     }
-
+  }
   // Categories are used to generate archival pages
   var category = {
     display: json.attributes.category || 'Uncategorized'
@@ -71,7 +69,7 @@ module.exports = function(json) {
 
   /**
    * Generate a URL if none exists
-   * 
+   *
    * In the future, the way this URL gets generated should be likely be
    * configurable so that all blogposts can be put at `/posts/:slug`, etc
    */
@@ -117,9 +115,8 @@ module.exports = function(json) {
    * Put it all together for use in the application.
    * Mark it as being of the content type `leo-blogpost` for easier querying
    */
-  var finalContent = merge({},
-    json, {
-      attributes: {
+  const finalAttributes = merge({},
+    json.attributes, {
         contentType: 'leo-blogpost',
         category: category,
         publishedAt: publishedAt.format('MMM Do, YYYY'),
@@ -128,24 +125,26 @@ module.exports = function(json) {
         url: url,
         excerpt: excerpt(json.body),
         timeToRead: timeToRead
-      }
-    })
-    //TODO require headerImg
-    if(headerImg) {
-      /**
-       * If headerImg exists, we were able to access the header.png
-       * file. This means we should include it as a require, so it
-       * can be picked up by img-loader, etc.
-       */
-      return `
-      module.exports = Object.assign(${JSON.stringify(finalContent)},
-        {
-          attributes: Object.assign(
-                        ${JSON.stringify(finalContent.attributes)},
-                        { headerImage: '/' + require("./header.png") }
-                      )
-        })`;
-    } else {
-      return 'module.exports = ' + JSON.stringify(finalContent);
-    }
+    });
+
+  const finalContent = Object.assign({},
+                                     json,
+                                     {
+                                       attributes: finalAttributes,
+                                     });
+  //TODO require headerImg
+  if(headerImg) {
+    /**
+     * If headerImg exists, we were able to access the header.png
+     * file. This means we should include it as a require, so it
+     * can be picked up by img-loader, etc.
+     */
+    // TODO: add header only if one exists. babel-template here?
+    //                        { headerImage: '/' + require("./header.png") }
+    return `
+      module.exports = ${JSON.stringify(finalContent)}
+`;
+  } else {
+    return 'module.exports = ' + JSON.stringify(finalContent);
+  }
 }

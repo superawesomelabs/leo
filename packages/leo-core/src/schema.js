@@ -1,20 +1,21 @@
 import fs from 'fs';
 import path from 'path';
-import genSchema from 'leo-graphql/gen-schema';
-import {
-  graphql
-}
-from 'graphql';
+import { graphql } from 'graphql';
 import {
   introspectionQuery, printSchema
-}
-from 'graphql/utilities';
+} from 'graphql/utilities';
+import genSchema from '@sa-labs/graphql-directory-api/build/gen-schema';
 import mkdirp from 'mkdirp';
 import oDebug from 'debug';
 const debug = oDebug('leo:schema');
+import loadLeorc from 'utils/load-leorc';
 
 export default function({ print, update }) {
-  genSchema((err, schema) => {
+  loadLeorc((err, conf) => {
+    const schema = genSchema({
+      data: [],
+      plugins: conf.plugins
+    });
     update ? writeSchemaFiles(schema, !print) : null;
     // Default behavior is to print human-readable schema
     if(print || !print && !update) {

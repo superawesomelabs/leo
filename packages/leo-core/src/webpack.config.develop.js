@@ -18,7 +18,7 @@ export default ({ conf, data, urls }) => {
     const dPlugins = [
       /**
        * definePlugin takes raw strings and inserts them, so we put in
-       * strings of JSON. This includes the leo configuration and 
+       * strings of JSON. This includes the leo configuration and
        * the full set of loaded data (markdown, etc)
        */
       new webpack.DefinePlugin({
@@ -35,10 +35,14 @@ export default ({ conf, data, urls }) => {
     }
     return dPlugins;
   }
-  
+
+  let staticEntry = path.resolve(__dirname, 'entry-static-watch.js');
+  if(conf.scaffolding) {
+    staticEntry = `${conf.scaffolding}/entry-static`
+  };
   staticConfig.merge({
     entry: {
-      'static': path.resolve(__dirname, 'entry-static-watch.js'),
+      'static': staticEntry
     },
 
     target: 'node',
@@ -108,17 +112,13 @@ export default ({ conf, data, urls }) => {
       noParse: [
         /node_modules\/rc/,
         /node_modules\/eval/,
-        /copyof-get-plugin-schemas/,
+        /get-plugin-schemas/,
       ],
       loaders: [{
         test: /\.jsx?$/,
         exclude: /(graphql|node_modules)/,
         loader: 'babel',
         query: {
-          presets: ['react', 'es2015', 'stage-0'],
-          plugins: [
-            '@sa-labs/leo-core/build/babelRelayPlugin.js'
-          ],
           cacheDirectory: path.resolve(process.cwd(), '.babelcache')
         }
       }, {
@@ -128,9 +128,13 @@ export default ({ conf, data, urls }) => {
     }
   });
 
+  let clientEntry = path.resolve(__dirname, 'entry-client');
+  if(conf.scaffolding) {
+    clientEntry = `${conf.scaffolding}/entry-client`
+  };
   clientConfig.merge({
     entry: {
-      'client': path.resolve(__dirname, 'entry-client.js')
+      'client': clientEntry
     },
     output: {
       // chunkhash can't be used in hmr
@@ -172,12 +176,6 @@ export default ({ conf, data, urls }) => {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel',
-        query: {
-          presets: ['react', 'es2015', 'stage-0'],
-          plugins: [
-            '@sa-labs/leo-core/build/babelRelayPlugin.js'
-          ],
-        }
       }, {
         test: /\.json/,
         loader: 'json'

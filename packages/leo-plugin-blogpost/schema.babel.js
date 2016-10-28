@@ -16,7 +16,7 @@ import find from 'lodash/find';
 import filter from 'lodash/filter';
 import oDebug from 'debug';
 import moment from 'moment';
-const debug = oDebug('leo:plugin-blogpost:schema');
+const debug = oDebug('leo-plugin-blogpost:schema');
 
 const BlogPostAttributesType = new GraphQLObjectType({
   name: 'BlogPostAttributes',

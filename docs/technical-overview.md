@@ -1,12 +1,28 @@
 # Technical Overview
 
-## Data Processing
+LEO is an pluggable static site generator backed by a common GraphQL
+data pipeline. The technical flow boils down to two processes.
 
-Leo Plugins define a set of mappings from Content Type to JSON. Using these
-mappings, a directory (conventionally, `data/`) of files can be
-consumed as a GraphQL API. This approach enables a high level of
-[extensibility](#extensibility). Examples of what is possible includes
-generating search indexes and auto-creation of excerpts.
+1. Files -> Database
+2. SPA -> Static Files
+
+## Files -> Database
+
+The data pipeline is enabled by `graphql-directory-api`. It is a
+webpack-based, pluggable function from a folder of files to a GraphQL
+schema backed by a JSON store derived from the folder of files.
+
+### Data Plugins
+
+LEO Plugins define:
+
+* A set of mappings from File to JSON Object.
+* A data type that we can use to query said JSON
+
+Using these mappings, a directory (conventionally, `data/`) of files
+can be consumed as a GraphQL API. This approach enables a high level
+of [extensibility](#extensibility). Examples of what is possible
+includes generating search indexes and auto-creation of excerpts.
 
 ## Templating
 

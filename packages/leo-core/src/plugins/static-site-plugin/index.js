@@ -71,7 +71,7 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
         throw new Error('Source file not found: "' + self.renderSrc + '"');
       }
       var webpackAssetsJSON = findAsset('webpack-static-assets.json', compiler, webpackStatsJson);
-      console.log(webpackAssetsJSON)
+      console.log('webpackAssetsJSON', webpackAssetsJSON)
 
       var assets = getAssetsFromCompiler(compiler, webpackStatsJson);
 
@@ -88,7 +88,7 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
         _globalJSONAsset: function writeJSON(obj) {
           // the filename here should be the URL of the "current
           // page", because the client-side relay network layer relies
-          // on the URL hash to fetch the json file 
+          // on the URL hash to fetch the json file
           compiler.assets[obj.name] = createAssetFromContents(JSON.stringify(obj.json));
         }
       }

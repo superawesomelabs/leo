@@ -4,28 +4,31 @@ import path from 'path';
 import map from 'lodash/map';
 import uniq from 'lodash/uniq';
 import chalk from 'chalk';
-
-import config from './webpack.config.develop';
 import {
   genDatabase
-} from 'develop/gen-database--watch';
+} from '@sa-labs/graphql-directory-api';
+
+import config from './webpack.config.develop';
 import enablePlugins from 'utils/enable-plugins';
-import loadLeorc from 'develop/load-leorc';
+import loadLeorc from 'utils/load-leorc';
 import graphql, {
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLNonNull
 } from 'graphql/type';
-import getPluginSchemas from 'leo-graphql/get-plugin-schemas';
 
 export default () => {
   loadLeorc((err, conf) => {
     if(err) {
       throw new Error('error loading .leorc', err);
     }
-    genDatabase(conf, (err, { data }) => {
+    genDatabase({
+      memoryFS: true,
+      ...conf,
+    }, (err, data) => {
       if (err) {
-        throw new Error('failed to generate database', err);
+        console.log(err);
+        throw new Error('failed to generate database');
       };
 
       /**

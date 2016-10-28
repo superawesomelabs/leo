@@ -1,4 +1,4 @@
-var debug = require('debug')('leo:graphql:server');
+var debug = require('debug')('leo:graphql');
 import bootstrapApp from 'leo-graphql/app';
 
 export default () => {

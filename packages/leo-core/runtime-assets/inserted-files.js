@@ -1,29 +1,10 @@
-import graphql, {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLNonNull
-} from 'graphql/type';
-import getPluginSchemas from './copyof-get-plugin-schemas';
+import genSchema from '@sa-labs/graphql-directory-api/build/gen-schema';
 
 export const conf = __LEORC__;
 
 const data = __DATA__;
 
-const Query = new GraphQLObjectType({
-  name: 'Query',
-  fields: getPluginSchemas(conf.plugins, data)
-});
-const Root = new GraphQLObjectType({
-  name: 'Root',
-  fields: {
-    root: {
-      type: new GraphQLNonNull(Query),
-      resolve: () => ({})
-    }
-  }
-});
-
-// Final Schema
-export const schema = new GraphQLSchema({
-  query: Root
+export const schema = genSchema({
+  data,
+  plugins: conf.plugins
 });

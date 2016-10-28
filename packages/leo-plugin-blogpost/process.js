@@ -6,12 +6,17 @@ const debug = oDebug('leo:plugin-blogpost:process');
  */
 function maybeFilterDrafts(obj) {
   const isBlogPost = obj.attributes.contentType === 'leo-blogpost';
-  const shouldRenderDrafts = process.env.BLOGPOST_RENDER_DRAFTS;
+  const shouldRenderDrafts = Boolean(process.env.BLOGPOST_RENDER_DRAFTS);
 
   if(isBlogPost && !shouldRenderDrafts) {
-    debug('filtering out', obj.attributes.title || obj.attributes.slug);
+    // Filter out any drafts if we shouldn't renderDrafts
+    if(obj.attributes.status === 'draft') {
+      debug('filtering out draft: ', obj.attributes.title || obj.attributes.slug);
+    }
+
     return obj.attributes.status !== 'draft';
   } else {
+    // passthrough for any non-blogposts since we shouldn't be handling them
     return true
   }
 }

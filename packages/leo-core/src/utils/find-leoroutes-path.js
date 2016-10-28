@@ -13,7 +13,7 @@ export default () => {
     routes = require.resolve(path.resolve(process.cwd(), 'routes'))
   } catch (e) {
     debug('falling back to default route structure');
-    routes = require.resolve('routes');
+    routes = require.resolve(path.resolve(__dirname, 'routes'));
   }
   debug(`using ${routes}`);
   return routes;
