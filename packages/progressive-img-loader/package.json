@@ -1,0 +1,17 @@
+{
+  "name": "@sa-labs/progressive-img-loader",
+  "description": "Load images with small preview versions for progressive Medium-style loading",
+  "author": "Chris Biscardi <chris@christopherbiscardi.com> (www.christopherbiscardi.com)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "../../node_modules/.bin/jest"
+  },
+  "peerDependencies": {
+    "gm": "^1.23.0"
+  },
+  "devDependencies": {
+    "should": "^11.1.1"
+  }
+}

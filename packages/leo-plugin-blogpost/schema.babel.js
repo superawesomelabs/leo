@@ -56,6 +56,10 @@ const BlogPostAttributesType = new GraphQLObjectType({
     headerImage: {
       type: GraphQLString,
       description: 'header.png in the post folder.'
+    },
+    headerImagePreview: {
+      type: GraphQLString,
+      description: 'A preview version of header.png, meant to be used in medium-like progressive loading situations.'
     }
   }
 })

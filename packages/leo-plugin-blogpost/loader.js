@@ -25,7 +25,7 @@ function slugify(str) {
 
 module.exports = function(json) {
   // Signal to webpack this is cacheable
-  this.cacheable();
+  this.cacheable && this.cacheable();
   /**
    * Get the filename for the currently loading content
    * given `/whatever/post-a.post`, will return `post-a`
@@ -33,17 +33,18 @@ module.exports = function(json) {
   var filename = loaderUtils.interpolateName(this, '[name]', {
     content: json
   });
-  var headerImagePath = loaderUtils.interpolateName(this, '[path]header.png', {
+  const headerImagePath = loaderUtils.interpolateName(this, '[path]header.png', {
     content: json
   });
 
-  var headerImg;
+  let headerImg;
   // TODO: check if header image exists via headerImagePath
   if(filename === 'index') {
     try {
       fs.accessSync(headerImagePath, fs.F_OK);
       this.addDependency(headerImagePath);
       headerImg = loaderUtils.urlToRequest(headerImagePath);
+      gmLoader.call(this, headerImagePath);
       //      console.log(fileLoader.call(this, headerImagePath));
       //      console.log(this);
       //      console.log(headerImg);

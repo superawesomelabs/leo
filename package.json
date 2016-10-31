@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/superawesomelabs/leo#readme",
   "dependencies": {
-    "ava": "^0.16.0",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.0",
     "babel-eslint": "^7.0.0",
@@ -35,12 +34,13 @@
     "frontmatter-loader": "0.0.1",
     "json-loader": "^0.5.4",
     "memory-fs": "^0.3.0",
-    "nyc": "^8.3.0",
     "webpack": "^1.13.3"
   },
   "devDependencies": {
     "commitizen": "^2.8.6",
     "cz-lerna-changelog": "^0.3.0",
+    "gm": "^1.23.0",
+    "jest": "^16.0.2",
     "lerna": "2.0.0-beta.22",
     "lerna-semantic-release": "^8.0.2"
   }
