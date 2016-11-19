@@ -8,5 +8,4 @@ dist: ## build everything for production
 	rm -rf ./build
 	../../node_modules/.bin/webpack -d
 	./scripts/prepend-env.sh
-	cp -R src/loaders build/
 	npm run build-runtime-assets

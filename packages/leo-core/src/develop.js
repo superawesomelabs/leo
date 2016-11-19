@@ -23,7 +23,7 @@ export default () => {
       throw new Error('error loading .leorc', err);
     }
     genDatabase({
-      memoryFS: true,
+//      memoryFS: true,
       ...conf,
     }, (err, data) => {
       if (err) {
@@ -51,17 +51,22 @@ export default () => {
        * This is where we hook in to allow things like `npm i leo-blogpost`
        */
       const configWithUrlsAndPlugins = configWithUrls.map(c => enablePlugins(conf, c));
+      debug('enabled plugins');
       webpack(configWithUrlsAndPlugins.map(c => c.resolve())).run((err, stats) => {
+        debug('ran client and static webpack builds');
         if (err) {
           // hard failure
+          debug('hard failure');
           return console.error(chalk.red(err));
         }
         const jsonStats = stats.toJson();
         if (jsonStats.errors.length > 0) {
           //soft failure
+          debug('soft failure');
           jsonStats.errors.forEach(e => console.error(chalk.red(e)))
         }
         if (jsonStats.warnings.length > 0) {
+          debug('softer failure');
           jsonStats.warnings.forEach(warning => console.warn(chalk.yellow(warning)))
         }
         debug('built');

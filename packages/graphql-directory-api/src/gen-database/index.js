@@ -54,7 +54,7 @@ export default function genDatabase({
   }, {
     outputPath: distFolder
   }));
-  console.log(createdConfig.resolve());
+
   const compiler = webpack(createdConfig.resolve());
   if(memoryFS) {
     fs = new MemoryFS();

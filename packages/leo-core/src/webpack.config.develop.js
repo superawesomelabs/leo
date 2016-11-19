@@ -103,7 +103,7 @@ export default ({ conf, data, urls }) => {
 //      new webpack.DefinePlugin({ "global.GENTLY": false }),
       new webpack.NormalModuleReplacementPlugin(
         /leohtml/,
-        findLeoHTMLPath()
+        findLeoHTMLPath(conf.scaffolding)
       ),
       ...getDefinePlugins(),
       new CopyWebpackPlugin([{ from: 'static' }])

@@ -1,5 +1,5 @@
 {
-  "name": "leo-scaffolding-relay",
+  "name": "@sa-labs/leo-scaffolding-relay",
   "version": "1.0.0",
   "description": "Entrypoints that support Relay-based LEO static sites",
   "main": "entry-static.js",
@@ -7,6 +7,13 @@
   "license": "MIT",
   "scripts": {
     "build": "../../node_modules/.bin/babel --presets react,es2015 src --out-dir ."
+  },
+  "dependencies": {
+    "isomorphic-relay": "^0.7.0",
+    "isomorphic-relay-router": "^0.8.0",
+    "react-relay": "0.9.0",
+    "relay-local-schema": "^0.5.3",
+    "react-helmet": "^3.1.0",
   },
   "peerDependencies": {
     "@sa-labs/leo-core": "*"

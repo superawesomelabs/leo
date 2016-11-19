@@ -99,7 +99,6 @@ module.exports = function(data) {
     const post = find(allPosts, ({ attributes: a }) => a ? a.slug === slug : false);
     if(!post) {
       console.log('leo-plugin-blogpost could not find', slug, 'It may be useful to define `slug` in the frontmatter for this post');
-      debug('^^', allPosts.map(o => o.attributes.title));
     }
     return post
   }

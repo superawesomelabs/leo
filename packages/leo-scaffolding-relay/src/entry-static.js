@@ -66,8 +66,6 @@ export default (locals, callback) => {
         } catch (e) {
           console.log(e)
         }
-      }, (things) => {
-        console.log('things', things)
       }).catch((err) => {
         console.log('caught', err)
       })
