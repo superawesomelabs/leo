@@ -1,5 +1,4 @@
 /* @flow */
-import Config from 'webpack-configurator';
 import { resolve } from 'path';
 import webpack from 'webpack';
 
@@ -10,10 +9,8 @@ type WebpackOpts = {|
 
 export default ({ filepaths, plugins }: WebpackOpts,
                 { outputPath }: {| outputPath: string |}) => {
-  // create a new webpack-configurator instance
-  const config = new Config();
   // merge some initial config in
-  config.merge({
+  const config = {
     target: 'node',
     entry: 'database-loader!',//resolve(__dirname, '../runtime-assets/entry-database.js'),
     output: {
@@ -58,7 +55,7 @@ export default ({ filepaths, plugins }: WebpackOpts,
     database: {
       files: filepaths
     }
-  });
+  };
 
   // Allow plugins to add loaders
   return config;

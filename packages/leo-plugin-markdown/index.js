@@ -19,19 +19,16 @@ function getMDInstance() {
   return md;
 }
 module.exports = function configure(config, opts) {
-  config.loader('markdown', {
+  config.module.loaders.push({
     test: /\.md$/,
     exclude: /node_modules/,
     loaders: ['@sa-labs/leo-plugin-markdown/loader']
   });
 
-  config.merge(current => {
-    current.resolve.extensions.push('.md');
-    current['@saLabs/leoPluginMarkdown/loader'] = {
-      instance: opts && opts.instance || getMDInstance()
-    }
-    return current;
-  })
+  config.resolve.extensions.push('.md');
+  config['@saLabs/leoPluginMarkdown/loader'] = {
+    instance: opts && opts.instance || getMDInstance()
+  }
 
   return config;
 }

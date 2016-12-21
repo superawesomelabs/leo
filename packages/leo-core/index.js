@@ -2,6 +2,7 @@ var program = require('commander');
 var graphql = require('./src/graphql').default;
 var schema = require('./src/schema').default;
 var develop = require('./src/develop').default;
+var build = require('./src/build').default;
 var db = require('./src/db').default;
 
 program
@@ -12,7 +13,13 @@ program
   .alias('d')
   .description('Develop the site locally. Watch files for changes.')
   .option('-w, --watch', 'Watch mode')
-  .action(develop)
+  .action(develop);
+
+program
+  .command('build')
+  .alias('b')
+  .description('Build the site once with production flags')
+  .action(build);
 
 program
   .command('graphql')

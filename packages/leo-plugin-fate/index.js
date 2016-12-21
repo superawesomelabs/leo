@@ -6,32 +6,35 @@ module.exports = function configure(config, opts) {
   opts = opts || {};
 
   // Project's CSS. Run CSS in modules mode with postcss
-  config.loader('css', {
+  config.module.loaders.push({
     test: /\.css$/,
     exclude: /node_modules/,
     loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
   });
 
   // Project's global css. Run PostCSS but not modules mode.
-  config.loader('global-css', {
+  config.module.loaders.push({
     test: /\.global\.css$/,
     loader: ExtractTextPlugin.extract('style-loader', 'css-loader?importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
   });
 
   // Third Party CSS. From node_modules. Don't process, just load.
-  config.loader('third-party-css', {
+  config.module.loaders.push({
     test: /\.css$/,
     include: /node_modules/,
     loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
   });
 
-  config.plugin('extract-css',
-    ExtractTextPlugin, ['styles.[contenthash].css', {
-      allChunks: true
-    }]);
+  const extract = new ExtractTextPlugin('styles.[contenthash].css', {
+    allChunks: true
+  });
+  if(config.plugins) {
+    config.plugins.push(extract);
+  } else {
+    config.plugins = [extract];
+  }
 
-  config.merge({
-    postcss: opts.postcss || [
+  config.postcss = opts.postcss || [
       require('postcss-import'),
       require('postcss-brand-colors'),
       require('postcss-constants')({
@@ -57,7 +60,6 @@ module.exports = function configure(config, opts) {
 //      require('immutable-css'),
       require('postcss-browser-reporter')
     ]
-  });
 
   return config;
 }
