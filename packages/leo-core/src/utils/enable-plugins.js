@@ -8,8 +8,12 @@ import oDebug from 'debug';
 const debug = oDebug('leo:utils:enable-plugins');
 import { resolve } from 'path';
 
-export default function enablePlugins(leoConf, config) {
-  leoConf.plugins.forEach((plugin) => {
+export default function enablePlugins({
+  bundleType,
+  conf: leoConf,
+  config: webpackConfig
+}) {
+  leoConf.plugins.forEach(plugin => {
     debug('enabling plugin', plugin, 'with config keys', Object.keys(leoConf[plugin] || {}));
     /**
      * allow each plugin to add itself to the webpack config
@@ -27,12 +31,22 @@ export default function enablePlugins(leoConf, config) {
       }
     }
 
-    require(p)(config, {
+    /**
+     * 1. require the plugin
+     * 2. execute the resulting function with the webpack config and
+     *    the leo plugin config. The plugin config will have additional
+     *    housekeeping properties added to it so that plugins can
+     *    selectively apply themselves to different pipelines.
+     */
+    return require(p)(webpackConfig, {
       ...(leoConf[plugin] || {}),
       leo: {
-        pipeline: 'site'
+        // pipeline: site or data
+        pipeline: 'site',
+        // bundleType: client or static
+        bundle: bundleType
       }
     });
   })
-    return config;
+    return webpackConfig;
 }

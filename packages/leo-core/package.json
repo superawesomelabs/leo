@@ -66,8 +66,7 @@
     "react-router": "^2.3.0",
     "serialize-javascript": "^1.1.2",
     "superagent": "^2.1.0",
-    "webpack": "^1.12.9",
-    "webpack-configurator": "^0.3.1",
+    "webpack": "^1.x",
     "webpack-require": "0.0.16",
     "xmlhttprequest": "^1.8.0"
   }

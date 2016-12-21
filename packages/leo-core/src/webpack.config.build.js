@@ -19,6 +19,9 @@ export default ({ conf, data, urls }) => {
       new webpack.DefinePlugin({
         __LEORC__: JSON.stringify(conf),
         __DATA__: JSON.stringify(data),
+        'process.env':{
+          'NODE_ENV': JSON.stringify('production')
+        }
       })
     ]
     if(conf.define) {
@@ -35,6 +38,7 @@ export default ({ conf, data, urls }) => {
   if(conf.scaffolding) {
     staticEntry = `${conf.scaffolding}/entry-static`
   };
+
   let clientEntry = path.resolve(__dirname, 'entry-client');
   if(conf.scaffolding) {
     clientEntry = `${conf.scaffolding}/entry-client`
@@ -78,6 +82,13 @@ export default ({ conf, data, urls }) => {
         ]
       },
       plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+          compress:{
+            warnings: true
+          }
+        }),
+        // Merge all duplicate modules
+        new webpack.optimize.DedupePlugin(),
         new AssetsPlugin({
           filename: 'webpack-static-assets.json',
           path: path.resolve(process.cwd(), 'dist/js'),
@@ -128,7 +139,6 @@ export default ({ conf, data, urls }) => {
         }]
       }
     },
-
     client: {
       entry: {
         'client': clientEntry
@@ -179,5 +189,5 @@ export default ({ conf, data, urls }) => {
         }]
       }
     }
-  };
+  }
 };
