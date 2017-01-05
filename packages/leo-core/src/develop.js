@@ -52,7 +52,7 @@ export default () => {
        */
       const configWithUrlsAndPlugins = Object.entries(configWithUrls)
                                              .map(([key, wpConfig]) => {
-                                               console.log(key, wpConfig);
+//                                               console.log(key, wpConfig);
                                                return enablePlugins({
                                                  bundleType: key,
                                                  config: wpConfig,
@@ -61,7 +61,15 @@ export default () => {
                                              });
 //      console.log('config', configWithUrlsAndPlugins);
       debug('enabled plugins');
-      webpack(configWithUrlsAndPlugins).run((err, stats) => {
+      let compiler;
+      try {
+        compiler = webpack(configWithUrlsAndPlugins);
+      } catch (e) {
+        console.log('webpack error');
+        console.log(e.message);
+        throw e;
+      }
+      compiler.run((err, stats) => {
         debug('ran client and static webpack builds');
         if (err) {
           // hard failure

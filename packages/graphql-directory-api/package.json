@@ -38,6 +38,6 @@
     "lodash": "^4.16.4",
     "memory-fs": "^0.3.0",
     "mkdirp": "^0.5.1",
-    "webpack": "^1.13.2"
+    "webpack": "^2.2.0-rc.1"
   }
 }

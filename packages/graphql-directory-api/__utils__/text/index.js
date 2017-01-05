@@ -1,15 +1,11 @@
 module.exports = function configure(config, opts) {
-  config.loader('text', {
+  config.module.rules.push({
     test: /\.md$/,
     exclude: /node_modules/,
-    loaders: ['./__utils__/text/loader']
+    use: [{
+      loader: './__utils__/text/loader'
+    }]
   });
-  config.merge((current) => {
-    current.resolve.extensions.push('.md');
-    current['text/loader'] = {
-    }
-    return current;
-  })
 
   return config;
 }

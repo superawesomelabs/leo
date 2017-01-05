@@ -5,12 +5,13 @@ module.exports = function configure(config) {
    * be some of the heavier assets on a site. In the future, we should implement
    * a gradual loading mechanism that loads a low-res image, then the high-res.
    */
-  config.module.loaders.push({
+  config.module.rules.push({
     test: /\.(jpe?g|png|gif|svg)$/i,
-    loaders: [
-      'url-loader?limit=10000',
-      'img-loader?minimize&progressive=true'
-    ]
+    use: [{
+      loader: 'url-loader?limit=10000'
+    }, {
+      loader: 'img-loader?minimize&progressive=true'
+    }]
   });
 
   return config;

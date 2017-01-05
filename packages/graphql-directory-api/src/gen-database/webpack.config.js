@@ -12,19 +12,19 @@ export default ({ filepaths, plugins }: WebpackOpts,
   // merge some initial config in
   const config = {
     target: 'node',
-    entry: 'database-loader!',//resolve(__dirname, '../runtime-assets/entry-database.js'),
+    entry: `database-loader?${JSON.stringify({files: filepaths})}!`,
     output: {
       path: outputPath,
       filename: 'database-bundle.js',
-      library: true,
+      library: 'LEODatabase',
       libraryTarget: 'commonjs2'
     },
 
     resolve: {
-      extensions: ['', '.js', '.json']
+      extensions: ['.js', '.json']
     },
     resolveLoader: {
-      modulesDirectories: [
+      modules: [
         'node_modules',
         /**
          * Allow custom loaders to be accessed without specifying the full
@@ -40,20 +40,16 @@ export default ({ filepaths, plugins }: WebpackOpts,
         /get-plugin-schemas/,
         /enable-plugins/,
       ],
-      loaders: [{
+      rules: [{
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'stage-0']
-        }
-      },{
-        test: /load-database-files.js$/,
-        loaders: ['database-loader', 'babel']
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: ['es2015', 'stage-0']
+          }
+        }]
       }]
-    },
-    database: {
-      files: filepaths
     }
   };
 

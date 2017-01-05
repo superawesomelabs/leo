@@ -31,7 +31,9 @@ function mkRequireArray(paths) {
 
 module.exports = function(content, map) {
   this.cacheable && this.cacheable();
-  const options = this.options.database || {};
-  const { files=[] } = options;
+  const {
+    files=[]
+  } = loaderUtils.parseQuery(this.query);
+  debug('files', files);
   return mkRequireArray(files)
 }
