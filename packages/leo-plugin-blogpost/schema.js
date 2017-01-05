@@ -91,10 +91,8 @@ var BlogPostType = new _type.GraphQLObjectType({
 
 var _connectionDefinition = (0, _graphqlRelay.connectionDefinitions)({
   nodeType: BlogPostType
-});
-
-var BlogPostConnection = _connectionDefinition.connectionType;
-
+}),
+    BlogPostConnection = _connectionDefinition.connectionType;
 
 module.exports = function (data) {
   // The set of posts we should return via the API

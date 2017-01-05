@@ -46,7 +46,8 @@ module.exports = {
   },
   externals: nodeModules,
   resolve: {
-    root: [
+    modules: [
+      'node_modules',
       path.resolve('./src')
     ]
   },
@@ -59,13 +60,17 @@ module.exports = {
       /get-plugin-schemas/,
       /let-plugins-post-process-data/,
     ],
-    loaders: [,{
+    rules: [{
       test: /@sa-labs.*\.jsx?$/,
-      loader: 'babel'
+      use: [{
+        loader: 'babel-loader'
+      }]
     }, {
       test: /\.jsx?$/,
       exclude: /(node_modules|bower_components)/,
-      loader: 'babel'
+      use: [{
+        loader: 'babel-loader'
+      }]
     }]
   }
 }

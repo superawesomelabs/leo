@@ -55,7 +55,15 @@ export default function genDatabase({
     outputPath: distFolder
   }));
 
-  const compiler = webpack(createdConfig);
+  let compiler;
+  try {
+    compiler = webpack(createdConfig);
+  } catch (e) {
+    console.log('webpack error');
+    console.log(e.message);
+    throw e;
+  }
+
   if(memoryFS) {
     fs = new MemoryFS();
     compiler.outputFileSystem = fs;
@@ -87,6 +95,7 @@ export default function genDatabase({
     debug('dist output', fs.readdirSync(distFolder));
     const apiJSONAsString = fs.readFileSync(resolve(distFolder, 'database-bundle.js'), 'utf-8');
     const apiJSON = evaluate(apiJSONAsString, 'api-database.json', null, true);
+    debug('apiJSON count', apiJSON.length);
     letPluginsPostProcessData(plugins, apiJSON, (err, resultingData) => {
       if(err) {
         debug('caught err', err);

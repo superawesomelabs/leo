@@ -24,13 +24,11 @@ describe('index', () => {
 
   it('generates a database', () => {
     expect(loader.bind({
-      options: {
-        database: {
+      query: '?' + JSON.stringify({
           files: [
             resolve(process.cwd(), './__utils__/database-loader-file.txt')
           ]
-        }
-      }
+      })
     })()).toEqual(`module.exports = [require("${process.cwd()}/__utils__/database-loader-file.txt")];`);
   });
 });

@@ -1,7 +1,7 @@
 /* @flow */
 import oDebug from 'debug';
 const debug = oDebug('graphql-directory-api:get-plugin-schemas');
-import path from 'path';
+import path, { resolve } from 'path';
 import type { PluginSpec } from './types';
 
 export default function({
@@ -11,14 +11,19 @@ export default function({
   debug('reducing plugin schema');
   return plugins.reduce((acc, pluginString) => {
     const pluginSchemaPath = `${pluginString}/schema`;
+    let pluginPath;
     try {
-      require.resolve(pluginSchemaPath);
+      pluginPath = require.resolve(pluginSchemaPath);
       debug('pluginSchemaPath', pluginSchemaPath);
     } catch (e) {
-      debug('No schema for plugin', pluginString);
-      return acc;
+      try {
+        pluginPath = require.resolve(resolve(process.cwd(), pluginSchemaPath));
+      } catch (e) {
+        debug('No schema for plugin', pluginString);
+        return acc;
+      }
     }
-    const mkPluginSchema = require(pluginSchemaPath);
+    const mkPluginSchema = require(pluginPath);
     /**
      * If plugin/schema is not a function, maybe we should allow it to not be
      * in the future?

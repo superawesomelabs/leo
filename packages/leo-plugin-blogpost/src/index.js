@@ -1,19 +1,16 @@
 module.exports = function configure(config) {
 
-  config.loader('posts', {
+  config.module.rules.push({
     test: /\.post$/,
     exclude: /node_modules/,
-    loaders: [
-      '@sa-labs/leo-plugin-blogpost/loader',
-      '@sa-labs/leo-plugin-markdown/loader',
-      'frontmatter'
-    ]
+    use: [{
+      loader: '@sa-labs/leo-plugin-blogpost/loader'
+    },{
+      loader: '@sa-labs/leo-plugin-markdown/loader'
+    }, {
+      loader: 'frontmatter-loader'
+    }]
   });
-
-  config.merge((current) => {
-    current.resolve.extensions.push('.post');
-    return current;
-  })
 
   return config;
 }

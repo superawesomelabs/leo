@@ -23,6 +23,7 @@ function slugify(str) {
 }
 
 module.exports = function(json) {
+  debug('loading');
   // Signal to webpack this is cacheable
   this.cacheable();
   /**

@@ -69,7 +69,7 @@ export default ({ conf, data, urls }) => {
 
       externals: [/^graphql/],
       resolve: {
-        extensions: ['', '.js', '.json', '.leorc']
+        extensions: ['.js', '.json', '.leorc']
       },
       resolveLoader: {
         modulesDirectories: [
@@ -150,7 +150,7 @@ export default ({ conf, data, urls }) => {
       },
       target: 'web',
       resolve: {
-        extensions: ['', '.js', '.json', '.leorc']
+        extensions: ['.js', '.json', '.leorc']
       },
       plugins: [
         new AssetsPlugin({

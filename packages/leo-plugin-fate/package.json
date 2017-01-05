@@ -22,7 +22,7 @@
     "@sa-labs/fate-core": "^0.0.6",
     "colorguard": "^1.0.1",
     "css-loader": "^0.23.0",
-    "extract-text-webpack-plugin": "^1.0.1",
+    "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "immutable-css": "^1.0.1",
     "list-selectors": "^2.0.0",
     "lost": "^6.6.3",

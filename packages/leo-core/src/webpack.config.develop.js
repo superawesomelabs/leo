@@ -65,10 +65,10 @@ export default ({ conf, data, urls }) => {
 
       externals: [/^graphql/],
       resolve: {
-        extensions: ['', '.js', '.json', '.leorc']
+        extensions: ['.js', '.json', '.leorc']
       },
       resolveLoader: {
-        modulesDirectories: [
+        modules: [
           'node_modules',
           /**
            * Allow leo's custom loaders to be accessed without specifying the full
@@ -115,16 +115,15 @@ export default ({ conf, data, urls }) => {
           /node_modules\/eval/,
           /get-plugin-schemas/,
         ],
-        loaders: [{
+        rules: [{
           test: /\.jsx?$/,
           exclude: /(graphql|node_modules)/,
-          loader: 'babel',
-          query: {
-            cacheDirectory: path.resolve(process.cwd(), '.babelcache')
-          }
-        }, {
-          test: /\.json/,
-          loader: 'json'
+          use: [{
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: path.resolve(process.cwd(), '.babelcache')
+            }
+          }]
         }]
       }
     },
@@ -140,7 +139,7 @@ export default ({ conf, data, urls }) => {
       },
       target: 'web',
       resolve: {
-        extensions: ['', '.js', '.json', '.leorc']
+        extensions: ['.js', '.json', '.leorc']
       },
       plugins: [
         new AssetsPlugin({
@@ -169,13 +168,12 @@ export default ({ conf, data, urls }) => {
         ...getDefinePlugins(),
       ],
       module: {
-        loaders: [{
+        rules: [{
           test: /\.jsx?$/,
           exclude: /node_modules/,
-          loader: 'babel',
-        }, {
-          test: /\.json/,
-          loader: 'json'
+          use: [{
+            loader: 'babel-loader'
+          }],
         }]
       }
     }
