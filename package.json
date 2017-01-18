@@ -35,7 +35,7 @@
     "frontmatter-loader": "0.0.1",
     "json-loader": "^0.5.4",
     "memory-fs": "^0.3.0",
-    "nyc": "^10.0.0",
+    "nyc": "^10.1.0",
     "webpack": "^1.13.3"
   },
   "devDependencies": {
