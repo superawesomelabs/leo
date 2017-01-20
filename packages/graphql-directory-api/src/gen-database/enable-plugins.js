@@ -4,13 +4,13 @@
  * Allow plugins access to the webpack-configurator config object so they can
  * add loaders, etc.
  */
-import oDebug from 'debug';
-const debug = oDebug('graphql-directory-api:enable-plugins');
-import { resolve } from 'path';
+import oDebug from "debug";
+const debug = oDebug("graphql-directory-api:enable-plugins");
+import { resolve } from "path";
 
-export default function enablePlugins(plugins=[], opts, config) {
+export default function enablePlugins(plugins = [], opts, config) {
   plugins.forEach(plugin => {
-    debug('enabling plugin', plugin, 'with config', opts[plugin]);
+    debug("enabling plugin", plugin, "with config", opts[plugin]);
     /**
      * allow each plugin to add itself to the webpack config
      * with it's respective config, which may or may not exist
@@ -27,16 +27,14 @@ export default function enablePlugins(plugins=[], opts, config) {
         throw new Error(`Can not resolve plugin ${plugin}`);
       }
     }
-    if(typeof addPluginConfig === 'function') {
+    if (typeof addPluginConfig === "function") {
       addPluginConfig(config, {
         ...(opts[plugin] || {}),
-        leo: {
-          pipeline: 'data'
-        }
+        leo: { pipeline: "data" }
       });
     } else {
-      debug(`plugin ${plugin} does not have an index.js`)
+      debug(`plugin ${plugin} does not have an index.js`);
     }
-  })
-    return config;
+  });
+  return config;
 }
