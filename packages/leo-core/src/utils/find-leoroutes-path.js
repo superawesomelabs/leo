@@ -1,5 +1,5 @@
-import path from 'path';
-const debug = require('debug')('leo:find-leoroutes-path')
+import path from "path";
+const debug = require("debug")("leo:find-leoroutes-path");
 
 /**
  * .routes is handled by a special loader which creates routes, etc
@@ -9,12 +9,12 @@ const debug = require('debug')('leo:find-leoroutes-path')
 export default () => {
   let routes;
   try {
-    debug('trying to use project\'s routes');
-    routes = require.resolve(path.resolve(process.cwd(), 'routes'))
+    debug("trying to use project's routes");
+    routes = require.resolve(path.resolve(process.cwd(), "routes"));
   } catch (e) {
-    debug('falling back to default route structure');
-    routes = require.resolve(path.resolve(__dirname, 'routes'));
+    debug("falling back to default route structure");
+    routes = require.resolve(path.resolve(__dirname, "routes"));
   }
   debug(`using ${routes}`);
   return routes;
-}
+};

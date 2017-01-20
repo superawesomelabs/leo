@@ -1,4 +1,4 @@
-import routes from 'leoroutes';
+import routes from "leoroutes";
 
 /**
  * This file exists for the sole purpose of not being the entry file because
@@ -7,5 +7,4 @@ import routes from 'leoroutes';
  * the default react-router Routes structure
  *
  */
-
 export default routes;

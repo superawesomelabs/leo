@@ -1,4 +1,4 @@
-import html from 'leohtml';
+import html from "leohtml";
 
 /**
  * This file exists for the sole purpose of not being the entry file because
@@ -7,5 +7,4 @@ import html from 'leohtml';
  * the default react-router Routes structure
  *
  */
-
 export default html;

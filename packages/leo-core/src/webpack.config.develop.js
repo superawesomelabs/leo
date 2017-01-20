@@ -1,14 +1,13 @@
-import StaticSiteGeneratorPlugin from './plugins/static-site-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-import path, { resolve } from 'path';
-import webpack from 'webpack';
-import findLeoRoutesPath from 'utils/find-leoroutes-path';
-import findLeoHTMLPath from 'utils/find-leohtml-path';
-import AssetsPlugin from 'assets-webpack-plugin';
-import serialize from 'serialize-javascript';
+import StaticSiteGeneratorPlugin from "./plugins/static-site-plugin";
+import CopyWebpackPlugin from "copy-webpack-plugin";
+import path, { resolve } from "path";
+import webpack from "webpack";
+import findLeoRoutesPath from "utils/find-leoroutes-path";
+import findLeoHTMLPath from "utils/find-leohtml-path";
+import AssetsPlugin from "assets-webpack-plugin";
+import serialize from "serialize-javascript";
 
 export default ({ conf, data, urls }) => {
-
   function getDefinePlugins() {
     const dPlugins = [
       /**
@@ -18,10 +17,10 @@ export default ({ conf, data, urls }) => {
        */
       new webpack.DefinePlugin({
         __LEORC__: JSON.stringify(conf),
-        __DATA__: JSON.stringify(data),
+        __DATA__: JSON.stringify(data)
       })
-    ]
-    if(conf.define) {
+    ];
+    if (conf.define) {
       /**
        * If there are any user-defined ENV vars or Flags,
        * inject hem too.
@@ -31,22 +30,19 @@ export default ({ conf, data, urls }) => {
     return dPlugins;
   }
 
-  let staticEntry = path.resolve(__dirname, 'entry-static-watch.js');
-  if(conf.scaffolding) {
-    staticEntry = `${conf.scaffolding}/entry-static`
-  };
-  let clientEntry = path.resolve(__dirname, 'entry-client');
-  if(conf.scaffolding) {
-    clientEntry = `${conf.scaffolding}/entry-client`
-  };
+  let staticEntry = path.resolve(__dirname, "entry-static-watch.js");
+  if (conf.scaffolding) {
+    staticEntry = `${conf.scaffolding}/entry-static`;
+  }
+  let clientEntry = path.resolve(__dirname, "entry-client");
+  if (conf.scaffolding) {
+    clientEntry = `${conf.scaffolding}/entry-client`;
+  }
 
   return {
     static: {
-      entry: {
-        'static': staticEntry
-      },
-
-      target: 'node',
+      entry: { static: staticEntry },
+      target: "node",
       node: {
         // do not include poly fills...
         console: true,
@@ -58,39 +54,37 @@ export default ({ conf, data, urls }) => {
       },
       output: {
         // chunkhash can't be used in hmr
-        filename: 'js/[name]-[chunkhash].js',
-        path: 'dist',
-        libraryTarget: 'commonjs2'
+        filename: "js/[name]-[chunkhash].js",
+        path: "dist",
+        libraryTarget: "commonjs2"
       },
-
-      externals: [/^graphql/],
-      resolve: {
-        extensions: ['.js', '.json', '.leorc']
-      },
+      externals: [ /^graphql/ ],
+      resolve: { extensions: [ ".js", ".json", ".leorc" ] },
       resolveLoader: {
         modules: [
-          'node_modules',
+          "node_modules",
           /**
            * Allow leo's custom loaders to be accessed without specifying the full
            * path. ie: leo-markdown-loader vs './node_modules/leo-plugin-blog/...'
            */
-          path.resolve(__dirname, 'loaders')
+          path.resolve(__dirname, "loaders")
         ]
       },
       plugins: [
         new AssetsPlugin({
-          filename: 'webpack-static-assets.json',
-          path: path.resolve(process.cwd(), 'dist/js'),
+          filename: "webpack-static-assets.json",
+          path: path.resolve(process.cwd(), "dist/js"),
           prettyPrint: true
         }),
-        new StaticSiteGeneratorPlugin('static', urls),
+        new StaticSiteGeneratorPlugin("static", urls),
         /**
          * replaces require('.leorc') in application js files with the
          * location of a .leorc
          */
         new webpack.NormalModuleReplacementPlugin(
           /leorc/,
-          resolve(__dirname, 'leo.js') // A file we know exists but won't actually use
+          // A file we know exists but won't actually use
+          resolve(__dirname, "leo.js")
         ),
         /**
          * replaces require('leoroutes') in application js files with the
@@ -107,44 +101,43 @@ export default ({ conf, data, urls }) => {
           findLeoHTMLPath(conf.scaffolding)
         ),
         ...getDefinePlugins(),
-        new CopyWebpackPlugin([{ from: 'static' }])
+        new CopyWebpackPlugin([ { from: "static" } ])
       ],
       module: {
         noParse: [
           /node_modules\/rc/,
           /node_modules\/eval/,
-          /get-plugin-schemas/,
+          /get-plugin-schemas/
         ],
-        rules: [{
-          test: /\.jsx?$/,
-          exclude: /(graphql|node_modules)/,
-          use: [{
-            loader: 'babel-loader',
-            options: {
-              cacheDirectory: path.resolve(process.cwd(), '.babelcache')
-            }
-          }]
-        }]
+        rules: [
+          {
+            test: /\.jsx?$/,
+            exclude: /(graphql|node_modules)/,
+            use: [
+              {
+                loader: "babel-loader",
+                options: {
+                  cacheDirectory: path.resolve(process.cwd(), ".babelcache")
+                }
+              }
+            ]
+          }
+        ]
       }
     },
-
     client: {
-      entry: {
-        'client': clientEntry
-      },
+      entry: { client: clientEntry },
       output: {
         // chunkhash can't be used in hmr
-        filename: 'js/client.js',
-        path: 'dist',
+        filename: "js/client.js",
+        path: "dist"
       },
-      target: 'web',
-      resolve: {
-        extensions: ['.js', '.json', '.leorc']
-      },
+      target: "web",
+      resolve: { extensions: [ ".js", ".json", ".leorc" ] },
       plugins: [
         new AssetsPlugin({
-          filename: 'webpack-client-assets.json',
-          path: path.resolve(process.cwd(), 'dist/js'),
+          filename: "webpack-client-assets.json",
+          path: path.resolve(process.cwd(), "dist/js"),
           prettyPrint: true
         }),
         /**
@@ -153,7 +146,8 @@ export default ({ conf, data, urls }) => {
          */
         new webpack.NormalModuleReplacementPlugin(
           /leorc/,
-          resolve(__dirname, 'leo.js') // A file we know exists but won't actually use
+          // A file we know exists but won't actually use
+          resolve(__dirname, "leo.js")
         ),
         /**
          * replaces require('leoroutes') in application js files with the
@@ -165,16 +159,16 @@ export default ({ conf, data, urls }) => {
         ),
         //wat
         //      new webpack.DefinePlugin({ "global.GENTLY": false }),
-        ...getDefinePlugins(),
+        ...getDefinePlugins()
       ],
       module: {
-        rules: [{
-          test: /\.jsx?$/,
-          exclude: /node_modules/,
-          use: [{
-            loader: 'babel-loader'
-          }],
-        }]
+        rules: [
+          {
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            use: [ { loader: "babel-loader" } ]
+          }
+        ]
       }
     }
   };

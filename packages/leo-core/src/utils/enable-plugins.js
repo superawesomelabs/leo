@@ -4,17 +4,20 @@
  * Allow plugins access to the webpack-configurator config object so they can
  * add loaders, etc.
  */
-import oDebug from 'debug';
-const debug = oDebug('leo:utils:enable-plugins');
-import { resolve } from 'path';
+import oDebug from "debug";
+const debug = oDebug("leo:utils:enable-plugins");
+import { resolve } from "path";
 
-export default function enablePlugins({
-  bundleType,
-  conf: leoConf,
-  config: webpackConfig
-}) {
+export default function enablePlugins(
+  { bundleType, conf: leoConf, config: webpackConfig }
+) {
   leoConf.plugins.forEach(plugin => {
-    debug('enabling plugin', plugin, 'with config keys', Object.keys(leoConf[plugin] || {}));
+    debug(
+      "enabling plugin",
+      plugin,
+      "with config keys",
+      Object.keys(leoConf[plugin] || {})
+    );
     /**
      * allow each plugin to add itself to the webpack config
      * with it's respective .leorc config, which may or may not exist
@@ -42,11 +45,11 @@ export default function enablePlugins({
       ...(leoConf[plugin] || {}),
       leo: {
         // pipeline: site or data
-        pipeline: 'site',
+        pipeline: "site",
         // bundleType: client or static
         bundle: bundleType
       }
     });
-  })
-    return webpackConfig;
+  });
+  return webpackConfig;
 }
