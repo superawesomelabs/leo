@@ -13,7 +13,7 @@ You may want to choose a pre-built generator such as React/Apollo from the
 [Quick Start](#quick-start) section.
 
 * [Why](#why-leo)
-  - [GraphQL Data Layer](docs/graphql-data-layer)
+  - [GraphQL Data Layer](docs/graphql-data-layer.md)
   - Use any UI tech (React, Glamor, Inferno, etc)
   - Highly Extensible
   - Structured Content Types (Markdown, Blogpost, Contentful)
