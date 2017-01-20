@@ -1,45 +1,43 @@
-'use strict';
-var fs = require('fs');
-var mkSlug = require('slug');
-var loaderUtils = require('loader-utils');
-var excerpt = require('excerpt-html');
-var moment = require('moment');
-var sanitizeHTML = require('sanitize-html');
-var debug = require('debug')('leo:plugin-blogpost:loader');
-var fileLoader = require('file-loader');
+"use strict";
+var fs = require("fs");
+var mkSlug = require("slug");
+var loaderUtils = require("loader-utils");
+var excerpt = require("excerpt-html");
+var moment = require("moment");
+var sanitizeHTML = require("sanitize-html");
+var debug = require("debug")("leo:plugin-blogpost:loader");
+var fileLoader = require("file-loader");
 
 function parseDate(str) {
   if (!str) {
     // If there's no date, use right now
-    debug('using now')
-      return moment.utc()
+    debug("using now");
+    return moment.utc();
   } else {
-    return moment.utc(str, ['MMM Do, YYYY'])
+    return moment.utc(str, [ "MMM Do, YYYY" ]);
   }
 }
 
 function slugify(str) {
-  return mkSlug(str, { mode: 'rfc3986' });
+  return mkSlug(str, { mode: "rfc3986" });
 }
 
 module.exports = function(json) {
-  debug('loading');
+  debug("loading");
   // Signal to webpack this is cacheable
   this.cacheable();
   /**
    * Get the filename for the currently loading content
    * given `/whatever/post-a.post`, will return `post-a`
    */
-  var filename = loaderUtils.interpolateName(this, '[name]', {
-    content: json
-  });
-  var headerImagePath = loaderUtils.interpolateName(this, '[path]header.png', {
+  var filename = loaderUtils.interpolateName(this, "[name]", { content: json });
+  var headerImagePath = loaderUtils.interpolateName(this, "[path]header.png", {
     content: json
   });
 
   var headerImg;
   // TODO: check if header image exists via headerImagePath
-  if(filename === 'index') {
+  if (filename === "index") {
     try {
       fs.accessSync(headerImagePath, fs.F_OK);
       this.addDependency(headerImagePath);
@@ -48,19 +46,17 @@ module.exports = function(json) {
       //      console.log(this);
       //      console.log(headerImg);
     } catch (e) {
-      console.log('doesnt exist', e);
+      console.log("doesnt exist", e);
     }
   }
   // Categories are used to generate archival pages
-  var category = {
-    display: json.attributes.category || 'Uncategorized'
-  }
+  var category = { display: json.attributes.category || "Uncategorized" };
   category.slug = slugify(category.display);
 
   // Ensure a title exists
   var title = json.attributes.title;
   // if there's no title and the filename is not index, use it
-  if(!json.attributes.title && filename !== 'index') {
+  if (!json.attributes.title && filename !== "index") {
     filename;
   }
 
@@ -75,19 +71,19 @@ module.exports = function(json) {
    */
   var url = json.attributes.url;
   if (!url) {
-    url = '/' + slug;
+    url = "/" + slug;
   }
 
   // Momentize the publish date
   const publishedAt = parseDate(json.attributes.publishedAt);
-  if(!publishedAt.isValid()) {
-    throw new Error(title, 'has an invalid `publishedAt` date');
+  if (!publishedAt.isValid()) {
+    throw new Error(title, "has an invalid `publishedAt` date");
   }
   // If there's no updatedAt value, use publishedAt
   let updatedAt = json.attributes.updatedAt;
   updatedAt = updatedAt ? parseDate(updatedAt) : publishedAt;
-  if(!updatedAt.isValid()) {
-    throw new Error(title, 'has an invalid `updatedAt` date');
+  if (!updatedAt.isValid()) {
+    throw new Error(title, "has an invalid `updatedAt` date");
   }
 
   /**
@@ -97,16 +93,14 @@ module.exports = function(json) {
    * an average word per minute reading pace.
    */
   var timeToRead;
-  if(json.body) {
-    var pureText = sanitizeHTML(json.body, {
-      allowTags: []
-    });
+  if (json.body) {
+    var pureText = sanitizeHTML(json.body, { allowTags: [] });
     var avgWPM = 265;
-    var wordCount = pureText.split(' ').length;
+    var wordCount = pureText.split(" ").length;
     // timeToRead in minutes
     timeToRead = Math.round(wordCount / avgWPM);
     // super hacky way to make sure "0 min read" never happens
-    if(timeToRead === 0) {
+    if (timeToRead === 0) {
       timeToRead = 1;
     }
   }
@@ -119,10 +113,10 @@ module.exports = function(json) {
     ...json,
     attributes: {
       ...json.attributes,
-      contentType: 'leo-blogpost',
+      contentType: "leo-blogpost",
       category: category,
-      publishedAt: publishedAt.format('MMM Do, YYYY'),
-      updatedAt: updatedAt.format('MMM Do, YYYY'),
+      publishedAt: publishedAt.format("MMM Do, YYYY"),
+      updatedAt: updatedAt.format("MMM Do, YYYY"),
       slug: slug,
       url: url,
       excerpt: excerpt(json.body),
@@ -130,8 +124,8 @@ module.exports = function(json) {
     }
   };
 
-  if(headerImg) {
-    debug('headerImg', headerImg);
+  if (headerImg) {
+    debug("headerImg", headerImg);
     /**
      * If headerImg exists, we were able to access the header.png
      * file. This means we should include it as a require, so it
@@ -142,12 +136,14 @@ module.exports = function(json) {
     module.exports = Object.assign(${JSON.stringify(finalContent)},
                                    {
                                      attributes: Object.assign(
-                                       ${JSON.stringify(finalContent.attributes)},
+                                       ${JSON.stringify(
+      finalContent.attributes
+    )},
                                        { headerImage: '/' + require('${headerImagePath}') }
                                      )
                                    })
 `;
   } else {
-    return 'module.exports = ' + JSON.stringify(finalContent);
+    return "module.exports = " + JSON.stringify(finalContent);
   }
-}
+};
