@@ -1,5 +1,6 @@
 ![header](./assets/header.png)
 
+* [Why](#why)
 * [Leo](#leo)
   - [Data](#data)
   - [Templates](#templates)
@@ -10,87 +11,41 @@
   - [Plugins](docs/plugins.md)
   - [Developing](docs/developing.md)
 
-> Leo is a highly extensible, declarative static site generator.
+# Why LEO?
+
+LEO is a library for creating Static Site Generators with a common
+GraphQL data layer. Typically, one would use a LEO generator to build
+static sites from Single Page Applications. This is a different
+approach to generators such as Jekyll and Hugo which use template
+languages. See the [Comparison to Other Generators]().
+
+You may want to choose a pre-built generator such as React from the
+[Quick Start]() section.
 
 <h4 align="center">Data</h4>
 
-Declare the data components need to render a set of pages using an
-extensible, product-based API.
+Data in LEO is exposed through a composable, extensible GraphQL
+Schema defining Content Types. It can be queried with any valid
+GraphQL client (such as
+[Apollo](https://github.com/apollostack/apollo-client) or
+[GraphiQL]() for development).
 
 ```javascript
-post(slug: $slug) {
-  attributes { title, date, timeToRead }
-  body
-}
-```
-
-<h4 align="center">Templates</h4>
-
-Use [React][react] to build up a declarative, reusable library of
-components and share them across projects. Using JavaScript means
-never being stuck with a restricted template language.
-
-```javascript
-class Post extends Component {
-  static propTypes = {
-    title: string,
-    date: string,
-    exerpt: string,
-    timetoRead: number,
-    url: string
-  };
-
-  render() {
-    const {
-      title, date, excerpt, timeToRead, url
-    } = this.props.post.attributes;
-    return (
-      <div className="post">
-        <div className="image"></div>
-        <Link to={url}><h4 className="heading">{title}</h4></Link>
-        <span className="meta">{date} &bull; {timeToRead} min read</span>
-        <p className="excerpt">{excerpt}</p>
-        <Link to={url} className="readMore">Read more...</Link>
-      </div>
-    )
+query BlogPostPage {
+  post(slug: $slug) {
+    attributes { title, date, timeToRead }
+    body
   }
 }
 ```
 
-<h4 align="center">Routing</h4>
-
-Declarative routing with [React Router][react-router]. Make the URL
-your first thought, not an after-thought.
-
-```javascript
-export default (
-  <Route path='/' component={App}>
-    <Route path='/posts/'
-           queries={RootQuery}
-           component={Posts} />
-    <Route path=':slug'
-           component={Post}
-           queries={RootQuery} />
-    <Route path='/:year/:month/:day/:slug/'
-           component={Post}
-           queries={RootQuery} />
-    <IndexRoute component={Home} 
-           queries={RootQuery}/>
-    <Route path='*' component={NoMatch} />
-  </Route>
-)
-```
-
 # Why Leo?
 
-* Declarative Approach
-* Extensible (via Plugins)
-* Reuse SPA Skills
-* Extremely Flexible
+* [GraphQL Data Layer](docs/graphql-data-layer)
+* Use any UI tech (React, Glamor, Inferno, etc)
+* Webpack based extensibility
+* Structured Content Types (Markdown, Blogpost, Contentful)
 * Reuse Component Libraries Across Client Projects
-* Write Content in Markdown, Latex, etc
-* Automatically Optimize Images
-* No Template Languages
 
 ## Optional Modern Client-Side JS
 
