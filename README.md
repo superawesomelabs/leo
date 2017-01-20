@@ -1,51 +1,41 @@
 ![header](./assets/header.png)
 
-* [Why](#why)
-* [Leo](#leo)
-  - [Data](#data)
-  - [Templates](#templates)
-  - [Routing](#routing)
-  - [Quick Start](#quick-start)
+# LEO
+
+LEO is a library for creating Content Based Site Generators with a
+common GraphQL data layer. Typically, one would use a LEO generator to
+build static sites from Single Page Applications. This is a different
+approach to generators such as Jekyll and Hugo which use template
+languages. See the
+[Comparison to Other Generators](docs/comparison-to-other-generators.md).
+
+You may want to choose a pre-built generator such as React/Apollo from the
+[Quick Start](#quick-start) section.
+
+* [Why](#why-leo)
+  - [GraphQL Data Layer](docs/graphql-data-layer)
+  - Use any UI tech (React, Glamor, Inferno, etc)
+  - Highly Extensible
+  - Structured Content Types (Markdown, Blogpost, Contentful)
+  - Reuse Component Libraries Across Client Projects
 * [More Docs](docs)
   - [Technical Overview](docs/technical-overview.md)
   - [Plugins](docs/plugins.md)
   - [Developing](docs/developing.md)
 
-# Why LEO?
-
-LEO is a library for creating Static Site Generators with a common
-GraphQL data layer. Typically, one would use a LEO generator to build
-static sites from Single Page Applications. This is a different
-approach to generators such as Jekyll and Hugo which use template
-languages. See the [Comparison to Other Generators]().
-
-You may want to choose a pre-built generator such as React from the
-[Quick Start]() section.
-
-<h4 align="center">Data</h4>
-
-Data in LEO is exposed through a composable, extensible GraphQL
-Schema defining Content Types. It can be queried with any valid
-GraphQL client (such as
-[Apollo](https://github.com/apollostack/apollo-client) or
-[GraphiQL]() for development).
-
-```javascript
-query BlogPostPage {
-  post(slug: $slug) {
-    attributes { title, date, timeToRead }
-    body
-  }
-}
-```
-
 # Why Leo?
 
-* [GraphQL Data Layer](docs/graphql-data-layer)
-* Use any UI tech (React, Glamor, Inferno, etc)
-* Webpack based extensibility
-* Structured Content Types (Markdown, Blogpost, Contentful)
-* Reuse Component Libraries Across Client Projects
+LEO can turn a Universal application into a Progressive Web App. This
+means you can reuse your Single Page Application skills to build
+advanced static sites. LEO's data processing is coordinated by webpack
+and exposed via GraphQL, which offers rich introspection
+capability. An example of this is using Apollo Dev Tools or GraphiQL
+to explore the data used to build a static site, then copying queries
+out into application code when satisfied. Finally, LEO doesn't
+restrict your ability to use the latest and greatest UI tooling. From
+Babel to TypeScript, React to Inferno, PostCSS to Glamor, and Apollo
+to Relay, LEO lets you use the tooling that makes you most productive
+through reusable plugins.
 
 ## Optional Modern Client-Side JS
 
@@ -78,35 +68,9 @@ cd leo-blog-starter && npm i
 
 ## Deployment
 
-Leo can deploy to [surge.sh](http://surge.sh/), [GitHub
-Pages](https://pages.github.com/) and anywhere else using [deployment
-plugins](#deployment).
-
-# Themes
-
-Themes are bundles of React Components and Content Types. For example,
-a Theme can provide the Components required to render various forms of
-BlogPosts (individual view, generic list view, archive view, etc).
-
-Themes can depend on multiple Content Types. This makes it possible to
-scale a theme from a single Blog Post to an entire site (including
-aggregate pages, such as a landing page).
-
-# Developing Leo
-
-Leo is [lerna-based](https://github.com/lerna/lerna).
-
-## Deploying
-
-Ideally, this would run off of
-[lerna-semantic-release](https://github.com/atlassian/lerna-semantic-release). Until
-then, here are the commands to run to deploy new lerna versions.
-
-```
-./node_modules/.bin/lerna bootstrap
-./node_modules/.bin/lerna run dist
-./node_modules/.bin/lerna deploy
-```
+LEO renders to a static folder of files and can be deployed to GitHub
+Pages, [Netlify](https://www.netlify.com/), or any other hosting
+service.
 
 [react]: https://facebook.github.io/react/
-[react-router]: https://github.com/reactjs/react-router
+[react-router]: https://github.com/ReactTraining/react-router
