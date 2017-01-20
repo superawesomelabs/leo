@@ -1,4 +1,4 @@
-import conf from '.leorc';
+import conf from ".leorc";
 
 /**
  * This file exists for the sole purpose of not being the entry file because
@@ -7,5 +7,4 @@ import conf from '.leorc';
  * default .leorc
  *
  */
-
 export default conf;

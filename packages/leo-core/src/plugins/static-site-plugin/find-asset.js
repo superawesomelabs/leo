@@ -1,5 +1,4 @@
 export default function findAsset(src, compiler, webpackStatsJson) {
-
   // return asset if it exists
   if (compiler.assets[src]) {
     return compiler.assets[src];
@@ -16,4 +15,4 @@ export default function findAsset(src, compiler, webpackStatsJson) {
     chunkValue = chunkValue[0];
   }
   return compiler.assets[chunkValue];
-};
+}

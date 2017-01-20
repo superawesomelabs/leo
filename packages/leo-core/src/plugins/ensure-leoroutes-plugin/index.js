@@ -1,5 +1,5 @@
-var webpack = require('webpack');
-import findLeoRoutesPath from 'utils/find-leoroutes-path';
+var webpack = require("webpack");
+import findLeoRoutesPath from "utils/find-leoroutes-path";
 
 /**
  * replaces require('.leo-routes') in application js files with the
@@ -10,4 +10,4 @@ module.exports = function() {
     /leoroutes/,
     findLeoRoutesPath()
   );
-}
+};
