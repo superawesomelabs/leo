@@ -1,4 +1,1 @@
-export type PluginSpec = {|
-                          plugins: [string],
-                          data: [Object]
-                         |}
+export type PluginSpec = {| plugins: [string], data: [Object] |};
