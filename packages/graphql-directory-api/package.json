@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/graphql-directory-api",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Create GraphQL APIs from a folder of files",
   "main": "build/index.js",
   "author": "Chris Biscardi <chris@christopherbiscardi.com> (www.christopherbiscardi.com)",
