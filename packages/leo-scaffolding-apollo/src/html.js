@@ -24,9 +24,7 @@ export default class Html extends Component {
           <script
             dangerouslySetInnerHTML={
               {
-                __html: `window.__APOLLO_STATE__=${JSON.stringify({
-                  apollo: { data }
-                })};`
+                __html: `window.__APOLLO_STATE__=${JSON.stringify(data)};`
               }
             }
             charSet="UTF-8"
