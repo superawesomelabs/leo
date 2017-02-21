@@ -1,0 +1,14 @@
+{
+  presets: ["react", "es2015", "stage-0"],
+  plugins: [
+      "transform-runtime",
+      ["module-resolver", {
+        "root": ["./src"]
+      }]
+  ],
+  env: {
+    "development": {
+      "sourceMaps": "inline"
+    }
+  }
+}

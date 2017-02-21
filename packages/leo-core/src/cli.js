@@ -1,9 +1,9 @@
 var program = require('commander');
-var graphql = require('./src/graphql').default;
-var schema = require('./src/schema').default;
-var develop = require('./src/develop').default;
-var build = require('./src/build').default;
-var db = require('./src/db').default;
+var api = require('./api').default;
+var schema = require('./schema').default;
+var develop = require('./develop').default;
+var build = require('./build').default;
+var db = require('./db').default;
 
 program
   .version('0.0.1');
@@ -22,10 +22,10 @@ program
   .action(build);
 
 program
-  .command('graphql')
-  .alias('g')
+  .command('api')
+  .alias('a')
   .description('Test the graphql server for use with tools')
-  .action(graphql);
+  .action(api);
 
 program
   .command('schema')

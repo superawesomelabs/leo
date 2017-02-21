@@ -9,11 +9,6 @@ import { genDatabase } from "@sa-labs/graphql-directory-api";
 import config from "./webpack.config.develop";
 import enablePlugins from "utils/enable-plugins";
 import loadLeorc from "utils/load-leorc";
-import graphql, {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLNonNull
-} from "graphql/type";
 
 export default () => {
   loadLeorc((err, conf) => {
@@ -55,19 +50,18 @@ export default () => {
         const configWithUrlsAndPlugins = Object
           .entries(configWithUrls)
           .map(([ key, wpConfig ]) => {
-            //                                               console.log(key, wpConfig);
             return enablePlugins({ bundleType: key, config: wpConfig, conf });
           });
-        //      console.log('config', configWithUrlsAndPlugins);
         debug("enabled plugins");
         let compiler;
         try {
           compiler = webpack(configWithUrlsAndPlugins);
         } catch (e) {
-          console.log("webpack error");
+          debug("webpack error");
           console.log(e.message);
           throw e;
         }
+        debug("running webpack");
         compiler.run((err, stats) => {
           debug("ran client and static webpack builds");
           if (err) {
@@ -76,12 +70,12 @@ export default () => {
             return console.error(chalk.red(err));
           }
           const jsonStats = stats.toJson();
-          if (jsonStats.errors.length > 0) {
+          if (stats.hasErrors()) {
             //soft failure
             debug("soft failure");
             jsonStats.errors.forEach(e => console.error(chalk.red(e)));
           }
-          if (jsonStats.warnings.length > 0) {
+          if (stats.hasWarnings()) {
             debug("softer failure");
             jsonStats.warnings.forEach(
               warning => console.warn(chalk.yellow(warning))

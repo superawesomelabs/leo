@@ -1,11 +1,12 @@
 {
   "name": "@sa-labs/leo-core",
   "version": "0.7.0",
-  "description": "The Declarative static site generator. Core module.",
+  "description": "The modular static site generator. Core module.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-runtime-assets": "babel --presets react,es2015 runtime-assets --out-dir build/",
+    "build-leo-cli": "babel src --out-dir build/",
+    "build-runtime-assets": "babel runtime-assets --out-dir build/",
     "dist": "make dist"
   },
   "repository": {
@@ -26,7 +27,7 @@
   },
   "homepage": "https://github.com/superawesomelabs/leo#readme",
   "bin": {
-    "leo": "build/leo.js"
+    "leo": "build/cli.js"
   },
   "peerDependencies": {
     "@sa-labs/graphql-directory-api": "file:../graphql-directory-api"
@@ -63,11 +64,13 @@
     "react": "^15.2.1",
     "react-document-title": "^2.0.2",
     "react-dom": "^15.2.1",
-    "react-router": "^2.3.0",
     "serialize-javascript": "^1.1.2",
     "superagent": "^2.1.0",
-    "webpack": "^2.2.0-rc.1",
+    "webpack": "^2.2.1",
     "webpack-require": "0.0.16",
     "xmlhttprequest": "^1.8.0"
+  },
+  "devDependencies": {
+    "babel-plugin-module-resolver": "^2.5.0"
   }
 }

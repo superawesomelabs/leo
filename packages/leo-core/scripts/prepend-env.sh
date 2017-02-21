@@ -1,4 +1,4 @@
-ed -s ./build/leo.js << 'EOF'
+ed -s ./build/cli.js << 'EOF'
 0a
 #! /usr/bin/env node
 .

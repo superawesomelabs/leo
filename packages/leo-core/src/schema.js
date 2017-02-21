@@ -25,6 +25,7 @@ function writeSchemaFiles(schema, shouldLog) {
 
   // Save JSON of full schema introspection for Babel Relay Plugin to use
   (async () => {
+    try {
     debug("resolving schema");
     var result = await graphql(schema, introspectionQuery);
     if (result.errors) {
@@ -39,6 +40,9 @@ function writeSchemaFiles(schema, shouldLog) {
       );
       shouldLog ? console.log("wrote `./dist/api/schema.json`") : null;
     }
+  } catch (e) {
+    console.warn(e);
+  }
   })();
 
   // Save user readable type system shorthand of schema

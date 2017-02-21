@@ -127,6 +127,7 @@ export default ({ conf, data, urls }) => {
     },
     client: {
       entry: { client: clientEntry },
+      devtool: "cheap-eval-source-map",
       output: {
         // chunkhash can't be used in hmr
         filename: "js/client.js",

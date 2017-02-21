@@ -6,6 +6,6 @@ help:
 
 dist: ## build everything for production
 	rm -rf ./build
-	../../node_modules/.bin/webpack -d
+	npm run build-leo-cli
 	./scripts/prepend-env.sh
 	npm run build-runtime-assets
