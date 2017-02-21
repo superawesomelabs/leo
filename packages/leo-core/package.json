@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-core",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "The modular static site generator. Core module.",
   "main": "index.js",
   "scripts": {

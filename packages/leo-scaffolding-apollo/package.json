@@ -1,6 +1,6 @@
 {
   "name": "@sa-labs/leo-scaffolding-apollo",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Entrypoints that support Apollo-based LEO static sites",
   "main": "entry-static.js",
   "author": "Chris Biscardi <chris@christopherbiscardi.com> (www.christopherbiscardi.com)",
