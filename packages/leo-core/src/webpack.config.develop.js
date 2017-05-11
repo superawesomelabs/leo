@@ -8,6 +8,7 @@ import AssetsPlugin from "assets-webpack-plugin";
 import serialize from "serialize-javascript";
 
 export default ({ conf, data, urls }) => {
+  const outputPath = conf.outputPath ? conf.outputPath : process.cwd() + '/dist';
   function getDefinePlugins() {
     const dPlugins = [
       /**
@@ -55,7 +56,7 @@ export default ({ conf, data, urls }) => {
       output: {
         // chunkhash can't be used in hmr
         filename: "js/[name]-[chunkhash].js",
-        path: "dist",
+        path: outputPath,
         libraryTarget: "commonjs2"
       },
       externals: [ /^graphql/ ],
@@ -131,7 +132,7 @@ export default ({ conf, data, urls }) => {
       output: {
         // chunkhash can't be used in hmr
         filename: "js/client.js",
-        path: "dist"
+        path: outputPath,
       },
       target: "web",
       resolve: { extensions: [ ".js", ".json", ".leorc" ] },
