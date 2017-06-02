@@ -42,7 +42,7 @@ At the core of Leo sits webpack. Through webpack Leo can be extended
 to do almost anything.
 
 The primary method of extending Leo's static site functionality is via
-[plugins](./docs/plugins.md). Plugins can do many things including
+[plugins](./plugins.md). Plugins can do many things including
 [post processing the JSON database](#todo-search-plugin),
 [defining new Content Types](#new-content-types), and
 [analyzing files](#css-analysis)
