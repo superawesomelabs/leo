@@ -85,7 +85,8 @@ module.exports = function(content) {
     return 'module.exports =' + JSON.stringify({
       attributes: {
         slug: obj.slug,
-        url: obj.url
+        url: obj.url,
+        contentType: 'leo-markdown'
       },
       rawBody: content,
       body: md.render(content)
