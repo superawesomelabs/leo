@@ -33,7 +33,7 @@
     "eslint-config-superawesome": "^1.0.0",
     "eval": "^0.1.1",
     "frontmatter-loader": "0.0.1",
-    "json-loader": "^0.5.4",
+    "json-loader": "^0.5.7",
     "memory-fs": "^0.4.1",
     "nyc": "^10.0.0",
     "webpack": "^2.2.0-rc.1"
