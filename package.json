@@ -36,7 +36,7 @@
     "json-loader": "^0.5.4",
     "memory-fs": "^0.4.1",
     "nyc": "^10.0.0",
-    "webpack": "^2.2.0-rc.1"
+    "webpack": "^4.0.1"
   },
   "devDependencies": {
     "commitizen": "^2.8.6",
