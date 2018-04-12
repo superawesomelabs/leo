@@ -54,7 +54,7 @@ Leo has a number of starter projects designed to get you started
 quickly.
 
 ```javascript
-git clone git@github.com:superawesome/leo-blog-starter.git
+git clone git@github.com:superawesomelabs/leo-blog-starter.git
 cd leo-blog-starter && npm i
 ```
 
