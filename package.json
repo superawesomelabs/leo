@@ -39,7 +39,7 @@
     "webpack": "^2.2.0-rc.1"
   },
   "devDependencies": {
-    "commitizen": "^2.8.6",
+    "commitizen": "^3.0.3",
     "cz-lerna-changelog": "^0.3.0",
     "lerna": "2.0.0-beta.30",
     "lerna-semantic-release": "^8.0.2"
